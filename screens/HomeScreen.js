@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  TextInput,
   Dimensions,
 } from 'react-native';
 import { 
@@ -14,7 +15,6 @@ import {
   Item, 
   Input, 
   Icon, 
-  Button, 
   Text, 
   List, 
   ListItem, 
@@ -32,14 +32,17 @@ import Carousel from 'react-native-banner-carousel';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Ionicons } from '@expo/vector-icons';
+import { Button } from 'react-native-elements';
+import Modal from 'react-native-modalbox';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
 
 const images = [
-    "../assets/images/1.png",
-    "../assets/images/2.png",
-    "../assets/images/3.png",
+    require('../assets/images/1.png'),
+    require('../assets/images/2.png'),
+    require('../assets/images/3.png'),
+    require('../assets/images/5.png')
 ];
 
 export default class HomeScreen extends React.Component {
@@ -61,9 +64,10 @@ export default class HomeScreen extends React.Component {
   }
 
   renderPage(image, index) {
+    //console.log(image);
         return (
             <View key={index}>
-              <Image style={{ width: BannerWidth, height: BannerHeight, resizeMode:'contain' }} source={require('../assets/images/2.png')} />
+              <Image style={{ width: BannerWidth, height: BannerHeight, resizeMode:'contain' }} source={image} />
             </View>
         );
     }
@@ -94,10 +98,34 @@ export default class HomeScreen extends React.Component {
           </View>
         </Header>
 
+        <Modal style={ styles.modal4 } position={"bottom"} ref={"modal4"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
+                <View style = {{ height:150 }}>
+                  <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
+                    <Button
+                      onPress={() => this.refs.modal4.close()}
+                      large
+                      buttonStyle={{ justifyContent: 'flex-end', alignSelf:'flex-end' }}
+                      backgroundColor={'#fff'}
+                      color={'#a8a8a8'}
+                      icon={{ type: 'entypo', name:'cross', color:'#4c4c4c', size:35 }} />
+                    {/*<SearchBar
+                      large
+                      lightTheme
+                      containerStyle={{ backgroundColor:"#fff"}}
+                      inputStyle={{ backgroundColor:'#fff', color:'#4c4c4c' }}
+                      placeholder='Search any product' />*/}
+
+                    <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15}}> 
+                      <Input placeholder="Search medicines" placeholderTextColor={'#a8a8a8'} style={{ fontSize:30, fontWeight:'bold' }} />
+                    </Item>
+                  </Card>
+                  </View>
+                </Modal>
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
             contentContainerStyle={styles.contentContainer}>
+              
               <Card style={styles.containerCarousel}>
                 <Carousel
                   autoplay
@@ -108,6 +136,27 @@ export default class HomeScreen extends React.Component {
                   {images.map((image, index) => this.renderPage(image, index))}
                 </Carousel>
               </Card>
+              
+              <Card>
+                <Button
+                  onPress={() => this.refs.modal4.open()}
+                  buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
+                  backgroundColor={'#fff'}
+                  color={'#a8a8a8'}
+                  icon={{ name: 'search', color:'#4c4c4c' }}
+                  title='Search any product' />
+              </Card>
+
+              <Card>
+                <Button
+                  buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
+                  backgroundColor={'#fff'}
+                  color={'#a8a8a8'}
+                  icon={{name: 'file-upload', color:'#4c4c4c'}}
+                  title='Upload Prescription' />
+              </Card>
+
+
             {/*<Text>M O D Stores</Text>
             <View style={{ flex:2,flexDirection: 'row'}}>
               <View style={{ flex:3,flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start'}}>
@@ -159,9 +208,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft : 5,
-    paddingRight : 5,
-    paddingTop: 5,
+    paddingLeft: 14,
+    paddingRight: 14,
+    paddingTop:10,
   },
   headerViewStyle:{
     flex:1, 
@@ -185,10 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems:'center',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop:10,
-    marginBottom:10,
+    marginBottom: 20
   },
   thumbnailStyle: {
     resizeMode: 'contain',
