@@ -14,7 +14,6 @@ import {
   Header, 
   Item, 
   Input, 
-  Icon, 
   Text, 
   List, 
   ListItem, 
@@ -32,7 +31,7 @@ import Carousel from 'react-native-banner-carousel';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Ionicons } from '@expo/vector-icons';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
 
 const BannerWidth = Dimensions.get('window').width;
@@ -99,28 +98,22 @@ export default class HomeScreen extends React.Component {
         </Header>
 
         <Modal style={ styles.modal4 } position={"bottom"} ref={"modal4"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
-                <View style = {{ height:150 }}>
-                  <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
-                    <Button
-                      onPress={() => this.refs.modal4.close()}
-                      large
-                      buttonStyle={{ justifyContent: 'flex-end', alignSelf:'flex-end' }}
-                      backgroundColor={'#fff'}
-                      color={'#a8a8a8'}
-                      icon={{ type: 'entypo', name:'cross', color:'#4c4c4c', size:35 }} />
-                    {/*<SearchBar
-                      large
-                      lightTheme
-                      containerStyle={{ backgroundColor:"#fff"}}
-                      inputStyle={{ backgroundColor:'#fff', color:'#4c4c4c' }}
-                      placeholder='Search any product' />*/}
-
-                    <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15}}> 
-                      <Input placeholder="Search medicines" placeholderTextColor={'#a8a8a8'} style={{ fontSize:30, fontWeight:'bold' }} />
-                    </Item>
-                  </Card>
-                  </View>
-                </Modal>
+          <View style = {{ height:150 }}>
+            <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
+              <Icon
+                iconStyle={{ alignSelf:'flex-start', marginLeft:15, marginRight:15, marginTop:20, marginBottom:10 }}
+                name='cross'
+                type='entypo'
+                color='#000'
+                size={40}
+                onPress={() => this.refs.modal4.close()} />
+              <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15 }}> 
+                <Input placeholder="Search medicines" placeholderTextColor={'#a8a8a8'} style={{ fontSize:30, fontWeight:'bold' }} autoFocus={true}/>
+              </Item>
+            </Card>
+          </View>
+        </Modal>
+        
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
@@ -155,48 +148,6 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#4c4c4c'}}
                   title='Upload Prescription' />
               </Card>
-
-
-            {/*<Text>M O D Stores</Text>
-            <View style={{ flex:2,flexDirection: 'row'}}>
-              <View style={{ flex:3,flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start'}}>
-                <Text note>4 PHARMACY STORES</Text>
-              </View>
-              <View style={{ flex:2,flexDirection: 'row' ,alignItems: 'center', justifyContent:'flex-end'}}>
-                <Picker
-                  style={ styles.pickerStyle }
-                  iosHeader="Select one"
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}>
-                  <Item label="RELEVANCE" value="key0" />
-                  <Item label="DELIVERY TIME" value="key1" />
-                  <Item label="RATING" value="key2" />
-                </Picker>
-              </View>
-            </View>
-            <View>
-              <List dataArray={deals}
-                renderRow={(deals) =>
-                <ListItem>
-                <Image style={styles.thumbnailStyle} source={{ uri: deals.thumbnail }} />
-                  <Body>
-                    <View style={{ flex:1,flexDirection: 'column',alignItems:'flex-start',justifyContent:'flex-start' }}>
-                      <Text>{deals.name}</Text>
-                      <View style={{ flex:1,flexDirection: 'row',alignItems:'flex-start',justifyContent:'flex-start' }}>
-                        <Ionicons name={'ios-pricetag-outline'} size={15} style={{ paddingLeft: 14}} color={"#000000"}/>
-                        <Text note>{deals.offer}</Text>
-                      </View> 
-                      
-                      <View style={{ flex:1,flexDirection: 'row',alignItems:'flex-start',justifyContent:'flex-start' }}>
-                        <Text note>{ deals.deliveryTime }</Text>  
-                      </View>
-                    </View>  
-                  </Body>
-                </ListItem>
-              }>
-              </List>
-            </View>*/}
           </ScrollView>
         </View>
       </Container>
@@ -248,6 +199,9 @@ const styles = StyleSheet.create({
     justifyContent:'flex-end', 
     alignItems:'center', 
     color:'#b2b2b2',
+  },
+  modal4: {
+    justifyContent: 'flex-start',
   },
   tabBarInfoContainer: {
     position: 'absolute',
