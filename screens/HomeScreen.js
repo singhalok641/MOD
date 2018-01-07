@@ -97,18 +97,18 @@ export default class HomeScreen extends React.Component {
           </View>
         </Header>
 
-        <Modal style={ styles.modal4 } position={"bottom"} ref={"modal4"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
-          <View style = {{ height:150 }}>
+        <Modal style={ styles.modal4 } position={'top'} ref={"modal4"} backButtonClose={true} coverScreen={true}>
+          <View style = {{ height:130 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
               <Icon
                 iconStyle={{ alignSelf:'flex-start', marginLeft:15, marginRight:15, marginTop:20, marginBottom:10 }}
                 name='cross'
                 type='entypo'
-                color='#000'
-                size={40}
+                color='#a8a8a8'
+                size={30}
                 onPress={() => this.refs.modal4.close()} />
               <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15 }}> 
-                <Input placeholder="Search medicines" placeholderTextColor={'#a8a8a8'} style={{ fontSize:30, fontWeight:'bold' }} autoFocus={true}/>
+                <Input placeholder="Search any product" placeholderTextColor={'#a8a8a8'} style={{ fontSize:25, fontWeight:'bold', color:'#4c4c4c' }} autoFocus={true}/>
               </Item>
             </Card>
           </View>
