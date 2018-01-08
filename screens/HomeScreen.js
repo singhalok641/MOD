@@ -31,6 +31,7 @@ import Carousel from 'react-native-banner-carousel';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { Button, Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
 
@@ -40,7 +41,6 @@ const BannerHeight = 180;
 const images = [
     require('../assets/images/1.png'),
     require('../assets/images/2.png'),
-    require('../assets/images/3.png'),
     require('../assets/images/5.png')
 ];
 
@@ -80,38 +80,127 @@ export default class HomeScreen extends React.Component {
 
     return (
       <Container>  
-        <Header style={{ backgroundColor:'#fff' }}>
+        <Header style={{  backgroundColor:'#fff' }}>
           <View style={ styles.headerViewStyle }>
-            <View style={ styles.addressViewStyle }>
+            <View style={ styles.addressViewStyle } >
               <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                <Text>Indirapuram</Text>
-                {/*<Ionicons name={'md-arrow-dropdown'} size={32} style={{ paddingLeft: 5}} color={"#24A8FC"}/> */}             
+                <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}} onPress={() => this.refs.modal6.open()}>Indirapuram</Text>
+                {<Icon onPress={() => this.refs.modal6.open()} name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#2196f3"}/> }             
               </View>
-              <View>
-                <Text note numberOfLines ={1}>697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
-              </View>
+            <View >
+              <Text style={{fontSize: 13}} onPress={() => this.refs.modal6.open()} note numberOfLines ={1} >697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
             </View>
+          </View>
+
+
             <View style={ styles.filterViewStyle }>
-              <Text>FILTER</Text>
+              <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
+              {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#2196f3"}/> }
             </View>
           </View>
         </Header>
 
-        <Modal style={ styles.modal4 } position={'top'} ref={"modal4"} backButtonClose={true} coverScreen={true}>
-          <View style = {{ height:130 }}>
+        <Modal style={ styles.modal6 } position={"top"} ref={"modal6"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
+
+          <View style = {{ height:120 }}>
+              <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
+                <Icon
+                  iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
+                  name='arrow-back'
+                  type='MaterialIcons'
+                  color='#000'
+                  size={25}
+                  onPress={() => this.refs.modal6.close()} />
+
+                <View style = {styles.RectangleShapeView}>
+                  <Text style = {{paddingTop: 0 ,fontSize:11, color: '#24A8FC'}}>SET DELIVERY LOCATION</Text>
+                   
+                    <Input placeholder="Search your city, area..." placeholderTextColor={'#a8a8a8'}style={{ fontSize:16, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 3, }} />
+                  
+                </View>
+              </Card>
+            </View>
+
+
+
+        </Modal>  
+
+        <Modal style={ styles.modal4 } position={"top"} ref={"modal4"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
+          <View style = {{ height:150 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
               <Icon
-                iconStyle={{ alignSelf:'flex-start', marginLeft:15, marginRight:15, marginTop:20, marginBottom:10 }}
-                name='cross'
-                type='entypo'
-                color='#a8a8a8'
-                size={30}
+                iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
+                name='clear'
+                type='MaterialIcons'
+                color='#000'
+                size={25}
                 onPress={() => this.refs.modal4.close()} />
               <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15 }}> 
-                <Input placeholder="Search any product" placeholderTextColor={'#a8a8a8'} style={{ fontSize:25, fontWeight:'bold', color:'#4c4c4c' }} autoFocus={true}/>
+                <Input placeholder="Type any product" placeholderTextColor={'#a8a8a8'} style={{ fontSize:25, fontWeight:'bold' }} autoFocus={true}/>
               </Item>
             </Card>
           </View>
+        </Modal>
+
+        <Modal style={ styles.modal5 } position={"top"} ref={"modal5"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
+          
+            <View style = {{ height:120 }}>
+              <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
+                <Icon
+                  iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
+                  name='arrow-back'
+                  type='MaterialIcons'
+                  color='#000'
+                  size={25}
+                  onPress={() => this.refs.modal5.close()} />
+
+                <View style = {styles.RectangleShapeView}>
+                  <Text style = {{paddingTop: 4 ,fontSize:18, color: '#585858'}}>Upload Prescription</Text>
+                </View>
+              </Card>
+            </View>
+              
+
+            <Text style = {{paddingTop: 8 ,paddingLeft: 33, fontSize:14,color: '#24A8FC'}}>Choose an option to upload</Text>
+
+            
+            <View style = {styles.SquaresShapeView}>
+              
+              <Container style={{paddingLeft: 0, flexDirection: 'column' }}>
+                <Icon
+                  iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                  name='camera-alt'
+                  type='MaterialIcons'
+                  color='#808080'
+                  size={39}/>
+                <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Camera</Text>  
+              </Container>
+
+              <Container style={{paddingLeft: 0,flexDirection: 'column' }}>
+                <Icon
+                  iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                  name='photo-size-select-actual'
+                  type='MaterialIcons'
+                  color='#808080'
+                  size={39}/>
+                <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Gallery</Text>  
+              </Container>
+
+              <Container style={{paddingRight: 0,flexDirection: 'column' }}>
+                <Icon
+                  iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                  name='view-list'
+                  type='MaterialIcons'
+                  color='#808080'
+                  size={39}/>
+                <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Prescriptions</Text>  
+              </Container>
+              
+            </View>
+
+            <Text style = {{paddingTop: 10 ,paddingLeft: 33, fontSize:14,color: '#24A8FC'}}>Attached Prescriptions</Text>
+
+          
         </Modal>
         
         <View style={styles.container}>
@@ -122,7 +211,7 @@ export default class HomeScreen extends React.Component {
               <Card style={styles.containerCarousel}>
                 <Carousel
                   autoplay
-                  autoplayTimeout={5000}
+                  autoplayTimeout={5500}
                   loop
                   index={0}
                   pageSize={BannerWidth}>
@@ -142,6 +231,7 @@ export default class HomeScreen extends React.Component {
 
               <Card>
                 <Button
+                  onPress={() => this.refs.modal5.open()}
                   buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
                   backgroundColor={'#fff'}
                   color={'#a8a8a8'}
@@ -172,13 +262,15 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     alignItems:'flex-start',
     justifyContent:'flex-start',
-    paddingTop: 5,
+    paddingTop: 3,
+    paddingLeft: 10
   },
   filterViewStyle:{
     flex:2,
     flexDirection: 'row' ,
     alignItems: 'center', 
     justifyContent:'flex-end',
+    paddingRight: 10
   },
   containerCarousel: {
     flex: 1,
@@ -201,6 +293,12 @@ const styles = StyleSheet.create({
     color:'#b2b2b2',
   },
   modal4: {
+    justifyContent: 'flex-start',
+  },
+  modal5: {
+    justifyContent: 'flex-start',
+  },
+  modal6: {
     justifyContent: 'flex-start',
   },
   tabBarInfoContainer: {
@@ -228,4 +326,26 @@ const styles = StyleSheet.create({
     color: 'rgba(96,100,109, 1)',
     textAlign: 'center',
   },
+  RectangleShapeView:{
+    width: 317,
+    height: 45, 
+    borderWidth: 1,
+    borderColor: '#a8a8a8',
+    paddingLeft: 11,
+    paddingTop: 4,
+    marginLeft: 22,
+    marginTop: 0,
+    borderRadius: 1
+  },
+  SquaresShapeView:{
+    width: 317,
+    height: 95, 
+    flexDirection: 'row' ,
+    borderWidth: 1,
+    borderColor: '#a8a8a8',
+    marginLeft: 22,
+    marginTop: 6,
+    justifyContent: 'space-between',
+    borderRadius: 1
+  }
 });

@@ -2,6 +2,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {SimpleLineIcons} from '@expo/vector-icons';
+
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
@@ -13,16 +15,16 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 export default TabNavigator(
   {
-    Home: {
+    HOME: {
       screen: HomeScreen,
     },
-    Orders: {
+    ORDERS: {
       screen: OrdersScreen,
     },
-    Cart: {
+    CART: {
       screen: CartScreen,
     },
-    Profile: {
+    PROFILE: {
       screen: ProfileScreen,
     }
   },
@@ -32,23 +34,23 @@ export default TabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         switch (routeName) {
-          case 'Home':
+          case 'HOME':
             iconName = Platform.OS === 'ios'? `home${focused ? '' : '-outline'}`: 'home';
             break;
-          case 'Orders':
-            iconName = Platform.OS === 'ios' ? `medical-bag${focused ? '' : '-outline'}` : 'medical-bag';
+          case 'ORDERS':
+            iconName = Platform.OS === 'ios' ? `bag${focused ? '' : '-outline'}` : 'bag';
             break;
-          case 'Cart':
-            iconName = Platform.OS === 'ios' ? `cart${focused ? '' : '-outline'}` : 'cart';
+          case 'CART':
+            iconName = Platform.OS === 'ios' ? `basket${focused ? '' : '-outline'}` : 'basket';
             break;
-          case 'Profile':
-            iconName = Platform.OS === 'ios' ? `account${focused ? '' : '-outline'}` : 'account';
+          case 'PROFILE':
+            iconName = Platform.OS === 'ios' ? `user${focused ? '' : '-outline'}` : 'user';
           
         }
         return (
-          <MaterialCommunityIcons
+          <SimpleLineIcons
             name={iconName}
-            size={28}
+            size={22}
             style={{ marginBottom: -3 }}
             color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
           />
