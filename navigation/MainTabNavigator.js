@@ -43,7 +43,6 @@ export default TabNavigator(
             break;
           case 'Profile':
             iconName = Platform.OS === 'ios' ? `account${focused ? '' : '-outline'}` : 'account';
-          
         }
         return (
           <MaterialCommunityIcons

@@ -1,40 +1,14 @@
 import React from 'react';
-import Modal from 'react-native-modalbox';
-import {
-  AppRegistry,
-  Text,
-  StyleSheet,
-  ScrollView,
-  View,
-  Dimensions,
-  TextInput
-} from 'react-native';
-import {Container, Card, CardItem} from 'native-base';
+import { ExpoConfigView } from '@expo/samples';
 
-
-var screen = Dimensions.get('window');
-
-export default class OrdersScreen extends React.Component {
+export default class CartScreen extends React.Component {
   static navigationOptions = {
-    header:null,
+    title: 'Orders',
   };
 
-  constructor() {
-    super();
-    this.state = {
-      isOpen: false,
-      isDisabled: false,
-      swipeToClose: true,
-      sliderValue: 0.3
-    };
-  }
-
-
   render() {
-    return (
-      <Container>
-      
-      </Container>
-    );
+    /* Go ahead and delete ExpoConfigView and replace it with your
+     * content, we just wanted to give you a quick view of your config */
+    return <ExpoConfigView />;
   }
 }

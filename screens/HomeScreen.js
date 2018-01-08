@@ -4,9 +4,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
-  TextInput,
   Dimensions,
 } from 'react-native';
 import { 
@@ -19,7 +17,6 @@ import {
   ListItem, 
   Body, 
   Content, 
-  Thumbnail, 
   Left, 
   Right,
   Picker,
@@ -38,10 +35,10 @@ const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
 
 const images = [
-    require('../assets/images/1.png'),
-    require('../assets/images/2.png'),
-    require('../assets/images/3.png'),
-    require('../assets/images/5.png')
+  require('../assets/images/1.png'),
+  require('../assets/images/2.png'),
+  require('../assets/images/3.png'),
+  require('../assets/images/5.png')
 ];
 
 export default class HomeScreen extends React.Component {
@@ -85,7 +82,8 @@ export default class HomeScreen extends React.Component {
             <View style={ styles.addressViewStyle }>
               <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
                 <Text>Indirapuram</Text>
-                {/*<Ionicons name={'md-arrow-dropdown'} size={32} style={{ paddingLeft: 5}} color={"#24A8FC"}/> */}             
+                {/*<Ionicons name={'md-arrow-dropdown'} size={32} style={{ paddingLeft: 5}} color={"
+              "}/> */}             
               </View>
               <View>
                 <Text note numberOfLines ={1}>697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
@@ -97,7 +95,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </Header>
 
-        <Modal style={ styles.modal4 } position={'top'} ref={"modal4"} backButtonClose={true} coverScreen={true}>
+        <Modal style={ styles.modal4 } position={'top'} ref={"modal4"} backButtonClose={true} coverScreen={true} animationDuration={300}>
           <View style = {{ height:130 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
               <Icon
@@ -187,45 +185,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginBottom: 20
   },
-  thumbnailStyle: {
-    resizeMode: 'contain',
-    borderWidth: 1,
-    height: 70,
-    width: 100,
-  },
-  pickerStyle: {
-    width:160, 
-    height:20, 
-    justifyContent:'flex-end', 
-    alignItems:'center', 
-    color:'#b2b2b2',
-  },
   modal4: {
     justifyContent: 'flex-start',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
   },
 });
