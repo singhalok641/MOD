@@ -36,6 +36,7 @@ import { Button, Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
 
 const BannerWidth = Dimensions.get('window').width;
+
 const BannerHeight = 180;
 
 const images = [
