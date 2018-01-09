@@ -1,13 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {SimpleLineIcons} from '@expo/vector-icons';
-
 import { TabNavigator, TabBarBottom } from 'react-navigation';
-
 import Colors from '../constants/Colors';
-
 import HomeScreen from '../screens/HomeScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import CartScreen from '../screens/CartScreen';
