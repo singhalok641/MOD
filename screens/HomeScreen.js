@@ -85,7 +85,7 @@ export default class HomeScreen extends React.Component {
             <View style={ styles.addressViewStyle } >
               <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
                 <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}} onPress={() => this.refs.modal6.open()}>Indirapuram</Text>
-                {<Icon onPress={() => this.refs.modal6.open()} name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#2196f3"}/> }             
+                {<Icon onPress={() => this.refs.modal6.open()} name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/> }             
               </View>
             <View >
               <Text style={{fontSize: 13}} onPress={() => this.refs.modal6.open()} note numberOfLines ={1} >697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
@@ -95,27 +95,27 @@ export default class HomeScreen extends React.Component {
 
             <View style={ styles.filterViewStyle }>
               <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
-              {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#2196f3"}/> }
+              {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#03a9f4"}/> }
             </View>
           </View>
         </Header>
 
         <Modal style={ styles.modal6 } position={"top"} ref={"modal6"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
 
-          <View style = {{ height:120 }}>
+          <View style = {{ height:150 }}>
               <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
                 <Icon
                   iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
                   name='arrow-back'
                   type='MaterialIcons'
-                  color='#000'
+                  color='#555555'
                   size={25}
                   onPress={() => this.refs.modal6.close()} />
 
                 <View style = {styles.RectangleShapeView}>
-                  <Text style = {{paddingTop: 0 ,fontSize:11, color: '#24A8FC'}}>SET DELIVERY LOCATION</Text>
+                  <Text style = {{paddingTop: 0 ,fontSize:12, color: '#03a9f4'}}>SET DELIVERY LOCATION</Text>
                    
-                    <Input placeholder="Search your city, area..." placeholderTextColor={'#a8a8a8'}style={{ fontSize:16, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 3, }} />
+                    <Input placeholder="Search your city, area..." placeholderTextColor={'#a8a8a8'}style={{ fontSize:19, fontWeight: 'bold',paddingLeft: 0, paddingBottom: 0 }} />
                   
                 </View>
               </Card>
@@ -132,7 +132,7 @@ export default class HomeScreen extends React.Component {
                 iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
                 name='clear'
                 type='MaterialIcons'
-                color='#000'
+                color='#555555'
                 size={25}
                 onPress={() => this.refs.modal4.close()} />
               <Item style={{ borderColor: 'transparent', marginLeft:15, marginRight:15 }}> 
@@ -144,24 +144,24 @@ export default class HomeScreen extends React.Component {
 
         <Modal style={ styles.modal5 } position={"top"} ref={"modal5"} style={{ elevation: 10, zIndex:10}} backButtonClose={true} coverScreen={true}>
           
-            <View style = {{ height:120 }}>
-              <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
+            <View style = {{ height:70 }}>
+              <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 ,flexDirection : 'row',alignItems : 'center'}}>
                 <Icon
-                  iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
+                  iconStyle={{ marginLeft:17, marginRight:15, marginTop:20, marginBottom:10 }}
                   name='arrow-back'
                   type='MaterialIcons'
-                  color='#000'
+                  color='#555555'
                   size={25}
                   onPress={() => this.refs.modal5.close()} />
 
-                <View style = {styles.RectangleShapeView}>
-                  <Text style = {{paddingTop: 4 ,fontSize:18, color: '#585858'}}>Upload Prescription</Text>
-                </View>
+               
+                  <Text style = {{paddingTop: 8 ,fontSize:20, color: '#555555', fontWeight: 'bold'}}>Upload Prescription</Text>
+                
               </Card>
             </View>
               
 
-            <Text style = {{paddingTop: 8 ,paddingLeft: 33, fontSize:14,color: '#24A8FC'}}>Choose an option to upload</Text>
+            <Text style = {{paddingTop: 8 ,paddingLeft: 33, fontSize:14,color: '#03a9f4'}}>Choose an option to upload</Text>
 
             
             <View style = {styles.SquaresShapeView}>
@@ -198,7 +198,7 @@ export default class HomeScreen extends React.Component {
               
             </View>
 
-            <Text style = {{paddingTop: 10 ,paddingLeft: 33, fontSize:14,color: '#24A8FC'}}>Attached Prescriptions</Text>
+            <Text style = {{paddingTop: 10 ,paddingLeft: 33, fontSize:14,color: '#03a9f4'}}>Attached Prescriptions</Text>
 
           
         </Modal>
@@ -225,7 +225,7 @@ export default class HomeScreen extends React.Component {
                   buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
                   backgroundColor={'#fff'}
                   color={'#a8a8a8'}
-                  icon={{ name: 'search', color:'#4c4c4c' }}
+                  icon={{ name: 'search', color:'#555555' }}
                   title='Search any product' />
               </Card>
 
@@ -235,7 +235,7 @@ export default class HomeScreen extends React.Component {
                   buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
                   backgroundColor={'#fff'}
                   color={'#a8a8a8'}
-                  icon={{name: 'file-upload', color:'#4c4c4c'}}
+                  icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
           </ScrollView>
@@ -327,9 +327,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   RectangleShapeView:{
-    width: 317,
+    width: 330,
     height: 45, 
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: '#a8a8a8',
     paddingLeft: 11,
     paddingTop: 4,
@@ -346,6 +346,6 @@ const styles = StyleSheet.create({
     marginLeft: 22,
     marginTop: 6,
     justifyContent: 'space-between',
-    borderRadius: 1
+    borderRadius: 2
   }
 });
