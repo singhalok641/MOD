@@ -1,53 +1,22 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  TextInput,
-  Dimensions,
-} from 'react-native';
-import { 
-  Container, 
-  Header, 
-  Item, 
-  Input, 
-  Text, 
-  List, 
-  ListItem, 
-  Body, 
-  Content, 
-  Thumbnail, 
-  Left, 
-  Right,
-  Picker,
-  Form,
-  Item as FormItem,
-  Card,
-  CardItem } from 'native-base';
-import Carousel from 'react-native-banner-carousel';
-import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-import { Ionicons } from '@expo/vector-icons';
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { Button, Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
+import {
+  AppRegistry,
+  Text,
+  StyleSheet,
+  ScrollView,
+  View,
+  Dimensions,
+  TextInput
+} from 'react-native';
+import {Container, Card, CardItem} from 'native-base';
 
-const BannerWidth = Dimensions.get('window').width;
 
-const BannerHeight = 180;
+var screen = Dimensions.get('window');
 
-const images = [
-    require('../assets/images/1.png'),
-    require('../assets/images/2.png'),
-    require('../assets/images/5.png')
-];
-
-export default class HomeScreen extends React.Component {
+export default class OrdersScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header:null,
   };
 
   constructor(props) {
@@ -75,31 +44,9 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
-    //console.log(BannerWidth);
-    /*var deals= [{"name":"Delhi Pharmacy","offer":"12% off on all items","deliveryTime":"12 mins",thumbnail:"https://cdn.media.yp.ca/6964200/pcc_0_55893900_1417733104_r.jpg"},
-                {"name":"Apollo Pharmacy","offer":"10% off on all items","deliveryTime":"14 mins", thumbnail:"https://guardian.ng/wp-content/uploads/2016/09/PHARMACY.jpg"},
-                {"name":"Aditya Medical Store","offer":"15% off on all items","deliveryTime":"15 mins", thumbnail:"https://photos.smugmug.com/Streams/My-New-Life/i-fj4zbnN/0/bb3db02e/L/DSC_0918-L.jpg"},
-                {"name":"MedPlus Pharmacy","offer":"20% off on all items","deliveryTime":"10 mins",thumbnail:"https://www.jpvisitor.com/images/content/20171017/f6a910e330904287.png"}];*/
-
     return (
-      <Container>  
-        <Header style={{  backgroundColor:'#fff' }}>
-          <View style={ styles.headerViewStyle }>
-            <View style={{ marginTop:0 ,marginLeft:0, marginRight:0 , flexDirection: 'row', alignItems: 'center'  }}>
-
-                <View style = {styles.HeaderShapeView}>
-                  <Text style = {{paddingTop: 8 ,fontSize:20, color: '#555555', fontWeight: 'bold' }}>My Orders</Text>
-                  
-                </View>
-              </View>
-          </View>
-        </Header>
-
+      <Container>
       
-
-        <View style={styles.container}>
-          
-        </View>
       </Container>
     );
   }

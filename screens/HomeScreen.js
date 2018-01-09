@@ -4,9 +4,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
-  TextInput,
   Dimensions,
 } from 'react-native';
 import { 
@@ -19,7 +17,6 @@ import {
   ListItem, 
   Body, 
   Content, 
-  Thumbnail, 
   Left, 
   Right,
   Picker,
@@ -279,19 +276,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginBottom: 20
   },
-  thumbnailStyle: {
-    resizeMode: 'contain',
-    borderWidth: 1,
-    height: 70,
-    width: 100,
-  },
-  pickerStyle: {
-    width:160, 
-    height:20, 
-    justifyContent:'flex-end', 
-    alignItems:'center', 
-    color:'#b2b2b2',
-  },
   modal4: {
     justifyContent: 'flex-start',
   },
@@ -300,31 +284,6 @@ const styles = StyleSheet.create({
   },
   modal6: {
     justifyContent: 'flex-start',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
   },
   RectangleShapeView:{
     width: 330,
