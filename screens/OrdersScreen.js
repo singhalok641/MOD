@@ -24,9 +24,7 @@ export default class OrdersScreen extends React.Component {
     this.state = {
       selected1: "key0"
     };
-  }
-
-  
+  } 
 
   onValueChange(value: string) {
     this.setState({
