@@ -22,12 +22,10 @@ import {
   Thumbnail, 
   Left, 
   Right,
-  Picker,
   Form,
   Item as FormItem,
   Card,
   CardItem } from 'native-base';
-import Carousel from 'react-native-banner-carousel';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,11 +34,9 @@ import { Button, Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
 import {Constants} from 'expo';
 
-const BannerWidth = Dimensions.get('window').width;
+const image=require('../assets/images/AS.jpg');
 
-const BannerHeight = 180;
-
-export default class HomeScreen extends React.Component {
+export default class ProfileScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -58,28 +54,88 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  renderPage(image, index) {
-    //console.log(image);
-        return (
-            <View key={index}>
-              <Image style={{ width: BannerWidth, height: BannerHeight, resizeMode:'contain' }} source={image} />
-            </View>
-        );
-    }
-
 
   render() {
-    //console.log(BannerWidth);
-    /*var deals= [{"name":"Delhi Pharmacy","offer":"12% off on all items","deliveryTime":"12 mins",thumbnail:"https://cdn.media.yp.ca/6964200/pcc_0_55893900_1417733104_r.jpg"},
-                {"name":"Apollo Pharmacy","offer":"10% off on all items","deliveryTime":"14 mins", thumbnail:"https://guardian.ng/wp-content/uploads/2016/09/PHARMACY.jpg"},
-                {"name":"Aditya Medical Store","offer":"15% off on all items","deliveryTime":"15 mins", thumbnail:"https://photos.smugmug.com/Streams/My-New-Life/i-fj4zbnN/0/bb3db02e/L/DSC_0918-L.jpg"},
-                {"name":"MedPlus Pharmacy","offer":"20% off on all items","deliveryTime":"10 mins",thumbnail:"https://www.jpvisitor.com/images/content/20171017/f6a910e330904287.png"}];*/
-
     return (
       <Container>  
       	<View style={styles.container}>
           <ScrollView>
-             
+             <View style={styles.view}>
+              <View>
+                <Text style={styles.name}>Ankur Singh</Text>
+                <Text note style={{fontSize :15}}>View and edit profile</Text>
+              </View>
+              
+             </View>
+
+             <List style={{paddingTop :20}}>
+              <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>My Prescriptions</Text>
+                </View>
+                  <Icon
+                    name='view-list'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+               <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>My Addresses</Text>
+                </View>
+                  <Icon
+                    name='location-on'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+               <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>Notifications</Text>
+                </View>
+                  <Icon
+                    name='notifications'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+               <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>Offers</Text>
+                </View>
+                  <Icon
+                    name='local-offer'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+               <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>Give us feedback</Text>
+                </View>
+                  <Icon
+                    name='feedback'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+               <ListItem style={styles.option}>
+                <View>
+                  <Text style={styles.op_name}>Logout</Text>
+                </View>
+                  <Icon
+                    name='power-settings-new'
+                    type='MaterialIcons'
+                    color='#666666'
+                    size={28}
+                    />
+               </ListItem>
+             </List>
           </ScrollView>
         </View>
 	  </Container>
@@ -91,45 +147,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft: 24,
-    paddingRight: 14,
+    paddingLeft: 15,
+    paddingRight: 15,
     paddingTop:10,
 
   },
-  headerViewStyle:{
-    flex:1, 
-    flexDirection: 'row',
-  },
-  HeaderShapeView:{
-    width: 282,
-    height: 47, 
-    borderWidth: 0,
-    borderColor: '#a8a8a8',
-    paddingLeft: 10,
-    paddingTop: 2,
-    marginLeft: 0,
-    marginTop: 0,
-    borderRadius: 1
-  },
   view: {
+    paddingLeft:20,
+    paddingRight:20,
     flex:1,
+    paddingTop:45,
     flexDirection:'row',
-    alignItems : 'flex-start' 
+    alignItems : 'center',
+    justifyContent : 'space-between'
 	},
-  product:{
-	
-	width: 60, 
-	height: 60,
-	alignContent : 'space-around'
-	},
-  pro_name:{
-	fontSize :13
-	},
-  descrip:{
-  	flex :1,
-	fontSize :11
-	},
-  quantity:{
-
-	},
+  name:{
+    color:'#555555',
+    fontSize :32,
+    fontWeight : 'bold'
+  },
+  option:{
+    flexDirection:'row',
+    alignItems : 'center',
+    justifyContent : 'space-between'
+  },
+  op_name:{
+    fontSize:19,
+    color:'#666666',
+  }
 });

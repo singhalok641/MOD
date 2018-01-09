@@ -15,6 +15,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
     "react-native-banner-carousel": "^1.0.2",
     "react-native-elements": "^0.18.5",
+    "react-native-image-placeholder": "^1.0.14",
     "react-native-modalbox": "^1.4.2",
     "react-navigation": "^1.0.0-beta.21"
   },
