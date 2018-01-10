@@ -4,7 +4,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
   TextInput,
   Dimensions,
@@ -121,11 +120,11 @@ export default class HomeScreen extends React.Component {
                     	<Text style={styles.pro_name}>VWash Plus Intimate Hygiene Wash</Text>
                       <Text style={styles.pro_name}>₹ 300</Text>
                     </View>
-	                  </View>
-                  	<View style={styles.view}>
-                      <Card style={styles.control}>
-                      </Card>
-                    </View>
+	                </View>
+                  <View style={styles.view}>
+                    <Card style={styles.control}>
+                    </Card>
+                  </View>
                 </ListItem>
 					    </List>
             </View>
