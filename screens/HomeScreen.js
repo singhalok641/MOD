@@ -76,12 +76,10 @@ export default class HomeScreen extends React.Component {
             <TouchableHighlight onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}} >Indirapuram</Text>
+                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>Indirapuram</Text>
                   {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/> }             
                 </View>
-                <View>
-                  <Text style={{fontSize: 13}} note numberOfLines ={1} >697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
-                </View>
+                <Text note style={{ fontSize: 13 }} numberOfLines={1} >697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
               </View>
             </TouchableHighlight>
             <View style={ styles.filterViewStyle }>
@@ -124,7 +122,7 @@ export default class HomeScreen extends React.Component {
                     // available options: https://developers.google.com/places/web-service/autocomplete
                     key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
                     language: 'en', // language of the results
-                    // default: 'geocode'
+                    //types:  // default: 'geocode'
                   }}
                   styles={{
                     container:{
@@ -296,7 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   addressViewStyle:{
-    flex:3,
+    flex:4,
     flexDirection:'column',
     alignItems:'flex-start',
     justifyContent:'flex-start',
@@ -304,7 +302,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   filterViewStyle:{
-    flex:2,
+    flex:1,
     flexDirection: 'row' ,
     alignItems: 'center', 
     justifyContent:'flex-end',
