@@ -84,12 +84,12 @@ export default class HomeScreen extends React.Component {
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
               </View>
             </TouchableHighlight>
-            <TouchableHighlight style={ styles.filterViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
+            {/*<TouchableHighlight style={ styles.filterViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
               <View style={ styles.filterViewStyle }>
                 <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
                 {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#03a9f4"}/> }
               </View>
-            </TouchableHighlight>
+            </TouchableHighlight>*/}
           </View>
         </Header>
 
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   addressViewStyle:{
-    flex:4,
+    flex:1,
     flexDirection:'column',
     alignItems:'flex-start',
     justifyContent:'flex-start',
@@ -313,8 +313,9 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'row' ,
     alignItems: 'center', 
-    justifyContent:'flex-end',
-    paddingRight: 10
+    justifyContent:'center',
+    //paddingRight: 10,
+    //paddingLeft:10,
   },
   containerCarousel: {
     flex: 1,
