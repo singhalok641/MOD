@@ -54,7 +54,6 @@ export default class ProfileScreen extends React.Component {
     });
   }
 
-
   render() {
     return (
       <Container>  

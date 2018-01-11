@@ -39,8 +39,8 @@ const images = [
     require('../assets/images/5.png')
 ];
 
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+//const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+//const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -51,11 +51,27 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       selected1: 'key0',
-      address: 'Nyay Khand 1, Indirapuram, Ghaziabad',
+      address: null,
       area: null,
-      location: null,
-      errorMessage: null,
+      isOpen: false,
+      //isDisabled: false,
     };
+  }
+
+  componentDidMount = async () => {
+    console.log("here");
+    try {
+      if(this.state.area===null) {
+        this.setState({
+          //isLoading: false,
+          isOpen: true,
+        }); 
+      }
+      
+    }
+    catch (error) {
+      alert(error);
+    }
   }
 
   /*componentWillMount() {
@@ -86,6 +102,12 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  openLocationModal(){
+    this.setState({
+      isOpen: true
+    });
+  }
+
   renderPage(image, index) {
     //console.log(image);
         return (
@@ -104,15 +126,16 @@ export default class HomeScreen extends React.Component {
       text = JSON.stringify(this.state.location);
     }*/
 
-    //console.log({text});
+    console.log(this.state.isOpen);
+
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
           <View style={ styles.headerViewStyle }>
-            <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
+            <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.setState({isOpen: true})} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>Indirapuram</Text>
+                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
                   {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/>}             
                 </View>
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
@@ -127,17 +150,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </Header>
 
-        {
-          /*this.state.address === null ? (
-            //this.refs.gps.open();
-            )
-          :
-          (
-            console.log('hey there');
-            )*/
-        }
-
-        <Modal style={ styles.modal6 } position={"top"} ref={"gps"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
+        <Modal isOpen={this.state.isOpen} onClosed={() => this.setState({isOpen: false})} style={ styles.modal6 } position={"top"} ref={"gps"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
           <View style = {{ flex:1, flexDirection:'row', marginTop:0 ,marginLeft:0, marginRight:0 }}>
             <View style = {{ flex:1 }}>
               <Icon
@@ -146,7 +159,7 @@ export default class HomeScreen extends React.Component {
                 type='MaterialIcons'
                 color='#555555'
                 size={25}
-                onPress={() => this.refs.gps.close()} 
+                onPress={() => this.setState({isOpen: false})} 
               />
             </View>
             <View style={{ flex:6, marginTop:0 ,marginLeft:5, marginRight:0, flexDirection:'column', justifyContent:'space-around' }} >  
@@ -163,10 +176,14 @@ export default class HomeScreen extends React.Component {
                   this.setState({
                     address: data.description,
                     area: data.terms[0].value,
+                    //isOpen: false,
                   });
-                  //this.refs.gps.close();
-                  console.log(data);
-                  console.log(details);
+                  console.log(this.state.isOpen);
+                  setTimeout(() => {
+                   this.refs.gps.close();
+                 },1000);
+                  //console.log(data);
+                  //console.log(details);
                 }}
 
                 getDefaultValue={() => ''}
@@ -208,9 +225,11 @@ export default class HomeScreen extends React.Component {
                   
                 currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
                 currentLocationLabel="Current location"
-                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                nearbyPlacesAPI='GoogleReverseGeocoding' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
                 GoogleReverseGeocodingQuery={{
                 // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                  rankby: 'distance',
+                  //types: 'locality'
                 }}
                 GooglePlacesSearchQuery={{
                   // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
@@ -218,7 +237,7 @@ export default class HomeScreen extends React.Component {
                   types: 'sublocality_level_2'
                 }}
 
-                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                filterReverseGeocodingByTypes={['locality', 'sublocality_level_2']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                 predefinedPlaces={[]}
 
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
@@ -229,12 +248,12 @@ export default class HomeScreen extends React.Component {
           </View>
         </Modal>  
 
-        <Modal style={ styles.modal4 } position={"top"} ref={"search"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false}>
-          <View style = {{ height:150 }}>
+        <Modal style={ styles.modal4 } position={"top"} ref={"search"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
+          <View style = {{ height:120 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
               <Icon
                 iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginTop:20, marginBottom:10 }}
-                name='clear'
+                name='arrow-back'
                 type='MaterialIcons'
                 color='#555555'
                 size={25}
@@ -246,7 +265,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </Modal>
 
-        <Modal style={ styles.modal5 } position={"top"} ref={"upload"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false}>
+        <Modal style={ styles.modal5 } position={"top"} ref={"upload"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
           <View style = {{ height:70 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 ,flexDirection : 'row',alignItems : 'center'}}>
               <Icon
