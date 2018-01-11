@@ -49,7 +49,9 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected1: "key0"
+      selected1: "key0",
+      address: '',
+      area:'',
     };
   }
 
@@ -73,19 +75,21 @@ export default class HomeScreen extends React.Component {
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
           <View style={ styles.headerViewStyle }>
-            <TouchableHighlight onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
+            <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>Indirapuram</Text>
+                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
                   {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/> }             
                 </View>
-                <Text note style={{ fontSize: 13 }} numberOfLines={1} >697-A, Nyay Khand 1, Indirapuram, Ghaziabad</Text>        
+                <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
               </View>
             </TouchableHighlight>
-            <View style={ styles.filterViewStyle }>
-              <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
-              {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#03a9f4"}/> }
-            </View>
+            <TouchableHighlight style={ styles.filterViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
+              <View style={ styles.filterViewStyle }>
+                <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
+                {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#03a9f4"}/> }
+              </View>
+            </TouchableHighlight>
           </View>
         </Header>
 
@@ -98,83 +102,87 @@ export default class HomeScreen extends React.Component {
                 type='MaterialIcons'
                 color='#555555'
                 size={25}
-                onPress={() => this.refs.gps.close()} />
+                onPress={() => this.refs.gps.close()} 
+              />
             </View>
-              <View style={{ flex:6, marginTop:0 ,marginLeft:5, marginRight:0, flexDirection:'column', justifyContent:'space-around' }} >  
-                <Text style = {{ marginTop: 20 ,fontSize:12, color: '#03a9f4', fontWeight: 'bold', marginLeft:10, marginBottom:0 }}>SET DELIVERY LOCATION</Text>
-                {/*<Item style={{ borderColor: 'transparent', marginLeft:4, marginTop:0 }}> 
-                  <Input placeholder="Search for area, street name..." placeholderTextColor={'#a8a8a8'} style={{ fontSize:18, fontWeight:'bold' }} />
-                </Item>*/}
-                <GooglePlacesAutocomplete
-                  placeholder='Search for area, street name... '
-                  minLength={2} // minimum length of text to search
-                  autoFocus={false}
-                  returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-                  listViewDisplayed='auto'    // true/false/undefined
-                  fetchDetails={true}
-                  renderDescription={row => row.description} // custom description render
-                  onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                    console.log(data, details);
-                  }}
+            <View style={{ flex:6, marginTop:0 ,marginLeft:5, marginRight:0, flexDirection:'column', justifyContent:'space-around' }} >  
+              <Text style = {{ marginTop: 20 ,fontSize:10, color: '#03a9f4', fontWeight: 'bold', marginLeft:10, marginBottom:0 }}>SET DELIVERY LOCATION</Text>
+              <GooglePlacesAutocomplete
+                placeholder='Search for area, street name... '
+                minLength={2} // minimum length of text to search
+                autoFocus={false}
+                returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                listViewDisplayed='auto'    // true/false/undefined
+                fetchDetails={true}
+                renderDescription={row => row.description} // custom description render
+                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                  this.setState({
+                    address: data.description,
+                    area: data.terms[0].value,
+                  });
+                  this.refs.gps.close();
+                  //console.log(data.terms[0].value);
+                  //console.log(this.state.address);
+                }}
 
-                  getDefaultValue={() => ''}
-                  query={{
-                    // available options: https://developers.google.com/places/web-service/autocomplete
-                    key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
-                    language: 'en', // language of the results
-                    //types:  // default: 'geocode'
-                  }}
-                  styles={{
-                    container:{
-                      borderBottomWidth:0,
-                    },
-                    textInputContainer: {
-                      width: '100%',
-                      borderTopWidth: 0,
-                      borderBottomWidth:0,
-                      backgroundColor:'#fff',
-                    },
-                    textInput: {
-                      marginLeft: 0,
-                      marginRight: 0,
-                      marginTop: 0,
-                      marginBottom:0,
-                      height: 40,
-                      color: '#5d5d5d',
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      paddingTop:0,
-                      paddingBottom: 0,
-                    },
-                    description: {
-                      fontWeight: 'bold'
-                    },
-                    predefinedPlacesDescription: {
-                      color: '#1faadb'
-                    }
-                  }}
+                getDefaultValue={() => ''}
+                query={{
+                  // available options: https://developers.google.com/places/web-service/autocomplete
+                  key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
+                  language: 'en', // language of the results
+                  //types:  // default: 'geocode'
+                }}
+                styles={{
+                  container:{
+                    borderBottomWidth:0,
+                  },
+                  textInputContainer: {
+                    width: '100%',
+                    borderTopWidth: 0,
+                    borderBottomWidth:0,
+                    backgroundColor:'#fff',
+                  },
+                  textInput: {
+                    marginLeft: 0,
+                    marginRight: 0,
+                    marginTop: 0,
+                    marginBottom:0,
+                    height: 40,
+                    color: '#5d5d5d',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    paddingTop:0,
+                    paddingBottom: 0,
+                  },
+                  description: {
+                    
+                  },
+                  predefinedPlacesDescription: {
+                    color: '#1faadb'
+                  }
+                }}
                   
-                  currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-                  currentLocationLabel="Current location"
-                  nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                  GoogleReverseGeocodingQuery={{
-                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                  }}
-                  GooglePlacesSearchQuery={{
-                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                    rankby: 'distance',
-                    types: 'pharmacy'
-                  }}
+                currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+                currentLocationLabel="Current location"
+                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                GoogleReverseGeocodingQuery={{
+                // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                }}
+                GooglePlacesSearchQuery={{
+                  // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                  rankby: 'distance',
+                  types: 'pharmacy'
+                }}
 
-                  filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-                  predefinedPlaces={[]}
+                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                predefinedPlaces={[]}
 
-                  debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                  //renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
-                  //renderRightButton={() => <Text>Custom text after the input</Text>}  
-                />
-              </View>
+                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                //renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
+                //renderRightButton={() => <Text>Custom text after the input</Text>}  
+              />
             </View>
+          </View>
         </Modal>  
 
         <Modal style={ styles.modal4 } position={"top"} ref={"search"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false}>
