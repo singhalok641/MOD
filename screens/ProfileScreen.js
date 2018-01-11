@@ -65,10 +65,8 @@ export default class ProfileScreen extends React.Component {
                 <Text style={styles.name}>Ankur Singh</Text>
                 <Text note style={{fontSize :15}}>View and edit profile</Text>
               </View>
-              
              </View>
-
-             <List style={{paddingTop :20}}>
+            <List style={{paddingTop :20}}>
               <ListItem style={styles.option}>
                 <View>
                   <Text style={styles.op_name}>My Prescriptions</Text>

@@ -51,8 +51,8 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       selected1: 'key0',
-      address: null,
-      area:null,
+      address: 'Nyay Khand 1, Indirapuram, Ghaziabad',
+      area: null,
       location: null,
       errorMessage: null,
     };
@@ -112,7 +112,7 @@ export default class HomeScreen extends React.Component {
             <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
+                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>Indirapuram</Text>
                   {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/>}             
                 </View>
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
