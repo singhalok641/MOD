@@ -28,6 +28,7 @@ import Carousel from 'react-native-banner-carousel';
 import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
+//import { Constants, Location, Permissions } from 'expo';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
@@ -49,11 +50,35 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected1: "key0",
-      address: '',
-      area:'',
+      selected1: 'key0',
+      address: null,
+      area:null,
+      location: null,
+      errorMessage: null,
     };
   }
+
+  /*componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
+    }
+  }*/
+
+  /*_getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
+  };*/
 
   onValueChange(value: string) {
     this.setState({
@@ -64,13 +89,22 @@ export default class HomeScreen extends React.Component {
   renderPage(image, index) {
     //console.log(image);
         return (
-            <View key={index}>
-              <Image style={{ width: BannerWidth, height: BannerHeight, resizeMode:'contain' }} source={image} />
-            </View>
+          <View key={index}>
+            <Image style={{ width: BannerWidth, height: BannerHeight, resizeMode:'contain' }} source={image} />
+          </View>
         );
     }
 
   render() {
+
+    /*let text = 'Waiting..';
+    if (this.state.errorMessage) {
+      text = this.state.errorMessage;
+    } else if (this.state.location) {
+      text = JSON.stringify(this.state.location);
+    }*/
+
+    //console.log({text});
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
@@ -79,7 +113,7 @@ export default class HomeScreen extends React.Component {
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
                   <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
-                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/> }             
+                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/>}             
                 </View>
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
               </View>
@@ -92,6 +126,16 @@ export default class HomeScreen extends React.Component {
             </TouchableHighlight>*/}
           </View>
         </Header>
+
+        {
+          /*this.state.address === null ? (
+            //this.refs.gps.open();
+            )
+          :
+          (
+            console.log('hey there');
+            )*/
+        }
 
         <Modal style={ styles.modal6 } position={"top"} ref={"gps"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
           <View style = {{ flex:1, flexDirection:'row', marginTop:0 ,marginLeft:0, marginRight:0 }}>
@@ -109,20 +153,20 @@ export default class HomeScreen extends React.Component {
               <Text style = {{ marginTop: 20 ,fontSize:10, color: '#03a9f4', fontWeight: 'bold', marginLeft:10, marginBottom:0 }}>SET DELIVERY LOCATION</Text>
               <GooglePlacesAutocomplete
                 placeholder='Search for area, street name... '
-                minLength={2} // minimum length of text to search
+                minLength={3} // minimum length of text to search
                 autoFocus={false}
                 returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                 listViewDisplayed='auto'    // true/false/undefined
                 fetchDetails={true}
-                renderDescription={row => row.description} // custom description render
+                //renderDescription={row => row.description} // custom description render
                 onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                   this.setState({
                     address: data.description,
                     area: data.terms[0].value,
                   });
-                  this.refs.gps.close();
-                  //console.log(data.terms[0].value);
-                  //console.log(this.state.address);
+                  //this.refs.gps.close();
+                  console.log(data);
+                  console.log(details);
                 }}
 
                 getDefaultValue={() => ''}
@@ -162,7 +206,7 @@ export default class HomeScreen extends React.Component {
                   }
                 }}
                   
-                currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+                currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
                 currentLocationLabel="Current location"
                 nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
                 GoogleReverseGeocodingQuery={{
@@ -171,7 +215,7 @@ export default class HomeScreen extends React.Component {
                 GooglePlacesSearchQuery={{
                   // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
                   rankby: 'distance',
-                  types: 'pharmacy'
+                  types: 'sublocality_level_2'
                 }}
 
                 filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
@@ -282,6 +326,7 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
+              {/*<Text>hey{text}</Text>*/}
           </ScrollView>
         </View>
       </Container>
