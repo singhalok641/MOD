@@ -35,9 +35,9 @@ const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
 
 const images = [
-    require('../assets/images/1.png'),
-    require('../assets/images/2.png'),
-    require('../assets/images/5.png')
+    require('../assets/images/carousel/1.png'),
+    require('../assets/images/carousel/2.png'),
+    require('../assets/images/carousel/5.png')
 ];
 
 // simply add your google key
@@ -114,8 +114,8 @@ export default class HomeScreen extends React.Component {
     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
       .then((response) => response.json())
       .then((responseJson) => {
-          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
-          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[0].short_name));
+          //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+          //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[0].short_name));
           this.setState({
             address: responseJson.results[0].formatted_address,
             area: responseJson.results[0].address_components[0].short_name,
