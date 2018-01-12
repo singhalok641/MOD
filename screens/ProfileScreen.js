@@ -27,19 +27,64 @@ import {
   Item as FormItem,
   Card,
   CardItem } from 'native-base';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon,  } from 'react-native-elements';
+import Modal from "react-native-modal";
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
     header: null,
   }
-
   constructor(props) {
     super(props);
     this.state = {
-      
+      visibleModal: null,
+      isEnabled: false,
+      number:'',
     };
   }
+
+  _renderModalContent = () => (
+    <View style={styles.modalContent}>
+      {/*<Text>Hello!</Text>
+      {this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
+      <Text style={ styles.account }>LOGIN</Text>
+      <Text note>Enter your phone number to proceed</Text>
+      <View style={{ marginTop:20 }}>
+        <Text note>PHONE NUMBER</Text>
+        <Item>
+          <Input 
+            keyboardType = 'numeric' 
+            returnKeyType="next"
+            autoFocus={true} 
+            fontWeight={`bold`}
+            maxLength = {10}
+            onChangeText={(number) => this.setState({number})}
+            //onChangeText={() =>  this.setState({isEnabled: true})}
+            //value={this.state.store_id} 
+            />
+        </Item>
+        <Button
+          raised
+          //disabled={!this.state.isEnabled}
+          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+          buttonStyle={{ backgroundColor: '#03a9f4'}}
+          textStyle={{textAlign: 'center'}}
+          fontWeight={'bold'}
+          title={`ENTER PHONE NUMBER`}
+          //onPress={() => this.setState({ visibleModal: 5 })}
+          />
+      </View>
+    </View>
+  )
+
+  _renderButton = (text, onPress) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.button}>
+        <Text>{text}</Text>
+      </View>
+    </TouchableOpacity>
+  )
+
 
   /*componentDidMount = async () => {
     try {
@@ -58,23 +103,33 @@ export default class ProfileScreen extends React.Component {
   }*/
 
   render() {
+    
+    /*if(this.state.number == 10){
+      console.log('done');
+      this.setState({
+        isEnabled:true,
+      });
+    }
+
+    console.log(this.state.number);*/
+
     return (
       <Container style={ styles.container1 } > 
         <View style={ styles.coverImageContainer }>
           <Image resizeMode='contain' source={require('../assets/images/preview.png')} style={ styles.cover } />
         </View>
-        <View style={{ flex: 1, backgroundColor: '#fff', marginLeft: 15, marginRight: 15, marginTop:20,}}>
+        <View style={{ flex: 1, backgroundColor: '#fff', marginLeft: 15, marginRight: 15, marginTop:20 }}>
           <View style={{ flex: 1, flexDirection:'column' }}>
             <Text style={ styles.account }>ACCOUNT</Text>
             <Text note>Login/Create account quickly to manage orders</Text>
             <Button
               raised
-              //icon={{name: 'home', size: 32}}
               containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
               buttonStyle={{ backgroundColor: '#03a9f4'}}
               textStyle={{textAlign: 'center'}}
               fontWeight={'bold'}
               title={`LOGIN`}
+              onPress={() => this.setState({ visibleModal: 5 })}
             />
             <List style={{ marginTop: 20 }}>
               <ListItem style={styles.option}>
@@ -91,7 +146,6 @@ export default class ProfileScreen extends React.Component {
                <ListItem style={styles.option}>
                 <View>
                   <Text style={styles.op_name}>Send Feedback</Text>
-                  {/*<Text note>App version 1.0.0</Text>*/}
                 </View>
                   <Icon
                     name='email'
@@ -103,6 +157,17 @@ export default class ProfileScreen extends React.Component {
             </List>
           </View>
         </View>
+
+        <Modal 
+          isVisible={this.state.visibleModal === 5} 
+          style={styles.bottomModal} 
+          backdropOpacity={0} 
+          onBackButtonPress={() => this.setState({ visibleModal: null })}
+          onBackdropPress={() => this.setState({ visibleModal: null })}
+          animationOut={'slideOutRight'}
+          >
+          {this._renderModalContent()}
+        </Modal>
         
         {/*<View style={styles.container2}>
           <ScrollView>
@@ -236,5 +301,20 @@ const styles = StyleSheet.create({
   op_name:{
     fontSize:19,
     color:'#666666',
-  }
+  },
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContent: {
+    flex: 0.5,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    padding: 22,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    paddingLeft: 15, 
+    paddingRight: 15, 
+    paddingTop:20
+
+  },
 });

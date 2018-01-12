@@ -28,7 +28,6 @@ import Carousel from 'react-native-banner-carousel';
 import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
-import Geocoder from 'react-native-geocoder';
 import { Constants, Location, Permissions } from 'expo';
 
 const BannerWidth = Dimensions.get('window').width;
@@ -39,9 +38,6 @@ const images = [
     require('../assets/images/carousel/2.png'),
     require('../assets/images/carousel/5.png')
 ];
-
-// simply add your google key
-//Geocoder.fallbackToGoogle(AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk);
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -90,14 +86,6 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
-
-    /*fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + '28.6341211' + ',' + '77.3506475' + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
-            //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
-                  
-    })*/
   }
 
   _getLocationAsync = async () => {
@@ -114,7 +102,8 @@ export default class HomeScreen extends React.Component {
     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
       .then((response) => response.json())
       .then((responseJson) => {
-          //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+          console.log(this.state.location);
           //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[0].short_name));
           this.setState({
             address: responseJson.results[0].formatted_address,
@@ -149,18 +138,6 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
-
-    /*let text = 'Locating...';
-    if (this.state.errorMessage) {
-      //text = this.state.errorMessage;
-      console.log(this.state.errorMessage);
-    } 
-    else if (this.state.location) {
-      //text = JSON.stringify(this.state.location);
-      console.log(this.state.location);
-
-    }
-*/
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
