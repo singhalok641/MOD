@@ -28,7 +28,8 @@ import Carousel from 'react-native-banner-carousel';
 import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
-//import { Constants, Location, Permissions } from 'expo';
+import Geocoder from 'react-native-geocoder';
+import { Constants, Location, Permissions } from 'expo';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
@@ -38,6 +39,9 @@ const images = [
     require('../assets/images/2.png'),
     require('../assets/images/5.png')
 ];
+
+// simply add your google key
+//Geocoder.fallbackToGoogle(AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk);
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -52,16 +56,20 @@ export default class HomeScreen extends React.Component {
     this.state = {
       selected1: 'key0',
       address: null,
-      area: null,
+      area: 'Locating...',
       isOpen: false,
+      location: null,
+      errorMessage: null,
+      latitude: null,
+      longitude: null,
       //isDisabled: false,
     };
   }
 
-  componentDidMount = async () => {
-    console.log("here");
+  /*componentDidMount = async () => {
+    console.log(this.state.address);
     try {
-      if(this.state.area===null) {
+      if(this.state.address===null) {
         this.setState({
           //isLoading: false,
           isOpen: true,
@@ -72,9 +80,9 @@ export default class HomeScreen extends React.Component {
     catch (error) {
       alert(error);
     }
-  }
+  }*/
 
-  /*componentWillMount() {
+  componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -82,9 +90,17 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
-  }*/
 
-  /*_getLocationAsync = async () => {
+    /*fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + '28.6341211' + ',' + '77.3506475' + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+            //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+                  
+    })*/
+  }
+
+  _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
@@ -94,7 +110,22 @@ export default class HomeScreen extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ location });
-  };*/
+
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
+      .then((response) => response.json())
+      .then((responseJson) => {
+          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[0].short_name));
+          this.setState({
+            address: responseJson.results[0].formatted_address,
+            area: responseJson.results[0].address_components[0].short_name,
+            });
+
+          //text=responseJson.results[0].formatted_address;
+          //console.log(text);
+      })
+
+  };
 
   onValueChange(value: string) {
     this.setState({
@@ -119,15 +150,17 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
-    /*let text = 'Waiting..';
+    /*let text = 'Locating...';
     if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (this.state.location) {
-      text = JSON.stringify(this.state.location);
-    }*/
+      //text = this.state.errorMessage;
+      console.log(this.state.errorMessage);
+    } 
+    else if (this.state.location) {
+      //text = JSON.stringify(this.state.location);
+      console.log(this.state.location);
 
-    //console.log(this.state.isOpen);
-
+    }
+*/
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
@@ -213,18 +246,11 @@ export default class HomeScreen extends React.Component {
                     paddingBottom: 0,
                     //position: 'fixed',
                   },
-                  description: {
-                    
-                  },
                   predefinedPlacesDescription: {
                     color: '#5d5d5d',
                     fontSize: 18,
                     height: 18,
                     fontWeight: 'bold',
-
-                  },
-                  androidLoader: {
-                    marginRight: 15,
                   },
                 }}
                   
@@ -350,7 +376,6 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
-              {/*<Text>hey{text}</Text>*/}
           </ScrollView>
         </View>
       </Container>
