@@ -136,11 +136,13 @@ export default class HomeScreen extends React.Component {
           </ScrollView>
         </View>
         <Button 
+          raised
           large
-          containerViewStyle={{width: '100%',marginLeft :0}}
+          containerViewStyle={{ width: '100%',marginLeft :0 }}
           buttonStyle={{ alignItems:'center', justifyContent:'center' }}
           backgroundColor={'#03a9f4'} 
-          title='CONFIRM YOUR ORDER' 
+          title={`CONFIRM YOUR ORDER`}
+          fontWeight={'bold'} 
           onPress={this.sendNotification}
         />
       </Container>
