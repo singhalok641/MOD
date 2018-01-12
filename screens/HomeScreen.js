@@ -126,7 +126,7 @@ export default class HomeScreen extends React.Component {
       text = JSON.stringify(this.state.location);
     }*/
 
-    console.log(this.state.isOpen);
+    //console.log(this.state.isOpen);
 
     return (
       <Container>  
@@ -178,7 +178,7 @@ export default class HomeScreen extends React.Component {
                     area: data.terms[0].value,
                     //isOpen: false,
                   });
-                  console.log(this.state.isOpen);
+                  console.log("onPress");
                   setTimeout(() => {
                    this.refs.gps.close();
                  },1000);
@@ -194,9 +194,6 @@ export default class HomeScreen extends React.Component {
                   //types:  // default: 'geocode'
                 }}
                 styles={{
-                  container:{
-                    borderBottomWidth:0,
-                  },
                   textInputContainer: {
                     width: '100%',
                     borderTopWidth: 0,
@@ -214,13 +211,21 @@ export default class HomeScreen extends React.Component {
                     fontWeight: 'bold',
                     paddingTop:0,
                     paddingBottom: 0,
+                    //position: 'fixed',
                   },
                   description: {
                     
                   },
                   predefinedPlacesDescription: {
-                    color: '#1faadb'
-                  }
+                    color: '#5d5d5d',
+                    fontSize: 18,
+                    height: 18,
+                    fontWeight: 'bold',
+
+                  },
+                  androidLoader: {
+                    marginRight: 15,
+                  },
                 }}
                   
                 currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
@@ -239,7 +244,7 @@ export default class HomeScreen extends React.Component {
 
                 filterReverseGeocodingByTypes={['locality', 'sublocality_level_2']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                 predefinedPlaces={[]}
-
+                keyboardShouldPersistTaps="always"
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                 //renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
                 //renderRightButton={() => <Text>Custom text after the input</Text>}  
