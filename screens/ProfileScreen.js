@@ -31,6 +31,7 @@ import {
   Card,
   CardItem,
   Label } from 'native-base';
+
 import { Button, Icon,  } from 'react-native-elements';
 import Modal from "react-native-modal";
 
@@ -49,6 +50,16 @@ export default class ProfileScreen extends React.Component {
       password:'',
     };
   }
+
+  _renderOTPModalContent = () => (
+    <View style={ styles.modalContentSignUp }>
+      <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
+        <Text style={ styles.account }>VERIFY OTP</Text>
+        <Text note>OTP sent to {this.state.number}</Text>
+      </View>
+    </View>
+  )
+
 
   _renderLoginModalContent = () => (
       <View style={ styles.modalContentLogin }>
@@ -100,7 +111,7 @@ export default class ProfileScreen extends React.Component {
               behavior="padding">
               <Form>
                 <Item stackedLabel>
-                  <Label>PHONE NUMBER</Label>
+                  <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>PHONE NUMBER</Label>
                   <Input 
                     keyboardType = 'numeric'
                     returnKeyType="next"
@@ -112,34 +123,35 @@ export default class ProfileScreen extends React.Component {
                     //value={this.state.store_id} 
                     />
                 </Item>
-                <Item stackedLabel>
-                  <Label>EMAIL ADDRESS</Label>
+                <Item stackedLabel style={{ paddingTop:20 }}>
+                  <Label style={{ fontWeight:'bold', fontSize:12 }}>EMAIL ADDRESS</Label>
+                  <Input 
+                    color={''}
+                    //keyboardType = 'numeric' 
+                    returnKeyType="next"
+                    //autoFocus={true} 
+                    fontWeight={`bold`}
+                    maxLength = {10}
+                    onChangeText={(email) => this.setState({email})}
+                    //onChangeText={() =>  this.setState({isEnabled: true})}
+                    //value={this.state.store_id} 
+                    />
+                </Item>
+                <Item stackedLabel style={{ paddingTop:20 }}>
+                  <Label style={{ fontWeight:'bold', fontSize:12 }}>NAME</Label>
                   <Input 
                     //keyboardType = 'numeric' 
                     returnKeyType="next"
                     //autoFocus={true} 
                     fontWeight={`bold`}
                     maxLength = {10}
-                    onChangeText={(number) => this.setState({number})}
+                    onChangeText={(name) => this.setState({name})}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
                     //value={this.state.store_id} 
                     />
                 </Item>
-                <Item stackedLabel>
-                  <Label>NAME</Label>
-                  <Input 
-                    //keyboardType = 'numeric' 
-                    returnKeyType="next"
-                    //autoFocus={true} 
-                    fontWeight={`bold`}
-                    maxLength = {10}
-                    onChangeText={(number) => this.setState({number})}
-                    //onChangeText={() =>  this.setState({isEnabled: true})}
-                    //value={this.state.store_id} 
-                    />
-                </Item>
-                <Item stackedLabel>
-                  <Label>PASSWORD</Label>
+                <Item stackedLabel style={{ paddingTop:20 }}>
+                  <Label style={{ fontWeight:'bold', fontSize:12 }}>PASSWORD</Label>
                   <Input 
                     //keyboardType = 'numeric' 
                     returnKeyType="next"
@@ -147,7 +159,7 @@ export default class ProfileScreen extends React.Component {
                     secureEntry
                     fontWeight={`bold`}
                     maxLength = {10}
-                    onChangeText={(number) => this.setState({number})}
+                    onChangeText={(password) => this.setState({password})}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
                     //value={this.state.store_id} 
                     />
@@ -165,7 +177,7 @@ export default class ProfileScreen extends React.Component {
           textStyle={{textAlign: 'center'}}
           fontWeight={'bold'}
           title={`SIGN UP`}
-          onPress={() => this.setState({ visibleModal: 4 })}
+          onPress={() => this.setState({ visibleModal: 3 })}
         />
       </View>
     
@@ -271,6 +283,17 @@ export default class ProfileScreen extends React.Component {
           animationOut={ 'slideOutRight' }
           >
           {this._renderSignUpModalContent()}
+        </Modal>
+
+        <Modal 
+          isVisible={this.state.visibleModal === 3} 
+          style={ styles.bottomModalSignUp } 
+          backdropOpacity={0} 
+          onBackButtonPress={() => this.setState({ visibleModal: null })}
+          onBackdropPress={() => this.setState({ visibleModal: null })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderOTPModalContent()}
         </Modal>
         
         {/*<View style={styles.container2}>
@@ -423,7 +446,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15, 
     paddingRight: 15, 
     paddingTop:20
-
   },
   modalContentSignUp: {
     flex: 1,
