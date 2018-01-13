@@ -77,7 +77,7 @@ export default class ProfileScreen extends React.Component {
                     name='view-list'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
                <ListItem style={styles.option}>
@@ -88,7 +88,7 @@ export default class ProfileScreen extends React.Component {
                     name='location-on'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
                <ListItem style={styles.option}>
@@ -99,7 +99,7 @@ export default class ProfileScreen extends React.Component {
                     name='notifications'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
                <ListItem style={styles.option}>
@@ -110,7 +110,7 @@ export default class ProfileScreen extends React.Component {
                     name='local-offer'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
                <ListItem style={styles.option}>
@@ -121,7 +121,7 @@ export default class ProfileScreen extends React.Component {
                     name='feedback'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
                <ListItem style={styles.option}>
@@ -132,7 +132,7 @@ export default class ProfileScreen extends React.Component {
                     name='power-settings-new'
                     type='MaterialIcons'
                     color='#666666'
-                    size={28}
+                    size={26}
                     />
                </ListItem>
              </List>
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingTop:10,
 
   },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
 	},
   name:{
     color:'#555555',
-    fontSize :32,
+    fontSize :26,
     fontWeight : 'bold'
   },
   option:{
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent : 'space-between'
   },
   op_name:{
-    fontSize:19,
+    fontSize:17,
     color:'#666666',
   }
 });
