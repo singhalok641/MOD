@@ -286,11 +286,12 @@ export default class HomeScreen extends React.Component {
               <Text style = {{paddingTop: 8 ,fontSize:20, color: '#555555', fontWeight: 'bold'}}>Upload Prescription</Text>
             </Card>
           </View>
-          <Text style = {{paddingTop: 8 ,paddingLeft: 33, fontSize:14,color: '#03a9f4'}}>Choose an option to upload</Text>
+          <View >
+          <Text style = {{paddingTop: 8 ,paddingLeft: 25, fontSize:14,color: '#03a9f4'}}>Choose an option to upload</Text>
           <View style = {styles.SquaresShapeView}>
             <Container style={{paddingLeft: 0, flexDirection: 'column' }}>
               <Icon
-                iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                iconStyle={{ alignSelf:'center', marginBottom:0}}
                 name='camera-alt'
                 type='MaterialIcons'
                 color='#808080'
@@ -300,7 +301,7 @@ export default class HomeScreen extends React.Component {
 
             <Container style={{paddingLeft: 0,flexDirection: 'column' }}>
               <Icon
-                iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                iconStyle={{ alignSelf:'center', marginBottom:0}}
                 name='photo-size-select-actual'
                 type='MaterialIcons'
                 color='#808080'
@@ -310,7 +311,7 @@ export default class HomeScreen extends React.Component {
 
             <Container style={{paddingRight: 0,flexDirection: 'column' }}>
               <Icon
-                iconStyle={{ alignSelf:'center', marginLeft:17, marginRight:15, marginTop:20, marginBottom:0}}
+                iconStyle={{ alignSelf:'center',  marginBottom:0}}
                 name='view-list'
                 type='MaterialIcons'
                 color='#808080'
@@ -318,7 +319,8 @@ export default class HomeScreen extends React.Component {
               <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Prescriptions</Text>  
             </Container>
           </View>
-          <Text style = {{paddingTop: 10 ,paddingLeft: 33, fontSize:14,color: '#03a9f4'}}>Attached Prescriptions</Text>
+          <Text style = {{paddingTop: 0 ,paddingLeft: 25, fontSize:14,color: '#03a9f4'}}>Attached Prescriptions</Text>
+          </View>
         </Modal>
         
         <View style={styles.container}>
@@ -416,14 +418,10 @@ const styles = StyleSheet.create({
     borderRadius: 1
   },
   SquaresShapeView:{
-    width: 317,
     height: 95, 
     flexDirection: 'row' ,
-    borderWidth: 1,
-    borderColor: '#a8a8a8',
-    marginLeft: 22,
-    marginTop: 6,
+    paddingTop: 17,
     justifyContent: 'space-between',
-    borderRadius: 2
+    alignItems : 'flex-start'
   }
 });
