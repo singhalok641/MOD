@@ -9,6 +9,9 @@ import {
   TextInput,
   Dimensions,
   AsyncStorage,
+  Animated, 
+  Keyboard, 
+  KeyboardAvoidingView
 } from 'react-native';
 import { 
   Container, 
@@ -26,7 +29,8 @@ import {
   Form,
   Item as FormItem,
   Card,
-  CardItem } from 'native-base';
+  CardItem,
+  Label } from 'native-base';
 import { Button, Icon,  } from 'react-native-elements';
 import Modal from "react-native-modal";
 
@@ -40,41 +44,132 @@ export default class ProfileScreen extends React.Component {
       visibleModal: null,
       isEnabled: false,
       number:'',
+      email:'',
+      name:'',
+      password:'',
     };
   }
 
-  _renderModalContent = () => (
-    <View style={styles.modalContent}>
-      {/*<Text>Hello!</Text>
-      {this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
-      <Text style={ styles.account }>LOGIN</Text>
-      <Text note>Enter your phone number to proceed</Text>
-      <View style={{ marginTop:20 }}>
-        <Text note>PHONE NUMBER</Text>
-        <Item>
-          <Input 
-            keyboardType = 'numeric' 
-            returnKeyType="next"
-            autoFocus={true} 
-            fontWeight={`bold`}
-            maxLength = {10}
-            onChangeText={(number) => this.setState({number})}
-            //onChangeText={() =>  this.setState({isEnabled: true})}
-            //value={this.state.store_id} 
+  _renderLoginModalContent = () => (
+      <View style={ styles.modalContentLogin }>
+        {/*<Text>Hello!</Text>
+        {this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
+        <Text style={ styles.account }>LOGIN</Text>
+        <Text note>Enter your phone number to proceed</Text>
+        <View style={{ marginTop:20 }}>
+          <Text note>PHONE NUMBER</Text>
+          <Item>
+            <Input 
+              keyboardType = 'numeric' 
+              returnKeyType="next"
+              autoFocus={true} 
+              fontWeight={`bold`}
+              maxLength = {10}
+              onChangeText={(number) => this.setState({number})}
+              //onChangeText={() =>  this.setState({isEnabled: true})}
+              //value={this.state.store_id} 
+              />
+          </Item>
+          <Button
+            raised
+            //disabled={!this.state.isEnabled}
+            containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+            buttonStyle={{ backgroundColor: '#03a9f4'}}
+            textStyle={{textAlign: 'center'}}
+            fontWeight={'bold'}
+            title={`ENTER PHONE NUMBER`}
+            onPress={() => this.setState({ visibleModal: 4 })}
             />
-        </Item>
-        <Button
-          raised
-          //disabled={!this.state.isEnabled}
-          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-          buttonStyle={{ backgroundColor: '#03a9f4'}}
-          textStyle={{textAlign: 'center'}}
-          fontWeight={'bold'}
-          title={`ENTER PHONE NUMBER`}
-          //onPress={() => this.setState({ visibleModal: 5 })}
-          />
+        </View>
       </View>
-    </View>
+  )
+
+  _renderSignUpModalContent = () => (
+      <View style={ styles.modalContentSignUp }>
+        {/*<Text>Hello!</Text>
+        {this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
+        <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
+          <Text style={ styles.account }>SIGN UP</Text>
+          <Text note>Create an account with the new phone number</Text>
+        </View>
+        <ScrollView style={{flex:1, flexDirection:'column', paddingTop:0, paddingLeft:0, paddingRight:0, paddingBottom:40 }}>
+          <View style={{flex:1, flexDirection:'column', paddingTop:20, paddingLeft:15, paddingRight:15, paddingBottom:40 }}>
+            {/*<Text note>PHONE NUMBER</Text>*/}
+            <KeyboardAvoidingView
+              style={ styles.modalContentSignUp }
+              behavior="padding">
+              <Form>
+                <Item floatingLabel>
+                  <Label>PHONE NUMBER</Label>
+                  <Input 
+                    keyboardType = 'numeric'
+                    returnKeyType="next"
+                    //autoFocus={true} 
+                    fontWeight={`bold`}
+                    maxLength = {10}
+                    onChangeText={(number) => this.setState({number})}
+                    //onChangeText={() =>  this.setState({isEnabled: true})}
+                    //value={this.state.store_id} 
+                    />
+                </Item>
+                <Item floatingLabel>
+                  <Label>EMAIL ADDRESS</Label>
+                  <Input 
+                    //keyboardType = 'numeric' 
+                    returnKeyType="next"
+                    //autoFocus={true} 
+                    fontWeight={`bold`}
+                    maxLength = {10}
+                    onChangeText={(number) => this.setState({number})}
+                    //onChangeText={() =>  this.setState({isEnabled: true})}
+                    //value={this.state.store_id} 
+                    />
+                </Item>
+                <Item floatingLabel>
+                  <Label>NAME</Label>
+                  <Input 
+                    //keyboardType = 'numeric' 
+                    returnKeyType="next"
+                    //autoFocus={true} 
+                    fontWeight={`bold`}
+                    maxLength = {10}
+                    onChangeText={(number) => this.setState({number})}
+                    //onChangeText={() =>  this.setState({isEnabled: true})}
+                    //value={this.state.store_id} 
+                    />
+                </Item>
+                <Item floatingLabel>
+                  <Label>PASSWORD</Label>
+                  <Input 
+                    //keyboardType = 'numeric' 
+                    returnKeyType="next"
+                    //autoFocus={true} 
+                    fontWeight={`bold`}
+                    maxLength = {10}
+                    onChangeText={(number) => this.setState({number})}
+                    //onChangeText={() =>  this.setState({isEnabled: true})}
+                    //value={this.state.store_id} 
+                    />
+                </Item>
+              </Form>
+              
+            </KeyboardAvoidingView>
+            
+          </View>
+        </ScrollView>
+        <Button
+                raised
+                large
+                //disabled={!this.state.isEnabled}
+                containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+                buttonStyle={{ backgroundColor: '#03a9f4'}}
+                textStyle={{textAlign: 'center'}}
+                fontWeight={'bold'}
+                title={`SIGN UP`}
+                onPress={() => this.setState({ visibleModal: 4 })}
+              />
+      </View>
+    
   )
 
   _renderButton = (text, onPress) => (
@@ -84,7 +179,6 @@ export default class ProfileScreen extends React.Component {
       </View>
     </TouchableOpacity>
   )
-
 
   /*componentDidMount = async () => {
     try {
@@ -110,7 +204,7 @@ export default class ProfileScreen extends React.Component {
         isEnabled:true,
       });
     }
-
+    
     console.log(this.state.number);*/
 
     return (
@@ -142,8 +236,8 @@ export default class ProfileScreen extends React.Component {
                     color='#666666'
                     size={28}
                     />
-               </ListItem>
-               <ListItem style={styles.option}>
+              </ListItem>
+              <ListItem style={styles.option}>
                 <View>
                   <Text style={styles.op_name}>Send Feedback</Text>
                 </View>
@@ -153,20 +247,31 @@ export default class ProfileScreen extends React.Component {
                     color='#666666'
                     size={28}
                     />
-               </ListItem>
+              </ListItem>
             </List>
           </View>
         </View>
 
         <Modal 
-          isVisible={this.state.visibleModal === 5} 
-          style={styles.bottomModal} 
+          isVisible={ this.state.visibleModal === 5 } 
+          style={ styles.bottomModalLogin } 
           backdropOpacity={0} 
           onBackButtonPress={() => this.setState({ visibleModal: null })}
           onBackdropPress={() => this.setState({ visibleModal: null })}
-          animationOut={'slideOutRight'}
+          animationOut={ 'slideOutRight' }
           >
-          {this._renderModalContent()}
+          {this._renderLoginModalContent()}
+        </Modal>
+
+        <Modal 
+          isVisible={this.state.visibleModal === 4} 
+          style={ styles.bottomModalSignUp } 
+          backdropOpacity={0} 
+          onBackButtonPress={() => this.setState({ visibleModal: null })}
+          onBackdropPress={() => this.setState({ visibleModal: null })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderSignUpModalContent()}
         </Modal>
         
         {/*<View style={styles.container2}>
@@ -302,11 +407,15 @@ const styles = StyleSheet.create({
     fontSize:19,
     color:'#666666',
   },
-  bottomModal: {
+  bottomModalLogin: {
     justifyContent: 'flex-end',
     margin: 0,
   },
-  modalContent: {
+  bottomModalSignUp: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContentLogin: {
     flex: 0.5,
     flexDirection: 'column',
     backgroundColor: 'white',
@@ -316,5 +425,11 @@ const styles = StyleSheet.create({
     paddingRight: 15, 
     paddingTop:20
 
+  },
+  modalContentSignUp: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
 });
