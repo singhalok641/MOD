@@ -23,9 +23,9 @@ import {
   CardItem } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
 
-const image = require('../assets/images/v.jpeg');
+const image = require('../assets/images/whis.jpg');
 
-export default class HomeScreen extends React.Component {
+export default class CartScreen extends React.Component {
   static navigationOptions = {
     header: null,
   }
@@ -98,7 +98,7 @@ export default class HomeScreen extends React.Component {
             <View style={{ marginTop:0 ,marginLeft:0, marginRight:0 , flexDirection: 'row', alignItems: 'center'  }}>
               <View style = {styles.HeaderShapeView}>
                 <Text style = {{paddingTop: 0 ,fontSize:20, color: '#555555', fontWeight: 'bold' }}>Cart</Text>
-                <Text style={{ color:'#03a9f4', fontSize:13, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 0, }} >2 items, To Pay: ₹460</Text>
+                <Text style={{ color:'#03a9f4', fontSize:12, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 0, }} >2 items, To Pay: ₹460</Text>
               </View>
             </View>
           </View>
@@ -112,19 +112,22 @@ export default class HomeScreen extends React.Component {
             	<Text style={{fontSize:13,color :'#03a9f4'}}>Items requiring prescriptions (1)</Text>
             	<List>
             		<ListItem>
-                	<View style={styles.view}>
-                    <View style={styles.product}>
-                    	<Image resizeMode="contain" style={styles.product} source={image}/>                     		
-                    </View>
-                    <View style={{ flexDirection:'row',justifyContent: 'space-between',alignItems:'flex-start' }}>
-                    	<Text style={styles.pro_name}>VWash Plus Intimate Hygiene Wash</Text>
-                      <Text style={styles.pro_name}>₹ 300</Text>
-                    </View>
-	                </View>
+                
                   <View style={styles.view}>
-                    <Card style={styles.control}>
-                    </Card>
+                    <Image resizeMode = 'contain' style={styles.image} source={image} />
+                    <View style={ styles.info }>
+                      <View style={{ justifyContent:'flex-start',paddingTop: 6, paddingLeft :23 }}>
+                        <Text style={styles.pro_name}>VWash Plus Intimate Hygiene Wash</Text>
+
+                      </View>
+                      <Text note style={styles.descrip}>bottle of 200ml liquid</Text>
+                           
+                    </View>
+                    <View>
+                      <Text style={{flex:1, fontSize : 13, paddingTop: 8,paddingLeft:10,marginRight :8}}>₹ 300</Text>
+                    </View>
                   </View>
+                
                 </ListItem>
 					    </List>
             </View>
@@ -154,8 +157,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft: 14,
-    paddingRight: 14,
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingTop:10,
   },
   headerViewStyle:{
@@ -169,32 +172,35 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: '#a8a8a8',
     paddingLeft: 10,
-    paddingTop: 2,
-    marginLeft: 0,
-    marginTop: 0,
-    borderRadius: 1
+    justifyContent : 'center',
+    borderRadius: 1,
+
+  },
+  control:{
+    height:10,
+    width:10,
+    alignItems : 'center',
+    justifyContent : 'space-between',
   },
   view: {
-    flex:1,
     flexDirection:'row',
-    alignItems : 'flex-start' 
+    justifyContent : 'space-between'
 	},
-  product:{
-	
-	width: 60, 
-	height: 60,
-    alignItems: 'stretch' 
+  image:{
+	  width: 75, 
+	  height: 75 
 	},
   pro_name:{
-	fontSize :13
+	  fontSize :13
 	},
   descrip:{
-  	textAlign: 'justify',
-  	justifyContent: 'flex-start' , 
-  	paddingTop: 19, 
-	fontSize :12
+	  fontSize :12,
+    paddingTop:3
 	},
-  quantity:{
-
-	},
+  info:{
+    flex:1,
+    flexDirection:'column',
+    alignItems:'flex-start',
+    justifyContent:'flex-start',
+  }
 });
