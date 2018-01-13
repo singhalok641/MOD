@@ -28,19 +28,19 @@ import Carousel from 'react-native-banner-carousel';
 import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
-//import { Constants, Location, Permissions } from 'expo';
+import { Constants, Location, Permissions } from 'expo';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
 
 const images = [
-    require('../assets/images/1.png'),
-    require('../assets/images/2.png'),
-    require('../assets/images/5.png')
+    require('../assets/images/carousel/1.png'),
+    require('../assets/images/carousel/2.png'),
+    require('../assets/images/carousel/5.png')
 ];
 
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+//const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+//const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -52,13 +52,33 @@ export default class HomeScreen extends React.Component {
     this.state = {
       selected1: 'key0',
       address: null,
-      area:null,
+      area: 'Locating...',
+      isOpen: false,
       location: null,
       errorMessage: null,
+      latitude: null,
+      longitude: null,
+      //isDisabled: false,
     };
   }
 
-  /*componentWillMount() {
+  /*componentDidMount = async () => {
+    console.log(this.state.address);
+    try {
+      if(this.state.address===null) {
+        this.setState({
+          //isLoading: false,
+          isOpen: true,
+        }); 
+      }
+      
+    }
+    catch (error) {
+      alert(error);
+    }
+  }*/
+
+  componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -66,9 +86,9 @@ export default class HomeScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
-  }*/
+  }
 
-  /*_getLocationAsync = async () => {
+  _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
@@ -78,11 +98,33 @@ export default class HomeScreen extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ location });
-  };*/
+
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
+      .then((response) => response.json())
+      .then((responseJson) => {
+          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].formatted_address));
+          console.log(this.state.location);
+          //console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson.results[0].address_components[0].short_name));
+          this.setState({
+            address: responseJson.results[0].formatted_address,
+            area: responseJson.results[0].address_components[0].short_name,
+            });
+
+          //text=responseJson.results[0].formatted_address;
+          //console.log(text);
+      })
+
+  };
 
   onValueChange(value: string) {
     this.setState({
       selected1: value
+    });
+  }
+
+  openLocationModal(){
+    this.setState({
+      isOpen: true
     });
   }
 
@@ -96,20 +138,11 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
-
-    /*let text = 'Waiting..';
-    if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (this.state.location) {
-      text = JSON.stringify(this.state.location);
-    }*/
-
-    //console.log({text});
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
           <View style={ styles.headerViewStyle }>
-            <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
+            <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.setState({isOpen: true})} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
                   <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
@@ -127,17 +160,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </Header>
 
-        {
-          /*this.state.address === null ? (
-            //this.refs.gps.open();
-            )
-          :
-          (
-            console.log('hey there');
-            )*/
-        }
-
-        <Modal style={ styles.modal6 } position={"top"} ref={"gps"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
+        <Modal isOpen={this.state.isOpen} onClosed={() => this.setState({isOpen: false})} style={ styles.modal6 } position={"top"} ref={"gps"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
           <View style = {{ flex:1, flexDirection:'row', marginTop:0 ,marginLeft:0, marginRight:0 }}>
             <View style = {{ flex:1 }}>
               <Icon
@@ -146,7 +169,7 @@ export default class HomeScreen extends React.Component {
                 type='MaterialIcons'
                 color='#555555'
                 size={25}
-                onPress={() => this.refs.gps.close()} 
+                onPress={() => this.setState({isOpen: false})} 
               />
             </View>
             <View style={{ flex:6, marginTop:0 ,marginLeft:5, marginRight:0, flexDirection:'column', justifyContent:'space-around' }} >  
@@ -163,10 +186,14 @@ export default class HomeScreen extends React.Component {
                   this.setState({
                     address: data.description,
                     area: data.terms[0].value,
+                    //isOpen: false,
                   });
-                  //this.refs.gps.close();
-                  console.log(data);
-                  console.log(details);
+                  console.log("onPress");
+                  setTimeout(() => {
+                   this.refs.gps.close();
+                 },1000);
+                  //console.log(data);
+                  //console.log(details);
                 }}
 
                 getDefaultValue={() => ''}
@@ -177,9 +204,6 @@ export default class HomeScreen extends React.Component {
                   //types:  // default: 'geocode'
                 }}
                 styles={{
-                  container:{
-                    borderBottomWidth:0,
-                  },
                   textInputContainer: {
                     width: '100%',
                     borderTopWidth: 0,
@@ -197,20 +221,23 @@ export default class HomeScreen extends React.Component {
                     fontWeight: 'bold',
                     paddingTop:0,
                     paddingBottom: 0,
-                  },
-                  description: {
-                    
+                    //position: 'fixed',
                   },
                   predefinedPlacesDescription: {
-                    color: '#1faadb'
-                  }
+                    color: '#5d5d5d',
+                    fontSize: 18,
+                    height: 18,
+                    fontWeight: 'bold',
+                  },
                 }}
                   
                 currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
                 currentLocationLabel="Current location"
-                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                nearbyPlacesAPI='GoogleReverseGeocoding' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
                 GoogleReverseGeocodingQuery={{
                 // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                  rankby: 'distance',
+                  //types: 'locality'
                 }}
                 GooglePlacesSearchQuery={{
                   // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
@@ -218,9 +245,9 @@ export default class HomeScreen extends React.Component {
                   types: 'sublocality_level_2'
                 }}
 
-                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                filterReverseGeocodingByTypes={['locality', 'sublocality_level_2']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                 predefinedPlaces={[]}
-
+                keyboardShouldPersistTaps="always"
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                 //renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
                 //renderRightButton={() => <Text>Custom text after the input</Text>}  
@@ -229,12 +256,12 @@ export default class HomeScreen extends React.Component {
           </View>
         </Modal>  
 
-        <Modal style={ styles.modal4 } position={"top"} ref={"search"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false}>
-          <View style = {{ height:150 }}>
+        <Modal style={ styles.modal4 } position={"top"} ref={"search"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
+          <View style = {{ height:120 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 }}>
               <Icon
                 iconStyle={{ alignSelf:'flex-start', marginLeft:17, marginTop:20, marginBottom:10 }}
-                name='clear'
+                name='arrow-back'
                 type='MaterialIcons'
                 color='#555555'
                 size={25}
@@ -246,7 +273,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </Modal>
 
-        <Modal style={ styles.modal5 } position={"top"} ref={"upload"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false}>
+        <Modal style={ styles.modal5 } position={"top"} ref={"upload"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
           <View style = {{ height:70 }}>
             <Card style={{ marginTop:0 ,marginLeft:0, marginRight:0 ,flexDirection : 'row',alignItems : 'center'}}>
               <Icon
@@ -328,7 +355,6 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
-              {/*<Text>hey{text}</Text>*/}
           </ScrollView>
         </View>
       </Container>
