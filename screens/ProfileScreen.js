@@ -99,7 +99,7 @@ export default class ProfileScreen extends React.Component {
               style={ styles.modalContentSignUp }
               behavior="padding">
               <Form>
-                <Item floatingLabel>
+                <Item stackedLabel>
                   <Label>PHONE NUMBER</Label>
                   <Input 
                     keyboardType = 'numeric'
@@ -112,7 +112,7 @@ export default class ProfileScreen extends React.Component {
                     //value={this.state.store_id} 
                     />
                 </Item>
-                <Item floatingLabel>
+                <Item stackedLabel>
                   <Label>EMAIL ADDRESS</Label>
                   <Input 
                     //keyboardType = 'numeric' 
@@ -125,7 +125,7 @@ export default class ProfileScreen extends React.Component {
                     //value={this.state.store_id} 
                     />
                 </Item>
-                <Item floatingLabel>
+                <Item stackedLabel>
                   <Label>NAME</Label>
                   <Input 
                     //keyboardType = 'numeric' 
@@ -138,12 +138,13 @@ export default class ProfileScreen extends React.Component {
                     //value={this.state.store_id} 
                     />
                 </Item>
-                <Item floatingLabel>
+                <Item stackedLabel>
                   <Label>PASSWORD</Label>
                   <Input 
                     //keyboardType = 'numeric' 
                     returnKeyType="next"
                     //autoFocus={true} 
+                    secureEntry
                     fontWeight={`bold`}
                     maxLength = {10}
                     onChangeText={(number) => this.setState({number})}
@@ -152,22 +153,20 @@ export default class ProfileScreen extends React.Component {
                     />
                 </Item>
               </Form>
-              
             </KeyboardAvoidingView>
-            
           </View>
         </ScrollView>
         <Button
-                raised
-                large
-                //disabled={!this.state.isEnabled}
-                containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-                buttonStyle={{ backgroundColor: '#03a9f4'}}
-                textStyle={{textAlign: 'center'}}
-                fontWeight={'bold'}
-                title={`SIGN UP`}
-                onPress={() => this.setState({ visibleModal: 4 })}
-              />
+          raised
+          large
+          //disabled={!this.state.isEnabled}
+          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+          buttonStyle={{ backgroundColor: '#03a9f4'}}
+          textStyle={{textAlign: 'center'}}
+          fontWeight={'bold'}
+          title={`SIGN UP`}
+          onPress={() => this.setState({ visibleModal: 4 })}
+        />
       </View>
     
   )
