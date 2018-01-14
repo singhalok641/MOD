@@ -175,7 +175,6 @@ export default class CartScreen extends React.Component {
             </View>
 
             <View style={styles.pricing}>
-              <Text style={{color:'#cccccc',alignSelf : 'center'}}>───────────────────────────</Text>
               <View style={{marginLeft:10,marginRight:10}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>MRP Total</Text>
@@ -186,7 +185,13 @@ export default class CartScreen extends React.Component {
                   <Text style={styles.price_text}>NA</Text>
                 </View>
               </View>
-              <Text style={{color:'#cccccc',alignSelf : 'center'}}>───────────────────────────</Text>
+              <View
+                style={{
+                paddingTop:4,
+                borderBottomColor: '#cccccc',
+                borderBottomWidth: 1,
+                }}
+              />
               <View style={{marginLeft:10,marginRight:10}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>Coupon Discount</Text>
@@ -197,7 +202,13 @@ export default class CartScreen extends React.Component {
                   <Text style={styles.price_text}>₹ 10</Text>
                 </View>
               </View>
-              <Text style={{color:'#cccccc',alignSelf : 'center'}}>───────────────────────────</Text>
+              <View
+                style={{
+                paddingTop:4,
+                borderBottomColor: '#cccccc',
+                borderBottomWidth: 1,
+                }}
+              />
               <View style={{marginLeft:10,marginRight:10}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}></Text>
@@ -256,21 +267,24 @@ const styles = StyleSheet.create({
   price_text:{
     fontSize:13,
     color:'#555555',
-    paddingTop:3
+    paddingTop:4,
+    paddingBottom:4
   },
   total:{
     fontSize:16,
     color:'#4d4d4d',
     fontWeight : 'bold',
-    paddingTop:1,
-    marginBottom:13
+    paddingTop:8,
+    marginBottom:13,
+
   },
   coupon:{
     fontSize:13,
     fontWeight : 'bold',
     color:'#03a9f4',
-    paddingTop:3,
-    fontWeight : 'bold'
+    paddingTop:4,
+    fontWeight : 'bold',
+    paddingBottom:4
   },
   buttons:{
     height:22,
@@ -283,7 +297,7 @@ const styles = StyleSheet.create({
     alignContent : 'center'
   },
   pricing:{
-    paddingTop: 5
+    paddingTop: 10
   },
   view: {
     flexDirection:'row',

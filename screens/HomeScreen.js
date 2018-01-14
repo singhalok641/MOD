@@ -33,11 +33,19 @@ import { Constants, Location, Permissions } from 'expo';
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
 
+
 const images = [
     require('../assets/images/carousel/1.png'),
     require('../assets/images/carousel/2.png'),
     require('../assets/images/carousel/5.png')
 ];
+
+const natural = require('../assets/images/products/natural.jpeg');
+const prescribed = require('../assets/images/products/prescribed.jpeg');
+const baby = require('../assets/images/products/baby.jpeg');
+const everyday = require('../assets/images/products/everyday.jpeg');
+const personal = require('../assets/images/products/personal.jpeg');
+const diabetes = require('../assets/images/products/diabetes.jpeg');
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -58,25 +66,8 @@ export default class HomeScreen extends React.Component {
       errorMessage: null,
       latitude: null,
       longitude: null,
-      //isDisabled: false,
     };
   }
-
-  /*componentDidMount = async () => {
-    console.log(this.state.address);
-    try {
-      if(this.state.address===null) {
-        this.setState({
-          //isLoading: false,
-          isOpen: true,
-        }); 
-      }
-      
-    }
-    catch (error) {
-      alert(error);
-    }
-  }*/
 
   componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -355,6 +346,51 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
+              <View style={{marginBottom:35}}>
+                <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
+                <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
+                  </Card>
+                </View>
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={everyday}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Everyday Care</Text>
+                  </Card>
+                </View>
+                </View>
+                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={personal}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
+                  </Card>
+                </View>
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Diabetic Care</Text>
+                  </Card>
+                </View>
+                </View>
+                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={natural}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Natural Care</Text>
+                  </Card>
+                </View>
+                <View style={{marginTop:7}}>
+                  <Card style={styles.products}>
+                    <Image resizeMode = 'contain' style={styles.image} source={baby}/>
+                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Baby & Mother</Text>
+                  </Card>
+                </View>
+                </View>
+              </View>
           </ScrollView>
         </View>
       </Container>
@@ -379,8 +415,22 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     alignItems:'flex-start',
     justifyContent:'flex-start',
-    paddingTop: 3,
-    paddingLeft: 10
+    paddingTop: 2,
+    paddingLeft: 7
+  },
+  products:{
+    height:120,
+    width:140,
+    backgroundColor: '#fff',
+    alignSelf : 'center',
+    justifyContent : 'flex-start'
+    
+  },
+  image:{
+    height :90,
+    width:139,
+    alignSelf : 'center',
+    justifyContent : 'center'
   },
   filterViewStyle:{
     flex:1,

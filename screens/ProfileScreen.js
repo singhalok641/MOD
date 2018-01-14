@@ -48,6 +48,7 @@ export default class ProfileScreen extends React.Component {
       email:'',
       name:'',
       password:'',
+      textLength:'',
     };
   }
 
@@ -60,11 +61,8 @@ export default class ProfileScreen extends React.Component {
     </View>
   )
 
-
   _renderLoginModalContent = () => (
       <View style={ styles.modalContentLogin }>
-        {/*<Text>Hello!</Text>
-        {this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
         <Text style={ styles.account }>LOGIN</Text>
         <Text note>Enter your phone number to proceed</Text>
         <View style={{ marginTop:20 }}>
@@ -76,20 +74,18 @@ export default class ProfileScreen extends React.Component {
               autoFocus={true} 
               fontWeight={`bold`}
               maxLength = {10}
-              onChangeText={(number) => this.setState({number})}
-              //onChangeText={() =>  this.setState({isEnabled: true})}
-              //value={this.state.store_id} 
+              onChangeText={(number) => this.setState({number: number, textLength: number.length })}
               />
           </Item>
           <Button
             raised
-            //disabled={!this.state.isEnabled}
+            disabled={ this.state.textLength===10 ? (false):(true) }
             containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
             buttonStyle={{ backgroundColor: '#03a9f4'}}
             textStyle={{textAlign: 'center'}}
             fontWeight={'bold'}
-            title={`ENTER PHONE NUMBER`}
-            onPress={() => this.setState({ visibleModal: 4 })}
+            title={ this.state.textLength===10 ? (`CONTINUE`):(`ENTER PHONE NUMBER`) }
+            onPress={() => this.setState({ visibleModal: 4 ,textLength:0 })}
             />
         </View>
       </View>
@@ -115,63 +111,57 @@ export default class ProfileScreen extends React.Component {
                   <Input 
                     keyboardType = 'numeric'
                     returnKeyType="next"
-                    //autoFocus={true} 
+                    value={this.state.number}
                     fontWeight={`bold`}
                     maxLength = {10}
                     onChangeText={(number) => this.setState({number})}
+                    editable={false}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
                     //value={this.state.store_id} 
                     />
+                  {/*<Icon name='check-circle' />*/}
                 </Item>
                 <Item stackedLabel style={{ paddingTop:20 }}>
                   <Label style={{ fontWeight:'bold', fontSize:12 }}>EMAIL ADDRESS</Label>
                   <Input 
-                    color={''}
-                    //keyboardType = 'numeric' 
                     returnKeyType="next"
-                    //autoFocus={true} 
                     fontWeight={`bold`}
                     maxLength = {10}
                     onChangeText={(email) => this.setState({email})}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
-                    //value={this.state.store_id} 
                     />
                 </Item>
                 <Item stackedLabel style={{ paddingTop:20 }}>
                   <Label style={{ fontWeight:'bold', fontSize:12 }}>NAME</Label>
                   <Input 
-                    //keyboardType = 'numeric' 
                     returnKeyType="next"
-                    //autoFocus={true} 
                     fontWeight={`bold`}
                     maxLength = {10}
                     onChangeText={(name) => this.setState({name})}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
-                    //value={this.state.store_id} 
                     />
                 </Item>
                 <Item stackedLabel style={{ paddingTop:20 }}>
                   <Label style={{ fontWeight:'bold', fontSize:12 }}>PASSWORD</Label>
                   <Input 
-                    //keyboardType = 'numeric' 
                     returnKeyType="next"
-                    //autoFocus={true} 
-                    secureEntry
+                    secureTextEntry
                     fontWeight={`bold`}
                     maxLength = {10}
+
                     onChangeText={(password) => this.setState({password})}
                     //onChangeText={() =>  this.setState({isEnabled: true})}
-                    //value={this.state.store_id} 
                     />
                 </Item>
               </Form>
+              <Text note style={{ paddingTop: 20 ,fontSize:12 }}>By creating an account, I accept the Terms and Conditions</Text>
             </KeyboardAvoidingView>
           </View>
         </ScrollView>
         <Button
           raised
           large
-          //disabled={!this.state.isEnabled}
+          disabled={ (this.state.email!='' && this.state.name!='' && this.state.password.length>=6) ? (false):(true) }
           containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
           buttonStyle={{ backgroundColor: '#03a9f4'}}
           textStyle={{textAlign: 'center'}}
@@ -179,8 +169,7 @@ export default class ProfileScreen extends React.Component {
           title={`SIGN UP`}
           onPress={() => this.setState({ visibleModal: 3 })}
         />
-      </View>
-    
+      </View>   
   )
 
   _renderButton = (text, onPress) => (
@@ -191,33 +180,7 @@ export default class ProfileScreen extends React.Component {
     </TouchableOpacity>
   )
 
-  /*componentDidMount = async () => {
-    try {
-      let user = await AsyncStorage.getItem('user');
-      console.log(user);
-      if(token!== null) {
-        this.props.navigation.dispatch(resetActionMain);
-      }
-      this.setState({
-          isLoading: false
-        }); 
-    }
-    catch (error) {
-      alert(error);
-    }
-  }*/
-
   render() {
-    
-    /*if(this.state.number == 10){
-      console.log('done');
-      this.setState({
-        isEnabled:true,
-      });
-    }
-    
-    console.log(this.state.number);*/
-
     return (
       <Container style={ styles.container1 } > 
         <View style={ styles.coverImageContainer }>
