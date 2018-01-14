@@ -58,25 +58,8 @@ export default class HomeScreen extends React.Component {
       errorMessage: null,
       latitude: null,
       longitude: null,
-      //isDisabled: false,
     };
   }
-
-  /*componentDidMount = async () => {
-    console.log(this.state.address);
-    try {
-      if(this.state.address===null) {
-        this.setState({
-          //isLoading: false,
-          isOpen: true,
-        }); 
-      }
-      
-    }
-    catch (error) {
-      alert(error);
-    }
-  }*/
 
   componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
