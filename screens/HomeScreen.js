@@ -217,7 +217,7 @@ export default class HomeScreen extends React.Component {
                   predefinedPlacesDescription: {
                     color: '#5d5d5d',
                     fontSize: 18,
-                    height: 18,
+                    height: 40,
                     fontWeight: 'bold',
                   },
                 }}
