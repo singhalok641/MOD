@@ -29,6 +29,7 @@ import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
 import { Constants, Location, Permissions } from 'expo';
+import { NavigationActions } from 'react-navigation';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
@@ -40,12 +41,12 @@ const images = [
     require('../assets/images/carousel/5.png')
 ];
 
-const natural = require('../assets/images/products/natural.jpeg');
-const prescribed = require('../assets/images/products/prescribed.jpeg');
-const baby = require('../assets/images/products/baby.jpeg');
-const everyday = require('../assets/images/products/everyday.jpeg');
-const personal = require('../assets/images/products/personal.jpeg');
-const diabetes = require('../assets/images/products/diabetes.jpeg');
+const natural = require('../assets/images/products/natural.png');
+const prescribed = require('../assets/images/products/prescribed.png');
+const baby = require('../assets/images/products/baby.png');
+const everyday = require('../assets/images/products/everyday.png');
+const personal = require('../assets/images/products/personal.png');
+const diabetes = require('../assets/images/products/diabetes.png');
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -129,6 +130,7 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
@@ -317,7 +319,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
-            contentContainerStyle={styles.contentContainer}>
+            contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
               <Card style={styles.containerCarousel}>
                 <Carousel
                   autoplay
@@ -346,11 +348,11 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
-              <View style={{marginBottom:35}}>
+              <View style={{marginBottom:35, flexWrap : 'wrap'}}>
                 <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
                 <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
                 <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
+                  <Card style={styles.products} onPress={() => navigate('Prescribed')}>
                     <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
                     <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
                   </Card>
