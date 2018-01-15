@@ -40,12 +40,12 @@ const images = [
     require('../assets/images/carousel/5.png')
 ];
 
-const natural = require('../assets/images/products/natural.jpeg');
-const prescribed = require('../assets/images/products/prescribed.jpeg');
-const baby = require('../assets/images/products/baby.jpeg');
-const everyday = require('../assets/images/products/everyday.jpeg');
-const personal = require('../assets/images/products/personal.jpeg');
-const diabetes = require('../assets/images/products/diabetes.jpeg');
+const natural = require('../assets/images/products/natural.png');
+const prescribed = require('../assets/images/products/prescribed.png');
+const baby = require('../assets/images/products/baby.png');
+const everyday = require('../assets/images/products/everyday.png');
+const personal = require('../assets/images/products/personal.png');
+const diabetes = require('../assets/images/products/diabetes.png');
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -317,7 +317,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
-            contentContainerStyle={styles.contentContainer}>
+            contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
               <Card style={styles.containerCarousel}>
                 <Carousel
                   autoplay
