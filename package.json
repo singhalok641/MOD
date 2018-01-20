@@ -19,7 +19,7 @@
     "react-native-modal": "^4.1.1",
     "react-native-modalbox": "^1.4.2",
     "react-native-shimmer": "^0.3.2",
-    "react-navigation": "^1.0.0-beta.21"
+    "react-navigation": "^1.0.0-beta.26"
   },
   "devDependencies": {
     "jest-expo": "^24.0.0"

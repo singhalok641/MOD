@@ -107,7 +107,7 @@ export default class CartScreen extends React.Component {
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
-            contentContainerStyle={styles.contentContainer}>
+            contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <View>
             	<Text style={{fontSize:13,color :'#03a9f4'}}>Items requiring prescriptions (1)</Text>
             	<List>
@@ -116,22 +116,20 @@ export default class CartScreen extends React.Component {
                   <View style={styles.view}>
                     <Image resizeMode = 'contain' style={styles.image} source={image} />
                     <View style={ styles.info }>
-                      <View style={{ justifyContent:'flex-start',paddingTop: 6, paddingLeft :15 }}>
-                        <Text style={styles.pro_name}>VWash Plus Intimate Hygiene Wash</Text>
-
+                      <View style={{ justifyContent:'flex-start',paddingTop: 3 }}>
+                        <Text style={styles.pro_name}>Whisper Ultra Nights Wings Sanitary Pads Pack of 2</Text>
                       </View>
-                      <Text note style={styles.descrip}>bottle of 200ml liquid</Text>
-                           
+                      <Text note style={styles.descrip}>packet of 5 pads</Text>
                     </View>
-                    <View>
-                      <Text style={{flex:1, fontSize : 14, paddingTop: 8,paddingLeft:10,marginRight :8,color:'#4d4d4d'}}>₹ 300</Text>
+                    <View style={{justifyContent : 'flex-end'}}>
+                      <Text style={{flex:1, fontSize : 14, paddingTop: 8,color:'#4d4d4d'}}>₹ 300</Text>
                       <View style={{flexDirection : 'row',alignItems : 'center'}}>
                         <View style={styles.button}>
-                          <Text style={{fontSize : 15}}> - </Text>  
+                          <Text style={{fontSize : 17,fontWeight : 'bold'}}> - </Text>  
                         </View>
                         <Text style={{fontSize : 15,fontWeight : 'bold',color : '#4d4d4d'}}>  1  </Text>
                         <View style={styles.buttons}>
-                          <Text style={{fontSize : 15,color : '#03a9f4'}}> + </Text>
+                          <Text style={{fontSize : 17,color : '#03a9f4',fontWeight : 'bold'}}> + </Text>
                         </View>
                       </View>
                     </View>
@@ -141,41 +139,15 @@ export default class CartScreen extends React.Component {
 
 					    </List>
             </View>
-            <View style={{paddingTop:5}}>
+            <View style={{paddingTop:10}}>
             	<Text style={{fontSize:13,color :'#03a9f4'}}>Items not requiring prescriptions (1)</Text>
             	<List>
-                <ListItem>
                 
-                  <View style={styles.view}>
-                    <Image resizeMode = 'contain' style={styles.image} source={image} />
-                    <View style={ styles.info }>
-                      <View style={{ justifyContent:'flex-start',paddingTop: 6, paddingLeft :15 }}>
-                        <Text style={styles.pro_name}>VWash Plus Intimate Hygiene Wash</Text>
-
-                      </View>
-                      <Text note style={styles.descrip}>bottle of 200ml liquid</Text>
-                           
-                    </View>
-                    <View>
-                      <Text style={{flex:1, fontSize : 14, paddingTop: 8,paddingLeft:10,marginRight :8,color:'#4d4d4d'}}>₹ 300</Text>
-                      <View style={{flexDirection : 'row',alignItems : 'center'}}>
-                        <View style={styles.button}>
-                          <Text style={{fontSize : 15}}> - </Text>  
-                        </View>
-                        <Text style={{fontSize : 15,fontWeight : 'bold',color : '#4d4d4d'}}>  1  </Text>
-                        <View style={styles.buttons}>
-                          <Text style={{fontSize : 15,color : '#03a9f4'}}> + </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                
-                </ListItem>
             	</List>
             </View>
 
             <View style={styles.pricing}>
-              <View style={{marginLeft:10,marginRight:10}}>
+              <View style={{marginLeft:10,marginRight:10,justifyContent : 'space-between'}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>MRP Total</Text>
                   <Text style={styles.price_text}>₹ 600</Text>
@@ -241,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop:8,
+    paddingTop:10,
   },
   headerViewStyle:{
     flex:1, 
@@ -255,8 +227,8 @@ const styles = StyleSheet.create({
 
   },
   button:{
-    height:22,
-    width:22,
+    height:20,
+    width:20,
     borderWidth:1,
     borderRadius : 20,
     borderColor : '#555555',
@@ -308,12 +280,15 @@ const styles = StyleSheet.create({
 	  height: 75 
 	},
   pro_name:{
-	  fontSize :13
-	},
+    fontSize :13,
+    paddingLeft:5
+  },
   descrip:{
-	  fontSize :12,
-    paddingTop:3
-	},
+    fontSize :12,
+    paddingTop:3,
+    alignSelf : 'stretch',
+    paddingLeft:5
+  },
   info:{
     flex:1,
     flexDirection:'column',

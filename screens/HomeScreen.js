@@ -29,6 +29,7 @@ import { Button, Icon } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
 import { Constants, Location, Permissions } from 'expo';
+import { NavigationActions } from 'react-navigation';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 180;
@@ -129,6 +130,7 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>  
         <Header style={{  backgroundColor:'#fff' }}>
@@ -346,11 +348,11 @@ export default class HomeScreen extends React.Component {
                   icon={{name: 'file-upload', color:'#555555'}}
                   title='Upload Prescription' />
               </Card>
-              <View style={{marginBottom:35}}>
+              <View style={{marginBottom:35, flexWrap : 'wrap'}}>
                 <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
                 <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
                 <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
+                  <Card style={styles.products} onPress={() => navigate('Prescribed')}>
                     <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
                     <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
                   </Card>

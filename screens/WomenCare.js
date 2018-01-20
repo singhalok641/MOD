@@ -25,6 +25,8 @@ import {
 import { Button, Icon } from 'react-native-elements';
 
 var screen = Dimensions.get('window');
+const image = require('../assets/images/banners/prescribed.jpeg');
+
 export default class OrdersScreen extends React.Component {
   static navigationOptions = {
     header:null,
@@ -47,7 +49,24 @@ export default class OrdersScreen extends React.Component {
   render() {
     return (
       <Container >
-      	
+      	<Header style={{  backgroundColor:'#fff' }}>
+          <View style={ styles.headerViewStyle }>
+            <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+            	<Icon
+            	 iconStyle={{ alignSelf:'center', marginLeft:10 }}
+  				 size={25}
+  				 name='arrow-back'
+  				 type='materialicons'
+  				 color='#555555'
+  				/>
+                <Text style = {{paddingTop: 0 ,fontSize:20, color: '#555555', fontWeight: 'bold',paddingLeft:7 }}>Women's Care</Text>
+            </View>
+          </View>
+        </Header>
+
+        <View style={styles.container}>
+        	
+        </View>
       </Container>
     );
   }
@@ -57,18 +76,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingTop:7,
-    paddingBottom:10
+    paddingLeft: 14,
+    paddingRight: 14,
+    paddingTop:10,
   },
   headerViewStyle:{
     flex:1, 
     flexDirection: 'row',
     alignItems : 'center',
     justifyContent : 'space-between'
-  },
-  view: {
-    flexDirection:'row',
   },
 });

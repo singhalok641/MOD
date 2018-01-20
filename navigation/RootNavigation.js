@@ -4,11 +4,16 @@ import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import PrescribedScreen from '../screens/PrescribedScreen';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
+    },
+    
+    PrescribedScreen:{
+      screen: PrescribedScreen,
     },
   },
   {
