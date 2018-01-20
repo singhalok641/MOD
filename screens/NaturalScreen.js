@@ -25,7 +25,7 @@ import {
 import { Button, Icon } from 'react-native-elements';
 
 var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/natural.jpeg');
+const image = require('../assets/images/banners/natural.png');
 
 export default class NaturalScreen extends React.Component {
   static navigationOptions = {

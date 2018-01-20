@@ -350,46 +350,63 @@ export default class HomeScreen extends React.Component {
               </Card>
               <View style={{marginBottom:35, flexWrap : 'wrap'}}>
                 <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
+                
                 <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                <View style={{marginTop:7}}>
-                  <Card style={styles.products} onPress={() => navigate('Prescribed')}>
-                    <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
-                  </Card>
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
+                  
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={everyday}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Everyday Care</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
                 </View>
-                <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
-                    <Image resizeMode = 'contain' style={styles.image} source={everyday}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Everyday Care</Text>
-                  </Card>
-                </View>
-                </View>
+                
                 <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
-                    <Image resizeMode = 'contain' style={styles.image} source={personal}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
-                  </Card>
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={personal}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
+                      </Card>
+                    </TouchableHighlight>  
+                  </View>
+                  
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Diabetic Care</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
                 </View>
-                <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
-                    <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Diabetic Care</Text>
-                  </Card>
-                </View>
-                </View>
+                
                 <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={natural}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Natural Care</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
                 <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
-                    <Image resizeMode = 'contain' style={styles.image} source={natural}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Natural Care</Text>
-                  </Card>
-                </View>
-                <View style={{marginTop:7}}>
-                  <Card style={styles.products}>
-                    <Image resizeMode = 'contain' style={styles.image} source={baby}/>
-                    <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Baby & Mother</Text>
-                  </Card>
+                  <TouchableHighlight onPress={() => navigate('BabyScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={baby}/>
+                      <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Baby & Mother</Text>
+                    </Card>
+                  </TouchableHighlight>
                 </View>
                 </View>
               </View>

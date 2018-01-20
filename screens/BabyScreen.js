@@ -25,7 +25,7 @@ import {
 import { Button, Icon } from 'react-native-elements';
 
 var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/baby.jpeg');
+const image = require('../assets/images/banners/baby.png');
 
 export default class BabyScreen extends React.Component {
   static navigationOptions = {

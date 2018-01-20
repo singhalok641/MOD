@@ -25,7 +25,7 @@ import {
 import { Button, Icon } from 'react-native-elements';
 
 var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/personal.jpeg');
+const image = require('../assets/images/banners/personal.png');
 
 export default class OrdersScreen extends React.Component {
   static navigationOptions = {
