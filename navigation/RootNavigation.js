@@ -1,19 +1,37 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 import PrescribedScreen from '../screens/PrescribedScreen';
+import EverydayScreen from '../screens/EverydayScreen';
+import PersonalScreen from '../screens/PersonalScreen';
+import DiabetesScreen from '../screens/DiabetesScreen';
+import NaturalScreen from '../screens/NaturalScreen';
+import BabyScreen from '../screens/BabyScreen';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
-    },
-    
+    },  
     PrescribedScreen:{
       screen: PrescribedScreen,
+    },
+    EverydayScreen:{
+      screen: EverydayScreen,
+    },
+    PersonalScreen:{
+      screen: PersonalScreen,
+    },
+    DiabetesScreen:{
+      screen: DiabetesScreen,
+    },
+    NaturalScreen:{
+      screen: NaturalScreen,
+    },
+    BabyScreen:{
+      screen: BabyScreen,
     },
   },
   {
