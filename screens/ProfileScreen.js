@@ -51,21 +51,10 @@ export default class ProfileScreen extends React.Component {
       password:'',
       textLength:'',
       otpLength:'',
-      otp:'',
     };
   }
 
-  verifyOTP(){
-    if(this.state.otp === '123456'){
-      console.log("OTP verified");
-      this.setState({ visibleModal:null })
-    }
-    else{
-      console.log("Wrong OTP");
-    }
-  }
-
-  /*_renderOTPModalContent = () => (
+  _renderOTPModalContent = () => (
     <View style={ styles.modalContentSignUp }>
       <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
         <Text style={ styles.account }>VERIFY OTP</Text>
@@ -84,25 +73,22 @@ export default class ProfileScreen extends React.Component {
             fontWeight={`bold`}
             maxLength = {6}
             autoFocus= {true}
-            onChangeText={(otp) => this.setState({ otp: otp ,otpLength: otp.length })}
+            onChangeText={(number) => this.setState({ otpLength: number.length })}
           />
         </Item>
         <Button
-          raised
-          disabled={ this.state.otpLength===6 ? (false):(true) }
-          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-          buttonStyle={{ backgroundColor: '#03a9f4'}}
-          textStyle={{textAlign: 'center'}}
-          fontWeight={'bold'}
-          title={ this.state.otpLength===6 ? (`VERIFY AND PROCEED`):(`ENTER OTP`) }
-          onPress={() => 
-            //this.setState({ visibleModal: 4 ,textLength:0 })
-            {this.verifyOTP()}
-          }
-        />
+            raised
+            disabled={ this.state.otpLength===6 ? (false):(true) }
+            containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+            buttonStyle={{ backgroundColor: '#03a9f4'}}
+            textStyle={{textAlign: 'center'}}
+            fontWeight={'bold'}
+            title={ this.state.otpLength===6 ? (`CONTINUE`):(`ENTER OTP`) }
+            //onPress={() => this.setState({ visibleModal: 4 ,textLength:0 })}
+            />
       </View>
     </View>
-  )*/
+  )
 
   _renderLoginModalContent = () => (
       <View style={ styles.modalContentLogin }>
@@ -250,7 +236,7 @@ export default class ProfileScreen extends React.Component {
                     type='MaterialIcons'
                     color='#666666'
                     size={28}
-                  />
+                    />
               </ListItem>
             </List>
           </View>
@@ -278,7 +264,7 @@ export default class ProfileScreen extends React.Component {
           {this._renderSignUpModalContent()}
         </Modal>
 
-        {/*<Modal 
+        <Modal 
           isVisible={this.state.visibleModal === 3} 
           style={ styles.bottomModalSignUp } 
           backdropOpacity={0} 
@@ -287,7 +273,7 @@ export default class ProfileScreen extends React.Component {
           animationOut={ 'slideOutRight' }
           >
           {this._renderOTPModalContent()}
-        </Modal>*/}
+        </Modal>
         
         {/*<View style={styles.container2}>
           <ScrollView>
