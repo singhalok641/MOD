@@ -61,13 +61,13 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
-  openProgress() {
+  /*openProgress() {
     this.setState({ showProgress: true })
     setTimeout(
       () => this.setState({ showProgress: false }),
         3000
     );
-  }
+  }*/
 
   verifyToken(){
     fetch(`http://192.168.42.85:8082/stores/users/${this.state.auth.user._id}/verify`, {
@@ -89,11 +89,18 @@ export default class ProfileScreen extends React.Component {
         //AsyncStorage.setItem("token",this.state.auth.token);
       });*/
       console.log(responseJson);
+      if(responseJson.success === true){
+        alert("You are signed up! :)");
+      }
+      else{
+        alert(responseJson.message);
+      }
     });
   }
 
   signUp(){
-    this.openProgress();
+    //this.openProgress();
+    this.setState({ showProgress: true });
     fetch('http://192.168.42.85:8082/stores/users', {
       method: 'POST',
       headers: {
@@ -112,16 +119,16 @@ export default class ProfileScreen extends React.Component {
         this.setState({
           auth: responseJson
          }, function() {
+          this.setState({ showProgress: false })
           console.log(this.state.auth);
-          console.log(this.state.auth.user._id);
           if(this.state.auth.success === true){
             //{this.sendVerificationToken()}
             this.setState({ 
               visibleModal: 3, 
-              email:'', 
-              name:'', 
-              password:'', 
-              number:'',
+              //email:'', 
+              //name:'', 
+              //password:'', 
+              //number:'',
             });
           }
           else{
@@ -202,7 +209,7 @@ export default class ProfileScreen extends React.Component {
   _renderOTPModalContent = () => (
     <View style={ styles.modalContentSignUp }>
       <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
-        <Text style={ styles.account }>VERIFY OTP</Text>
+        <Text style={ styles.account }>VERIFY DETAILS</Text>
         <Text note>OTP sent to {this.state.number}</Text>
       </View>
       <View style={{ paddingTop:20, paddingLeft:15, paddingRight:15, paddingBottom:40 }}>
@@ -228,7 +235,7 @@ export default class ProfileScreen extends React.Component {
           buttonStyle={{ backgroundColor: '#03a9f4'}}
           textStyle={{textAlign: 'center'}}
           fontWeight={'bold'}
-          title={ this.state.otpLength===6 ? (`CONTINUE`):(`ENTER OTP`) }
+          title={ this.state.otpLength===6 ? (`VERIFY AND PROCEED`):(`ENTER OTP`) }
           onPress={() => {this.verifyToken()}}
         />
       </View>
@@ -352,7 +359,7 @@ export default class ProfileScreen extends React.Component {
       <Button
         raised
         large
-        disabled={ (this.state.email!='' && this.state.name!='' && this.state.password.length>=6) ? (false):(true) }
+        //disabled={ (this.state.email!='' && this.state.name!='' && this.state.password.length>=6) ? (false):(true) }
         containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
         buttonStyle={{ backgroundColor: '#03a9f4'}}
         textStyle={{textAlign: 'center'}}
