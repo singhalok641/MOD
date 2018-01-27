@@ -90,6 +90,7 @@ export default class HomeScreen extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ location });
+    console.log(this.state.location);
 
     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
       .then((response) => response.json())
@@ -285,8 +286,8 @@ export default class HomeScreen extends React.Component {
             <Container style={{paddingLeft: 0, flexDirection: 'column' }}>
               <Icon
                 iconStyle={{ alignSelf:'center', marginBottom:0}}
-                name='camera-alt'
-                type='MaterialIcons'
+                name='camera'
+                type='entypo'
                 color='#808080'
                 size={39}/>
               <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Camera</Text>  

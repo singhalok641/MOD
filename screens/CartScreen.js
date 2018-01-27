@@ -22,7 +22,7 @@ import {
   Card,
   CardItem } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
-import Modal from 'react-native-modalbox';
+import Modal from 'react-native-modal';
 
 const image = require('../assets/images/whis.jpg');
 
@@ -91,34 +91,46 @@ export default class CartScreen extends React.Component {
       });
   }
 
+  _renderOffers = () => (
+    <View style={ styles.modalOffers }>
+      <Header style={{  backgroundColor:'#fff' }}>
+        <View style={ styles.headerViewStyle }>
+        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+          <Icon
+            iconStyle={{ alignSelf:'center', marginLeft:10 }}
+            size={23}
+            name='arrow-back'
+            type='materialicons'
+            color='#555555'
+            onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          />
+          <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
+        </View>
+        </View>
+      </Header>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+          <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
+          <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
+        </ScrollView>
+      </View>
+    </View>
+    )
+
   render() {
     return (
       <Container>
 
-        <Modal style={ styles.modal } position={"top"} ref={"offers"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <Header style={{  backgroundColor:'#fff' }}>
-            <View style={ styles.headerViewStyle }>
-              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-                <Icon
-                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
-                  size={23}
-                  name='arrow-back'
-                  type='materialicons'
-                  color='#555555'
-                  onPress={() => this.refs.offers.close()}
-                />
-                <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
-              </View>
-            </View>
-          </Header>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.container}
-              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-              <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
-              <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
-            </ScrollView>
-          </View>
+        <Modal
+          isVisible={ this.state.visibleModal === 1 } 
+          style={ styles.bottomModalOffers } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }>
+          {this._renderOffers()}
         </Modal>
 
       	<Header style={{  backgroundColor:'#fff' }}>
@@ -196,7 +208,7 @@ export default class CartScreen extends React.Component {
               <View style={{marginLeft:10,marginRight:10}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>Coupon Discount</Text>
-                  <Text onPress={() => this.refs.offers.open()} style={styles.coupon}>APPLY</Text>
+                  <Text onPress={() => this.setState({ visibleModal: 1 })} style={styles.coupon}>APPLY</Text>
                 </View>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>Delivery Charges</Text>
@@ -265,6 +277,12 @@ const styles = StyleSheet.create({
     justifyContent : 'center',
     alignContent : 'center'
   },
+  modalOffers: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
   price_text:{
     fontSize:13,
     color:'#555555',
@@ -313,6 +331,10 @@ const styles = StyleSheet.create({
 	  width: 75, 
 	  height: 75 
 	},
+  bottomModalOffers: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
   pro_name:{
     fontSize :13,
     paddingLeft:5
