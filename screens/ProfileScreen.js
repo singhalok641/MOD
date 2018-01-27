@@ -31,10 +31,11 @@ import {
   Card,
   CardItem,
   Label } from 'native-base';
-
 import { Button, Icon,  } from 'react-native-elements';
 import Modal from "react-native-modal";
-import Frisbee from 'frisbee';
+import { ProgressDialog } from 'react-native-simple-dialogs';
+import Display from 'react-native-display';
+//import Toast from 'react-native-smart-toast';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -49,15 +50,166 @@ export default class ProfileScreen extends React.Component {
       email:'',
       name:'',
       password:'',
+      passLength:'',
       textLength:'',
       otpLength:'',
+      otpCode:'',
+      auth:{},
+      message:'',
+      loginResponse:'',
+      isExists:false,
     };
+  }
+
+  /*openProgress() {
+    this.setState({ showProgress: true })
+    setTimeout(
+      () => this.setState({ showProgress: false }),
+        3000
+    );
+  }*/
+
+  verifyToken(){
+    fetch(`http://192.168.42.85:8082/stores/users/${this.state.auth.user._id}/verify`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code:this.state.otpcode,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+        /*this.setState({
+          message: responseJson
+        }, function() {
+          console.log(this.state.auth);
+        //AsyncStorage.setItem("token",this.state.auth.token);
+      });*/
+      console.log(responseJson);
+      if(responseJson.success === true){
+        alert("You are signed up! :)");
+      }
+      else{
+        alert(responseJson.message);
+      }
+    });
+  }
+
+  signUp(){
+    //this.openProgress();
+    this.setState({ showProgress: true });
+    fetch('http://192.168.42.85:8082/stores/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullName: this.state.name,
+        email: this.state.email,
+        phone: this.state.number,
+        password: this.state.password,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+        this.setState({
+          auth: responseJson
+         }, function() {
+          this.setState({ showProgress: false })
+          console.log(this.state.auth);
+          if(this.state.auth.success === true){
+            //{this.sendVerificationToken()}
+            this.setState({ 
+              visibleModal: 3, 
+              //email:'', 
+              //name:'', 
+              //password:'', 
+              //number:'',
+            });
+          }
+          else{
+            /*{this._showBottomToast}*/
+            console.log(this.state.auth.error);
+          }
+        //AsyncStorage.setItem("token",this.state.auth.token);
+      });
+    });
+  }
+
+  login(){
+    //console.log(this.state.isExists);
+    if(!this.state.isExists) {
+      fetch(`http://192.168.42.85:8082/stores/users/${this.state.number}/userExists`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          loginResponse: responseJson
+         }, function() {
+          if(this.state.loginResponse.success === true){
+            console.log("user exists");
+            this.setState({
+              isExists:true
+            });
+          }
+          else {
+            console.log('user doesnt exists');
+            this.setState({
+              visibleModal: 4,
+              textLength:0,
+            });
+          }
+        });
+      }); 
+    }
+    else{
+      fetch(`http://192.168.42.85:8082/stores/users/login`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone: this.state.number,
+          password: this.state.password,
+        })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          loginResponse: responseJson
+         }, function() {
+          if(this.state.loginResponse.success === true){
+            console.log("password verified");
+            /*this.setState({
+              isExists:true
+            });*/
+          }
+          else {
+            console.log('wrong password');
+            /*this.setState({
+              visibleModal: 4,
+              textLength:0,
+            });*/
+          }
+        });
+      }); 
+    }
   }
 
   _renderOTPModalContent = () => (
     <View style={ styles.modalContentSignUp }>
       <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
-        <Text style={ styles.account }>VERIFY OTP</Text>
+        <Text style={ styles.account }>VERIFY DETAILS</Text>
         <Text note>OTP sent to {this.state.number}</Text>
       </View>
       <View style={{ paddingTop:20, paddingLeft:15, paddingRight:15, paddingBottom:40 }}>
@@ -73,128 +225,165 @@ export default class ProfileScreen extends React.Component {
             fontWeight={`bold`}
             maxLength = {6}
             autoFocus= {true}
-            onChangeText={(number) => this.setState({ otpLength: number.length })}
+            onChangeText={(otp) => this.setState({ otpLength:otp.length, otpCode:otp })}
           />
         </Item>
         <Button
-            raised
-            disabled={ this.state.otpLength===6 ? (false):(true) }
-            containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-            buttonStyle={{ backgroundColor: '#03a9f4'}}
-            textStyle={{textAlign: 'center'}}
-            fontWeight={'bold'}
-            title={ this.state.otpLength===6 ? (`CONTINUE`):(`ENTER OTP`) }
-            //onPress={() => this.setState({ visibleModal: 4 ,textLength:0 })}
-            />
+          raised
+          disabled={ this.state.otpLength===6 ? (false):(true) }
+          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+          buttonStyle={{ backgroundColor: '#03a9f4'}}
+          textStyle={{textAlign: 'center'}}
+          fontWeight={'bold'}
+          title={ this.state.otpLength===6 ? (`VERIFY AND PROCEED`):(`ENTER OTP`) }
+          onPress={() => {this.verifyToken()}}
+        />
       </View>
     </View>
   )
 
   _renderLoginModalContent = () => (
-      <View style={ styles.modalContentLogin }>
+    <View style={ styles.modalContentLogin }>
+      <View style={{ paddingTop:10, paddingLeft:15, paddingRight:15, paddingBottom:10, backgroundColor:'#e5f6fd' }}>
         <Text style={ styles.account }>LOGIN</Text>
         <Text note>Enter your phone number to proceed</Text>
-        <View style={{ marginTop:20 }}>
-          <Text note>PHONE NUMBER</Text>
-          <Item>
-            <Input 
-              keyboardType = 'numeric' 
-              returnKeyType="next"
-              autoFocus={true} 
-              fontWeight={`bold`}
-              maxLength = {10}
-              onChangeText={(number) => this.setState({number: number, textLength: number.length })}
-              />
-          </Item>
-          <Button
-            raised
-            disabled={ this.state.textLength===10 ? (false):(true) }
-            containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-            buttonStyle={{ backgroundColor: '#03a9f4'}}
-            textStyle={{textAlign: 'center'}}
-            fontWeight={'bold'}
-            title={ this.state.textLength===10 ? (`CONTINUE`):(`ENTER PHONE NUMBER`) }
-            onPress={() => this.setState({ visibleModal: 4 ,textLength:0 })}
-            />
-        </View>
       </View>
-  )
-
-  _renderSignUpModalContent = () => (
-      <View style={ styles.modalContentSignUp }>
-        <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
-          <Text style={ styles.account }>SIGN UP</Text>
-          <Text note>Create an account with the new phone number</Text>
-        </View>
-        <ScrollView style={{flex:1, flexDirection:'column', paddingTop:0, paddingLeft:0, paddingRight:0, paddingBottom:40 }}>
-          <View style={{flex:1, flexDirection:'column', paddingTop:20, paddingLeft:15, paddingRight:15, paddingBottom:40 }}>
-            <KeyboardAvoidingView
-              style={ styles.modalContentSignUp }
-              behavior="padding">
-              <Form>
-                <Item stackedLabel>
-                  <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>PHONE NUMBER</Label>
-                  <Input 
-                    keyboardType = 'numeric'
-                    maxLength = {10}
-                    returnKeyType="next"
-                    value={this.state.number}
-                    fontWeight={`bold`}
-                    onChangeText={(number) => this.setState({number})}
-                    editable={false}
-                    />
-                </Item>
-                <Item stackedLabel style={{ paddingTop:20 }}>
-                  <Label style={{ fontWeight:'bold', fontSize:12 }}>EMAIL ADDRESS</Label>
-                  <Input 
-                    returnKeyType="next"
-                    fontWeight={`bold`}
-                    onChangeText={(email) => this.setState({email})}
-                    />
-                </Item>
-                <Item stackedLabel style={{ paddingTop:20 }}>
-                  <Label style={{ fontWeight:'bold', fontSize:12 }}>NAME</Label>
-                  <Input 
-                    returnKeyType="next"
-                    fontWeight={`bold`}
-                    onChangeText={(name) => this.setState({name})}
-                    />
-                </Item>
-                <Item stackedLabel style={{ paddingTop:20 }}>
+      <ScrollView style={{flex:1, flexDirection:'column', paddingTop:0, paddingLeft:0, paddingRight:0, paddingBottom:0 }}>
+        <View style={{ flex:1, flexDirection:'column', paddingTop:10, paddingLeft:0, paddingRight:0, paddingBottom:0 }}>
+          <KeyboardAvoidingView
+            style={ styles.modalContentLogin }
+            behavior="padding">
+            <Form>
+              <Item stackedLabel>
+                <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>PHONE NUMBER</Label>
+                <Input 
+                  keyboardType = 'numeric' 
+                  returnKeyType="next"
+                  autoFocus={true} 
+                  fontWeight={`bold`}
+                  maxLength = {10}
+                  editable = {!this.state.isExists}
+                  onChangeText={(number) => this.setState({ number: number, textLength: number.length })}
+                />
+              </Item>
+              <Display enable={this.state.isExists}>
+                <Item stackedLabel style={{ paddingTop:10 }} >
                   <Label style={{ fontWeight:'bold', fontSize:12 }}>PASSWORD</Label>
                   <Input 
                     returnKeyType="next"
                     secureTextEntry
                     fontWeight={`bold`}
-                    onChangeText={(password) => this.setState({password})}
-                    />
+                    autoFocus={this.state.isExists}
+                    onChangeText={(password) => this.setState({ password:password, passLength: password.length })}
+                  />
                 </Item>
-              </Form>
-              <Text note style={{ paddingTop: 20 ,fontSize:12 }}>By creating an account, I accept the Terms and Conditions</Text>
-            </KeyboardAvoidingView>
-          </View>
-        </ScrollView>
-        <Button
-          raised
-          large
-          disabled={ (this.state.email!='' && this.state.name!='' && this.state.password.length>=6) ? (false):(true) }
-          containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-          buttonStyle={{ backgroundColor: '#03a9f4'}}
-          textStyle={{textAlign: 'center'}}
-          fontWeight={'bold'}
-          title={`SIGN UP`}
-          onPress={() => this.setState({ visibleModal: 3, email:'', name:'', password:'', number:'' })}
-        />
-      </View>   
+              </Display>
+            </Form>
+          </KeyboardAvoidingView>
+        </View>
+      </ScrollView>
+      <Button
+        raised
+        large
+        disabled={ this.state.isExists===false ? (this.state.textLength===10 ? (false):(true)):(this.state.passLength>0 ? (false):(true)) }
+        containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+        buttonStyle={{ backgroundColor: '#03a9f4'}}
+        textStyle={{textAlign: 'center'}}
+        fontWeight={'bold'}
+        title={ this.state.isExists===false ? (this.state.textLength===10 ? (`CONTINUE`):(`ENTER PHONE NUMBER`)):(this.state.passLength>0 ? (`LOGIN`):(`ENTER PASSWORD`)) }
+        onPress={() => this.login() }
+      />
+    </View>
   )
 
-  _renderButton = (text, onPress) => (
+  _renderSignUpModalContent = () => (
+    <View style={ styles.modalContentSignUp }>
+      <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
+        <Text style={ styles.account }>SIGN UP</Text>
+        <Text note>Create an account with the new phone number</Text>
+      </View>
+      <ScrollView style={{flex:1, flexDirection:'column', paddingTop:0, paddingLeft:0, paddingRight:0, paddingBottom:40 }}>
+        <View style={{ flex:1, flexDirection:'column', paddingTop:20, paddingLeft:15, paddingRight:15, paddingBottom:40 }}>
+          <KeyboardAvoidingView
+            style={ styles.modalContentSignUp }
+            behavior="padding">
+            <Form>
+              <Item stackedLabel>
+                <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>PHONE NUMBER</Label>
+                <Input 
+                  keyboardType = 'numeric'
+                  maxLength = {10}
+                  returnKeyType="next"
+                  value={this.state.number}
+                  fontWeight={`bold`}
+                  onChangeText={(number) => this.setState({number})}
+                  editable={false}
+                />
+              </Item>
+              <Item stackedLabel style={{ paddingTop:20 }}>
+                <Label style={{ fontWeight:'bold', fontSize:12 }}>EMAIL ADDRESS</Label>
+                <Input 
+                  returnKeyType="next"
+                  fontWeight={`bold`}
+                  onChangeText={(email) => this.setState({email})}
+                />
+              </Item>
+              <Item stackedLabel style={{ paddingTop:20 }}>
+                <Label style={{ fontWeight:'bold', fontSize:12 }}>NAME</Label>
+                <Input 
+                  returnKeyType="next"
+                  fontWeight={`bold`}
+                  onChangeText={(name) => this.setState({name})}
+                />
+              </Item>
+              <Item stackedLabel style={{ paddingTop:20 }}>
+                <Label style={{ fontWeight:'bold', fontSize:12 }}>PASSWORD</Label>
+                <Input 
+                  returnKeyType="next"
+                  secureTextEntry
+                  fontWeight={`bold`}
+                  onChangeText={(password) => this.setState({password})}
+                />
+              </Item>
+            </Form>
+            <Text note style={{ paddingTop: 20 ,fontSize:12 }}>By creating an account, I accept the Terms and Conditions</Text>
+          </KeyboardAvoidingView>
+        </View>
+        <ProgressDialog
+          visible={this.state.showProgress}
+          message="Loading..."
+          activityIndicatorSize="large"
+          activityIndicatorColor="#03a9f4"
+        />
+      </ScrollView>
+      <Button
+        raised
+        large
+        //disabled={ (this.state.email!='' && this.state.name!='' && this.state.password.length>=6) ? (false):(true) }
+        containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+        buttonStyle={{ backgroundColor: '#03a9f4'}}
+        textStyle={{textAlign: 'center'}}
+        fontWeight={'bold'}
+        title={`SIGN UP`}
+        onPress={() => {this.signUp()} }
+      />
+    </View>   
+  )
+
+  /*_renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
         <Text>{text}</Text>
       </View>
     </TouchableOpacity>
-  )
+  )*/
+
+  /*_showBottomToast = () => {
+    this._toast.show({
+      position: Toast.constants.gravity.bottom,
+      children: this.state.auth.error,
+    });
+  };*/
 
   render() {
     return (
@@ -247,9 +436,9 @@ export default class ProfileScreen extends React.Component {
         <Modal 
           isVisible={ this.state.visibleModal === 5 } 
           style={ styles.bottomModalLogin } 
-          backdropOpacity={0} 
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'' })}
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
           animationOut={ 'slideOutRight' }
           >
           {this._renderLoginModalContent()}
@@ -587,14 +776,10 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   modalContentLogin: {
-    flex: 0.5,
+    flex: 0.8,
     flexDirection: 'column',
     backgroundColor: 'white',
-    padding: 22,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    paddingLeft: 15, 
-    paddingRight: 15, 
-    paddingTop:20
   },
   modalContentSignUp: {
     flex: 1,
@@ -610,7 +795,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40,
     fontWeight: 'bold',
-    //fontFamily: 'Courier'
-    //color: brandColor
   },
 });
