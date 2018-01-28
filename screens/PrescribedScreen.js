@@ -52,10 +52,18 @@ export default class PrescribedScreen extends React.Component {
         <View>
           <View style={styles.banner}>
             <Image resizeMode='contain' style={styles.banner_image} source={image}/>
-          </View>
+            <Icon
+              iconStyle={{ marginLeft:20, paddingTop:11 ,alignSelf : 'flex-start'}}
+              size={25}
+              name='arrow-back'
+              type='materialicons'
+              color='#ffffff'
+            />
+          </View>   
         </View>
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <Text style={{paddingLeft: 4, paddingTop:3,fontSize:17, color: '#555555', fontWeight: 'bold'}}>Prescribed Medicines</Text>
             <View style={{alignItems : 'center',paddingTop:8,justifyContent : 'flex-start', marginBottom: 18}}>
               <Card style={styles.options}>
@@ -100,11 +108,12 @@ const styles = StyleSheet.create({
   banner:{
     height:110,
     backgroundColor: '#fff',
-    alignItems : 'center',
+    
     justifyContent : 'flex-start',
   },
   banner_image:{
     height :112,
+    position : 'absolute',
     alignSelf : 'center',
     justifyContent : 'center'
   },

@@ -167,7 +167,7 @@ export default class HomeScreen extends React.Component {
               />
             </View>
             <View style={{ flex:6, marginTop:0 ,marginLeft:5, marginRight:0, flexDirection:'column', justifyContent:'space-around' }} >  
-              <Text style = {{ marginTop: 20 ,fontSize:10, color: '#03a9f4', fontWeight: 'bold', marginLeft:10, marginBottom:0 }}>SET DELIVERY LOCATION</Text>
+              <Text style = {{ marginTop: 20 ,fontSize:12, color: '#03a9f4', fontWeight: 'bold', marginLeft:10 }}>SET DELIVERY LOCATION</Text>
               <GooglePlacesAutocomplete
                 placeholder='Search for area, street name... '
                 minLength={3} // minimum length of text to search

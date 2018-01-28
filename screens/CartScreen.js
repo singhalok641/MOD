@@ -22,6 +22,7 @@ import {
   Card,
   CardItem } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
+import Modal from 'react-native-modalbox';
 
 const image = require('../assets/images/whis.jpg');
 
@@ -93,7 +94,34 @@ export default class CartScreen extends React.Component {
 
   render() {
     return (
-      <Container>  
+      <Container>
+
+        <Modal style={ styles.modal } position={"top"} ref={"offers"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
+          <Header style={{  backgroundColor:'#fff' }}>
+            <View style={ styles.headerViewStyle }>
+              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+                <Icon
+                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
+                  size={23}
+                  name='arrow-back'
+                  type='materialicons'
+                  color='#555555'
+                  onPress={() => this.refs.offers.close()}
+                />
+                <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
+              </View>
+            </View>
+          </Header>
+          <View style={styles.container}>
+            <ScrollView
+              style={styles.container}
+              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+              <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
+              <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
+            </ScrollView>
+          </View>
+        </Modal>
+
       	<Header style={{  backgroundColor:'#fff' }}>
           <View style={ styles.headerViewStyle }>
             <View style={{ marginTop:0 ,marginLeft:0, marginRight:0 , flexDirection: 'row', alignItems: 'center'  }}>
@@ -110,7 +138,7 @@ export default class CartScreen extends React.Component {
             style={styles.container}
             contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <View>
-            	<Text style={{fontSize:13,color :'#03a9f4'}}>Items requiring prescriptions (1)</Text>
+            	<Text style={{fontSize:13,color :'#03a9f4',paddingLeft:10}}>Items requiring prescriptions (1)</Text>
             	<List>
             		<ListItem>
                 
@@ -121,10 +149,9 @@ export default class CartScreen extends React.Component {
                         <Text style={styles.pro_name}>Whisper Ultra Nights Wings Sanitary Pads Pack of 2</Text>
                       </View>
                       <Text note style={styles.descrip}>packet of 5 pads</Text>
-                    </View>
-                    <View style={{justifyContent : 'flex-end'}}>
-                      <Text style={{flex:1, fontSize : 14, paddingTop: 8,color:'#4d4d4d'}}>₹ 300</Text>
-                      <View style={{flexDirection : 'row',alignItems : 'center'}}>
+                      <View style={{justifyContent : 'center',alignItems : 'center',flexDirection : 'row',paddingLeft:5,paddingTop:5}}>
+                        <Text style={{ flex:1,fontSize : 14,color:'#4d4d4d',alignSelf : 'flex-end',paddingBottom:2}}>₹ 300</Text>
+                        <View style={{flexDirection : 'row',alignItems : 'center'}}>
                         <View style={styles.button}>
                           <Text style={{fontSize : 17,fontWeight : 'bold'}}> - </Text>  
                         </View>
@@ -133,7 +160,9 @@ export default class CartScreen extends React.Component {
                           <Text style={{fontSize : 17,color : '#03a9f4',fontWeight : 'bold'}}> + </Text>
                         </View>
                       </View>
+                      </View>
                     </View>
+                    
                   </View>
                 
                 </ListItem>
@@ -141,7 +170,7 @@ export default class CartScreen extends React.Component {
 					    </List>
             </View>
             <View style={{paddingTop:10}}>
-            	<Text style={{fontSize:13,color :'#03a9f4'}}>Items not requiring prescriptions (1)</Text>
+            	<Text style={{fontSize:13,color :'#03a9f4',paddingLeft:10}}>Items not requiring prescriptions (1)</Text>
             	<List>
                 
             	</List>
@@ -168,7 +197,7 @@ export default class CartScreen extends React.Component {
               <View style={{marginLeft:10,marginRight:10}}>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>Coupon Discount</Text>
-                  <Text style={styles.coupon}>APPLY</Text>
+                  <Text onPress={() => this.refs.offers.open()} style={styles.coupon}>APPLY</Text>
                 </View>
                 <View style={{flexDirection : 'row',justifyContent : 'space-between',alignItems : 'center'}}>
                   <Text style={styles.price_text}>Delivery Charges</Text>
@@ -201,7 +230,7 @@ export default class CartScreen extends React.Component {
           title={`CONFIRM YOUR ORDER`}
           fontWeight={'bold'}
           fontSize = {17} 
-          onPress={this.sendNotification}
+          
         />
       </Container>
     );
@@ -212,8 +241,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 6,
+    paddingRight: 6,
     paddingTop:10,
   },
   headerViewStyle:{
@@ -228,10 +257,10 @@ const styles = StyleSheet.create({
 
   },
   button:{
-    height:20,
-    width:20,
+    height:21,
+    width:21,
     borderWidth:1,
-    borderRadius : 20,
+    borderRadius : 21,
     borderColor : '#555555',
     alignItems : 'center',
     justifyContent : 'center',
@@ -260,17 +289,22 @@ const styles = StyleSheet.create({
     paddingBottom:4
   },
   buttons:{
-    height:22,
-    width:22,
+    height:21,
+    width:21,
     borderWidth:1,
-    borderRadius : 20,
+    borderRadius : 21,
     borderColor : '#03a9f4',
     alignItems : 'center',
     justifyContent : 'center',
     alignContent : 'center'
   },
   pricing:{
-    paddingTop: 10
+    paddingLeft:13,
+    paddingRight:13,
+    paddingTop: 13
+  },
+  modal: {
+    justifyContent: 'flex-start',
   },
   view: {
     flexDirection:'row',
