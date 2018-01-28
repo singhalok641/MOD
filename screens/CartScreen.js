@@ -40,7 +40,7 @@ export default class CartScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    fetch(`http://192.168.0.105:8082/stores/list-token-device`,{
+    fetch(`http://192.168.42.85:8082/stores/list-token-device`,{
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -62,7 +62,7 @@ export default class CartScreen extends React.Component {
   }
 
   sendNotification = async () => {
-    fetch('http://192.168.0.105:8082/stores/push-notification', {
+    fetch('http://192.168.42.85:8082/stores/push-notification', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -79,6 +79,7 @@ export default class CartScreen extends React.Component {
         this.setState({
           result: responseJson
         }, function() {
+          console.log(this.state.result);
           if(this.state.result.status === 'ok'){
             console.log('notified');
           }

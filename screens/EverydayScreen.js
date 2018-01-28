@@ -8,7 +8,7 @@ import {
   View,
   TextInput,
   Dimensions,
-} from 'react-native';
+  TouchableHighlight, } from 'react-native';
 import { 
   Container, 
   Header, 
@@ -61,25 +61,27 @@ export default class EverydayScreen extends React.Component {
       				<Card style={styles.options}>
       					<Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>First Aid</Text>
       					<View style={{paddingRight:15}}>
-      					<Icon
-  							size={26}
-  							name='first-aid'
-  							type='foundation'
-  							color='#f44336'
-  						/>
-  						</View>
+        					<Icon
+      							size={26}
+      							name='first-aid'
+      							type='foundation'
+      							color='#f44336'
+    						  />
+  						  </View>
       				</Card>
-      				<Card style={styles.options}>
-      					<Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Women's Care</Text>
-      					<View style={{paddingRight:15}}>
-      					<Icon
-  							size={26}
-  							name='gender-female'
-  							type='material-community'
-  							color='#f78da7'
-  						/>
-  						</View>
-      				</Card>
+        			<Card style={styles.options}>
+              <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+        				<Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Women's Care</Text>
+              </TouchableHighlight>
+        				<View style={{paddingRight:15}}>
+          				<Icon
+        						size={26}
+        						name='gender-female'
+      							type='material-community'
+      							color='#f78da7'
+    						  />
+  						  </View>
+        			</Card>
       				<Card style={styles.options}>
       					<Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Men's Care</Text>
       					<View style={{paddingRight:15}}>

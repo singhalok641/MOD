@@ -9,6 +9,7 @@ import PersonalScreen from '../screens/PersonalScreen';
 import DiabetesScreen from '../screens/DiabetesScreen';
 import NaturalScreen from '../screens/NaturalScreen';
 import BabyScreen from '../screens/BabyScreen';
+import WomenCareScreen from '../screens/WomenCare';
 
 const RootStackNavigator = StackNavigator(
   {
@@ -33,6 +34,9 @@ const RootStackNavigator = StackNavigator(
     BabyScreen:{
       screen: BabyScreen,
     },
+    WomenCareScreen:{
+      screen: WomenCareScreen,
+    }
   },
   {
     navigationOptions: () => ({

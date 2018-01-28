@@ -61,14 +61,6 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
-  /*openProgress() {
-    this.setState({ showProgress: true })
-    setTimeout(
-      () => this.setState({ showProgress: false }),
-        3000
-    );
-  }*/
-
   verifyToken(){
     fetch(`http://192.168.42.85:8082/stores/users/${this.state.auth.user._id}/verify`, {
       method: 'POST',
@@ -91,6 +83,9 @@ export default class ProfileScreen extends React.Component {
       console.log(responseJson);
       if(responseJson.success === true){
         alert("You are signed up! :)");
+        this.setState({
+          visibleModal:null
+        });
       }
       else{
         alert(responseJson.message);
@@ -189,12 +184,14 @@ export default class ProfileScreen extends React.Component {
           loginResponse: responseJson
          }, function() {
           if(this.state.loginResponse.success === true){
+            alert("You are logged in");
             console.log("password verified");
-            /*this.setState({
-              isExists:true
-            });*/
+            this.setState({
+              visibleModal:null
+            });
           }
           else {
+            alert("Sorry! Wrong password");
             console.log('wrong password');
             /*this.setState({
               visibleModal: 4,
