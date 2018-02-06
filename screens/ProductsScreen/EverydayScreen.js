@@ -25,8 +25,7 @@ import {
 import { Button, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
-var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/first-aid.png');
+const image = require('../../assets/images/banners/first-aid.png');
 
 export default class EverydayScreen extends React.Component {
   static navigationOptions = {
@@ -35,17 +34,7 @@ export default class EverydayScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selected1: "key0"
-    };
   } 
-
-  onValueChange(value: string) {
-    this.setState({
-      selected1: value
-    });
-  }
-
 
   render() {
     const { navigate } = this.props.navigation;
@@ -81,15 +70,17 @@ export default class EverydayScreen extends React.Component {
               </Card>
               
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Women's Care</Text>
+                <TouchableHighlight onPress={() => navigate('WomenCareScreen')} underlayColor='#dbdbdb' >
+                  <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Women's Care</Text>
+                </TouchableHighlight>
                 <View style={{paddingRight:15}}>
-                <Icon
-                size={26}
-                name='gender-female'
-                type='material-community'
-                color='#f78da7'
-              />
-              </View>
+                  <Icon
+                    size={26}
+                    name='gender-female'
+                    type='material-community'
+                    color='#f78da7'
+                  />
+                </View>
               </Card>
               
               <Card style={styles.options}>

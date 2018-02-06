@@ -24,19 +24,15 @@ import {
   CardItem } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
 
-var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/prescribed.jpeg');
+const image = require('../../assets/images/banners/baby.png');
 
-export default class PrescribedScreen extends React.Component {
+export default class BabyScreen extends React.Component {
   static navigationOptions = {
     header:null,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      selected1: "key0"
-    };
   } 
 
   onValueChange(value: string) {
@@ -59,31 +55,31 @@ export default class PrescribedScreen extends React.Component {
               type='materialicons'
               color='#ffffff'
             />
-          </View>   
+          </View>
         </View>
         <View style={styles.container}>
           <ScrollView style={styles.container}
           contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            <Text style={{paddingLeft: 4, paddingTop:3,fontSize:17, color: '#555555', fontWeight: 'bold'}}>Prescribed Medicines</Text>
+            <Text style={{paddingLeft: 4, paddingTop:3,fontSize:17, color: '#555555', fontWeight: 'bold'}}>Baby and Mother</Text>
             <View style={{alignItems : 'center',paddingTop:8,justifyContent : 'flex-start', marginBottom: 18}}>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Exclusive Brands</Text>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Baby and Child Care</Text>
                 <View style={{paddingRight:14}}>
                 <Icon
                 size={26}
-                name='flash'
+                name='baby-buggy'
                 type='material-community'
                 color='#03a9f4'
               />
               </View>
               </Card>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Health Conditions</Text>
-                <View style={{paddingRight:18}}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Mother Care</Text>
+                <View style={{paddingRight:14}}>
                 <Icon
                 size={26}
-                name='plus'
-                type='foundation'
+                name='heart-half-full'
+                type='material-community'
                 color='#db3e00'
               />
               </View>
@@ -112,9 +108,9 @@ const styles = StyleSheet.create({
     justifyContent : 'flex-start',
   },
   banner_image:{
-    height :112,
-    position : 'absolute',
+    height :130,
     alignSelf : 'center',
+    position : 'absolute',
     justifyContent : 'center'
   },
   options:{

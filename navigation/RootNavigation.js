@@ -3,12 +3,13 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
-import PrescribedScreen from '../screens/PrescribedScreen';
-import EverydayScreen from '../screens/EverydayScreen';
-import PersonalScreen from '../screens/PersonalScreen';
-import DiabetesScreen from '../screens/DiabetesScreen';
-import NaturalScreen from '../screens/NaturalScreen';
-import BabyScreen from '../screens/BabyScreen';
+import PrescribedScreen from '../screens/ProductsScreen/PrescribedScreen';
+import EverydayScreen from '../screens/ProductsScreen/EverydayScreen';
+import PersonalScreen from '../screens/ProductsScreen/PersonalScreen';
+import DiabetesScreen from '../screens/ProductsScreen/DiabetesScreen';
+import NaturalScreen from '../screens/ProductsScreen/NaturalScreen';
+import BabyScreen from '../screens/ProductsScreen/BabyScreen';
+import WomenCareScreen from '../screens/EverydayProducts/WomenCare';
 
 const RootStackNavigator = StackNavigator(
   {
@@ -32,6 +33,9 @@ const RootStackNavigator = StackNavigator(
     },
     BabyScreen:{
       screen: BabyScreen,
+    },
+    WomenCareScreen:{
+      screen: WomenCareScreen,
     },
   },
   {

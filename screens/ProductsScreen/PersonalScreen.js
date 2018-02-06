@@ -24,19 +24,15 @@ import {
   CardItem } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
 
-var screen = Dimensions.get('window');
-const image = require('../assets/images/banners/diabetic.jpg');
+const image = require('../../assets/images/banners/personal.png');
 
-export default class DiabetesScreen extends React.Component {
+export default class OrdersScreen extends React.Component {
   static navigationOptions = {
     header:null,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      selected1: "key0"
-    };
   } 
 
   onValueChange(value: string) {
@@ -64,49 +60,93 @@ export default class DiabetesScreen extends React.Component {
         <View style={styles.container}>
           <ScrollView style={styles.container}
           contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            <Text style={{paddingLeft: 4, paddingTop:3,fontSize:17, color: '#555555', fontWeight: 'bold'}}>Diabetic Care Products</Text>
+            <Text style={{paddingLeft: 4, paddingTop:3,fontSize:17, color: '#555555', fontWeight: 'bold'}}>Personal Care Products</Text>
             <View style={{alignItems : 'center',paddingTop:8,justifyContent : 'flex-start', marginBottom: 18}}>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Foods and Beverages</Text>
-                <View style={{paddingRight:15}}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Elderly Care</Text>
+                <View style={{paddingRight:13}}>
                 <Icon
                 size={26}
-                name='food-variant'
-                type='material-community'
-                color='#2ccce4'
+                name='wheelchair'
+                type='font-awesome'
+                color='#ff5722'
               />
               </View>
               </Card>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Nutrition and Supplements</Text>
-                <View style={{paddingRight:15}}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Hair Care</Text>
+                <View style={{paddingRight:19}}>
                 <Icon
                 size={26}
-                name='food-apple'
-                type='material-community'
-                color='#f44336'
+                name='torso-female'
+                type='foundation'
+                color='#5d4037'
               />
               </View>
               </Card>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Glucose Monitors & Strips</Text>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Skin Care</Text>
                 <View style={{paddingRight:15}}>
                 <Icon
                 size={26}
-                name='monitor'
-                type='material-community'
-                color='#d2ac79'
+                name='feather'
+                type='entypo'
+                color='#d2b179'
               />
               </View>
               </Card>
               <Card style={styles.options}>
-                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Sugar Free</Text>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Body Care</Text>
                 <View style={{paddingRight:15}}>
                 <Icon
                 size={26}
-                name='candycane'
+                name='shield'
+                type='entypo'
+                color='#03a9f4'
+              />
+              </View>
+              </Card>
+              <Card style={styles.options}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Oral Care</Text>
+                <View style={{paddingRight:15}}>
+                <Icon
+                size={24}
+                name='emoji-happy'
+                type='entypo'
+                color='#f78da7'
+              />
+              </View>
+              </Card>
+              <Card style={styles.options}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Facial Care</Text>
+                <View style={{paddingRight:15}}>
+                <Icon
+                size={26}
+                name='tag-faces'
+                type='material'
+                color='#d2ae79'
+              />
+              </View>
+              </Card>
+              <Card style={styles.options}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Lip Care</Text>
+                <View style={{paddingRight:15}}>
+                <Icon
+                size={26}
+                name='duck'
                 type='material-community'
-                color='#ff8a65'
+                color='#eb144c'
+              />
+              </View>
+              </Card>
+              <Card style={styles.options}>
+                <Text style={{paddingLeft: 15,fontSize : 16,color: '#555555',}}>Eye and Ear Care</Text>
+                <View style={{paddingRight:15}}>
+                <Icon
+                size={26}
+                name='eye'
+                type='material-community'
+                color='#555555'
               />
               </View>
               </Card>
@@ -129,11 +169,10 @@ const styles = StyleSheet.create({
   banner:{
     height:110,
     backgroundColor: '#fff',
-    
     justifyContent : 'flex-start',
   },
   banner_image:{
-    height :110,
+    height :112,
     alignSelf : 'center',
     position : 'absolute',
     justifyContent : 'center'
