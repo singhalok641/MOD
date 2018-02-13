@@ -42,11 +42,13 @@ const images = [
 ];
 
 const natural = require('../assets/images/products/natural.png');
-const prescribed = require('../assets/images/products/prescribed.png');
 const baby = require('../assets/images/products/baby.png');
-const everyday = require('../assets/images/products/everyday.png');
 const personal = require('../assets/images/products/personal.png');
 const diabetes = require('../assets/images/products/diabetes.png');
+const health = require('../assets/images/products/health_care.png');
+const devices = require('../assets/images/products/devices.png');
+const food = require('../assets/images/products/food.png');
+const sexual = require('../assets/images/products/sexual.png');
 
 //const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 //const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -139,7 +141,7 @@ export default class HomeScreen extends React.Component {
             <TouchableHighlight style={ styles.addressViewStyle } onPress={() => this.setState({isOpen: true})} underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
                 <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>{this.state.area}</Text>
+                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>HOME</Text>
                   {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/>}             
                 </View>
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>        
@@ -351,13 +353,13 @@ export default class HomeScreen extends React.Component {
               </Card>
               <View style={{marginBottom:35, flexWrap : 'wrap'}}>
                 <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
-                
+
                 <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
                   <View style={{marginTop:7}}>
                     <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
                       <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={prescribed}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Prescribed Meds</Text>
+                        <Image resizeMode = 'contain' style={styles.image} source={personal}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
                       </Card>
                     </TouchableHighlight>
                   </View>
@@ -365,25 +367,25 @@ export default class HomeScreen extends React.Component {
                   <View style={{marginTop:7}}>
                     <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
                       <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={everyday}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Everyday Care</Text>
+                        <Image resizeMode = 'contain' style={styles.image} source={health}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Health Care</Text>
                       </Card>
                     </TouchableHighlight>
                   </View>
                 </View>
                 
-                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
                   <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
+                    <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
                       <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={personal}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
+                        <Image resizeMode = 'contain' style={styles.image} source={devices}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Healthcare Devices</Text>
                       </Card>
-                    </TouchableHighlight>  
+                    </TouchableHighlight>
                   </View>
                   
                   <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
+                    <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
                       <Card style={styles.products}>
                         <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
                         <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Diabetic Care</Text>
@@ -394,10 +396,30 @@ export default class HomeScreen extends React.Component {
                 
                 <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
                   <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
+                    <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
                       <Card style={styles.products}>
                         <Image resizeMode = 'contain' style={styles.image} source={natural}/>
                         <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Natural Care</Text>
+                      </Card>
+                    </TouchableHighlight>  
+                  </View>
+                  
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={food}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Food & Nutrition</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+                
+                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
+                  <View style={{marginTop:7}}>
+                    <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
+                      <Card style={styles.products}>
+                        <Image resizeMode = 'contain' style={styles.image} source={sexual}/>
+                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Sexual Wellness</Text>
                       </Card>
                     </TouchableHighlight>
                   </View>
