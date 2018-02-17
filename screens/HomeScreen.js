@@ -276,8 +276,8 @@ export default class HomeScreen extends React.Component {
             <Container style={{paddingLeft: 0, flexDirection: 'column' }}>
               <Icon
                 iconStyle={{ alignSelf:'center', marginBottom:0}}
-                name='camera-alt'
-                type='MaterialIcons'
+                name='camera'
+                type='entypo'
                 color='#808080'
                 size={39}/>
               <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Camera</Text>  
@@ -296,8 +296,8 @@ export default class HomeScreen extends React.Component {
             <Container style={{paddingRight: 0,flexDirection: 'column' }}>
               <Icon
                 iconStyle={{ alignSelf:'center',  marginBottom:0}}
-                name='view-list'
-                type='MaterialIcons'
+                name='clipboard'
+                type='feather'
                 color='#808080'
                 size={39}/>
               <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Prescriptions</Text>  

@@ -203,6 +203,201 @@ export default class ProfileScreen extends React.Component {
     }
   }
 
+  _renderEditAccount = () => (
+    <View style={ styles.modalContentEdit }>
+            <View style={{ paddingTop:10, paddingLeft:15, paddingRight:15, paddingBottom:10, backgroundColor:'#e5f6fd' }}>
+              <Text style={ styles.account }>Edit Account</Text>
+            </View>
+            <ScrollView style={{flex:1, flexDirection:'column', paddingTop:0, paddingLeft:0, paddingRight:0, paddingBottom:0 }}>
+              <View style={{ flex:1, flexDirection:'column', paddingTop:10, paddingLeft:0, paddingRight:0, paddingBottom:0 }}>
+                <KeyboardAvoidingView
+                  style={ styles.modalContentEdit }
+                  behavior="padding">
+                <Form>
+                <Item stackedLabel>
+                  <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>PHONE NUMBER</Label>
+                  <Input 
+                  keyboardType = 'numeric' 
+                  returnKeyType="next"
+                  autoFocus={true} 
+                  fontWeight={`bold`}
+                  maxLength = {10}
+                  editable = {!this.state.isExists}
+                  onChangeText={(number) => this.setState({ number: number, textLength: number.length })}
+                  />
+                </Item>
+                <Item stackedLabel>
+                  <Label style={{ fontWeight:'bold', fontSize:13, color:'#555555' }}>EMAIL ADDRESS</Label>
+                  <Input 
+                  keyboardType = 'default'  
+                  fontWeight={`bold`}
+                  />
+                </Item>
+                </Form>
+                </KeyboardAvoidingView>
+              </View>
+            </ScrollView>
+            <Button
+            raised
+            large
+            disabled={ this.state.isExists===false ? (this.state.textLength===10 ? (false):(true)):(this.state.passLength>0 ? (false):(true)) }
+            containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
+            buttonStyle={{ backgroundColor: '#03a9f4'}}
+            textStyle={{textAlign: 'center'}}
+            fontWeight={'bold'}
+            title={'UPDATE'}
+            />
+          </View>
+    )
+  
+  _renderPrescription = () => (
+    <View style={ styles.modalContent }>
+      <Header style={{  backgroundColor:'#fff' }}>
+        <View style={ styles.headerViewStyle }>
+        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+        <Icon
+          iconStyle={{ alignSelf:'center', marginLeft:10 }}
+          size={23}
+          name='arrow-back'
+          type='materialicons'
+          color='#555555'
+          onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+        />
+        <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>MY PRESCRIPTIONS</Text>
+        </View>
+        </View>
+      </Header>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+          <Text style = {{ fontSize:14,color: '#03a9f4'}}>Choose an option to upload</Text>
+          <View style = {styles.SquaresShapeView}>
+            <Container style={{paddingLeft: 0, flexDirection: 'column' }}>
+              <Icon
+                iconStyle={{ alignSelf:'center', marginBottom:0}}
+                name='camera'
+                type='entypo'
+                color='#808080'
+                size={39}/>
+              <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Camera</Text>  
+            </Container>
+            <Container style={{paddingLeft: 0,flexDirection: 'column' }}>
+              <Icon
+                iconStyle={{ alignSelf:'center', marginBottom:0}}
+                name='photo-size-select-actual'
+                type='material'
+                color='#808080'
+                size={39} />
+              <Text style={{textAlign:'center'  ,fontSize: 14, color: '#808080'}}>Gallery</Text>  
+            </Container>
+          </View>
+          <Text note style={{fontSize : 13,paddingBottom:10}}>SAVED PRESCRIPTIONS</Text>
+        </ScrollView>
+      </View>
+      <Button
+        large
+        containerViewStyle={{ width: '100%',marginLeft :0 }}
+        buttonStyle={{ alignItems:'center', justifyContent:'center' }}
+        backgroundColor={'#03a9f4'} 
+        title={`CONTINUE`}
+        fontWeight={'bold'}
+        fontSize = {17} 
+      />
+    </View>
+    )
+
+  _renderAddress = () => (
+    <View style={ styles.modalContent }>
+      <Header style={{  backgroundColor:'#fff' }}>
+        <View style={ styles.headerViewStyle }>
+        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+        <Icon
+          iconStyle={{ alignSelf:'center', marginLeft:10 }}
+          size={23}
+          name='arrow-back'
+          type='materialicons'
+          color='#555555'
+          onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+        />
+        <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>MANAGE ADDRESSES</Text>
+        </View>
+        </View>
+      </Header>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+          <Text note style={{fontSize : 13,paddingBottom:10}}>SAVED ADDRESSES</Text>
+          <Button
+          raised
+          buttonStyle={{ alignItems:'center', justifyContent:'center' }}
+          backgroundColor={'#03a9f4'} 
+          title={`ADD NEW ADDRESS`}
+          fontWeight={'bold'}
+          fontSize = {17} 
+          />
+        </ScrollView>
+      </View>
+    </View>
+    )
+
+  _renderNotifications = () => (
+    <View style={ styles.modalContent }>
+      <Header style={{  backgroundColor:'#fff' }}>
+        <View style={ styles.headerViewStyle }>
+        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+        <Icon
+          iconStyle={{ alignSelf:'center', marginLeft:10 }}
+          size={23}
+          name='arrow-back'
+          type='materialicons'
+          color='#555555'
+          onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+        />
+        <Text style = {{fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>NOTIFICATIONS</Text>
+        </View>
+        </View>
+      </Header>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+          
+        </ScrollView>
+      </View>
+    </View>
+    )
+
+  _renderOffers = () => (
+    <View style={ styles.modalContent }>
+      <Header style={{  backgroundColor:'#fff' }}>
+        <View style={ styles.headerViewStyle }>
+        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
+          <Icon
+            iconStyle={{ alignSelf:'center', marginLeft:10 }}
+            size={23}
+            name='arrow-back'
+            type='materialicons'
+            color='#555555'
+            onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          />
+          <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
+        </View>
+        </View>
+      </Header>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+          <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
+          <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
+        </ScrollView>
+      </View>
+    </View>
+    )
+
+
   _renderOTPModalContent = () => (
     <View style={ styles.modalContentSignUp }>
       <View style={{ paddingTop:40, paddingLeft:15, paddingRight:15, paddingBottom:20, backgroundColor:'#e5f6fd' }}>
@@ -404,7 +599,7 @@ export default class ProfileScreen extends React.Component {
               onPress={() => this.setState({ visibleModal: 5 })}
             />
             <List style={{ marginTop: 20 }}>
-              <ListItem style={styles.option}>
+              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 2 })}>
                 <View>
                   <Text style={styles.op_name}>Offers</Text>
                 </View>
@@ -462,163 +657,71 @@ export default class ProfileScreen extends React.Component {
           >
           {this._renderOTPModalContent()}
         </Modal>
+
+        <Modal 
+          isVisible={ this.state.visibleModal === 2 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderOffers()}
+        </Modal>
         
-        {/*<Modal style={ styles.modal } position={"top"} ref={"profile"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <View style={ styles.modalContentLogin }>
-            <Text style={ styles.account }>Edit Account</Text>
-            <Text note>Enter your phone number to proceed</Text>
-            <View style={{ marginTop:20 }}>
-              <Text note>PHONE NUMBER</Text>
-              <Item>
-                <Input 
-                  keyboardType = 'numeric' 
-                  returnKeyType="next"
-                  autoFocus={true} 
-                  fontWeight={`bold`}
-                  maxLength = {10}
-                  onChangeText={(number) => this.setState({number: number, textLength: number.length })}
-                />
-              </Item>
-              
-              <Text style={{paddingTop:8}} note>EMAIL ADDRESS</Text>
-              <Item>
-                <Input 
-                  returnKeyType="next"
-                  autoFocus={true} 
-                  fontWeight={`bold`}
-                  maxLength = {10}
-                  onChangeText={(number) => this.setState({number: number, textLength: number.length })}
-                />
-              </Item>
-              
-              <Button
-                raised
-                disabled={ this.state.textLength===10 ? (false):(true) }
-                containerViewStyle={{ marginTop:20, marginLeft:0, marginRight:0 }}
-                buttonStyle={{ backgroundColor: '#03a9f4'}}
-                textStyle={{textAlign: 'center'}}
-                fontWeight={'bold'}
-                title={'UPDATE'}
-              />
-            </View>
-          </View>
+        {/*<Modal 
+          isVisible={ this.state.visibleModal === 1 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderEditAccount()}
         </Modal>
 
-        <Modal style={ styles.modal } position={"top"} ref={"prescriptions"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <Header style={{  backgroundColor:'#fff' }}>
-            <View style={ styles.headerViewStyle }>
-              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-                <Icon
-                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
-                  size={23}
-                  name='arrow-back'
-                  type='materialicons'
-                  color='#555555'
-                  onPress={() => this.refs.prescriptions.close()}
-                />
-                <Text style = {{fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>MY PRESCRIPTIONS</Text>
-              </View>
-            </View>
-          </Header>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.container}
-              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            </ScrollView>
-          </View>
-          <Button 
-          containerViewStyle={{ width: '100%',marginLeft:0}}
-          buttonStyle={{ alignItems:'center', justifyContent:'center' }}
-          backgroundColor={'#03a9f4'} 
-          title={`DONE`}
-          fontWeight={'bold'}
-          fontSize = {17}
-          />
+        <Modal 
+          isVisible={ this.state.visibleModal === 2 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderPrescription()}
         </Modal>
 
-        <Modal style={ styles.modal } position={"top"} ref={"addresses"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <Header style={{  backgroundColor:'#fff' }}>
-            <View style={ styles.headerViewStyle }>
-              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-                <Icon
-                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
-                  size={23}
-                  name='arrow-back'
-                  type='materialicons'
-                  color='#555555'
-                  onPress={() => this.refs.addresses.close()}
-                />
-                <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>MANAGE ADDRESSES</Text>
-              </View>
-            </View>
-          </Header>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.container}
-              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-              <Text note style={{fontSize : 13}}>SAVED ADDRESSES</Text>
-              <List style={{paddingBottom:20}}>
-              </List>
-              <Button
-                raised
-                buttonStyle={{alignItems:'center', justifyContent:'center' }}
-                backgroundColor={'#03a9f4'} 
-                title={`ADD NEW ADDRESS`}
-                fontWeight={'bold'}
-                fontSize = {17} 
-              />
-            </ScrollView>
-          </View>
+        <Modal 
+          isVisible={ this.state.visibleModal === 3 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderAddress()}
         </Modal>
 
-        <Modal style={ styles.modal } position={"top"} ref={"notifications"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <Header style={{  backgroundColor:'#fff' }}>
-            <View style={ styles.headerViewStyle }>
-              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-                <Icon
-                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
-                  size={23}
-                  name='arrow-back'
-                  type='materialicons'
-                  color='#555555'
-                  onPress={() => this.refs.notifications.close()}
-                />
-                <Text style = {{fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>NOTIFICATIONS</Text>
-              </View>
-            </View>
-          </Header>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.container}
-              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            </ScrollView>
-          </View>
+        <Modal 
+          isVisible={ this.state.visibleModal === 4 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderNotifications()}
         </Modal>
 
-        <Modal style={ styles.modal } position={"top"} ref={"offers"} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <Header style={{  backgroundColor:'#fff' }}>
-            <View style={ styles.headerViewStyle }>
-              <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-                <Icon
-                  iconStyle={{ alignSelf:'center', marginLeft:10 }}
-                  size={23}
-                  name='arrow-back'
-                  type='materialicons'
-                  color='#555555'
-                  onPress={() => this.refs.offers.close()}
-                />
-                <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
-              </View>
-            </View>
-          </Header>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.container}
-              contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-              <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
-              <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
-            </ScrollView>
-          </View>
+        <Modal 
+          isVisible={ this.state.visibleModal === 5 } 
+          style={ styles.bottomModal } 
+          backdropOpacity={0.5} 
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          animationOut={ 'slideOutRight' }
+          >
+          {this._renderOffers()}
         </Modal>
 
         <View style={styles.container2}>
@@ -626,11 +729,11 @@ export default class ProfileScreen extends React.Component {
              <View style={styles.view}>
               <View>
                 <Text style={styles.name}>Ankur Singh</Text>
-                <Text note onPress={() => this.refs.profile.open()} style={{fontSize :15}}>View and edit profile</Text>
+                <Text note onPress={() => this.setState({ visibleModal: 1 })} style={{fontSize :15}}>View and edit profile</Text>
               </View>
              </View>
             <List style={{paddingTop :20}}>
-              <ListItem style={styles.option} onPress={() => this.refs.prescriptions.open()}>
+              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 2 })}>
                 <View>
                   <Text style={styles.op_name}>My Prescriptions</Text>
                 </View>
@@ -641,7 +744,7 @@ export default class ProfileScreen extends React.Component {
                     size={28}
                     />
                </ListItem>
-               <ListItem style={styles.option} onPress={() => this.refs.addresses.open()}>
+               <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 3 })}>
                 <View>
                   <Text style={styles.op_name}>My Addresses</Text>
                 </View>
@@ -652,7 +755,7 @@ export default class ProfileScreen extends React.Component {
                     size={28}
                     />
                </ListItem>
-               <ListItem style={styles.option} onPress={() => this.refs.notifications.open()}>
+               <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 4 })}>
                 <View>
                   <Text style={styles.op_name}>Notifications</Text>
                 </View>
@@ -663,7 +766,7 @@ export default class ProfileScreen extends React.Component {
                     size={28}
                     />
                </ListItem>
-               <ListItem style={styles.option}  onPress={() => this.refs.offers.open()}>
+               <ListItem style={styles.option}  onPress={() => this.setState({ visibleModal: 5 })}>
                 <View>
                   <Text style={styles.op_name}>Offers</Text>
                 </View>
@@ -722,6 +825,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop:10,
+  },
+  headerViewStyle:{
+    flex:1, 
+    flexDirection: 'row',
+    alignItems : 'center',
+    justifyContent : 'space-between'
   },
   cover:{ 
     flex:1,  
@@ -792,5 +901,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40,
     fontWeight: 'bold',
+  },
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContentEdit: {
+    flex: 0.8,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  modalContent: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
 });

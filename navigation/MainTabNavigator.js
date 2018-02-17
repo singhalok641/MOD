@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import {SimpleLineIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 import HomeScreen from '../screens/HomeScreen';
@@ -33,19 +33,19 @@ export default TabNavigator(
             iconName = Platform.OS === 'ios'? `home${focused ? '' : '-outline'}`: 'home';
             break;
           case 'ORDERS':
-            iconName = Platform.OS === 'ios' ? `bag${focused ? '' : '-outline'}` : 'bag';
+            iconName = Platform.OS === 'ios' ? `pill${focused ? '' : '-outline'}` : 'pill';
             break;
           case 'CART':
-            iconName = Platform.OS === 'ios' ? `basket${focused ? '' : '-outline'}` : 'basket';
+            iconName = Platform.OS === 'ios' ? `cart${focused ? '' : '-outline'}` : 'cart';
             break;
           case 'PROFILE':
-            iconName = Platform.OS === 'ios' ? `user${focused ? '' : '-outline'}` : 'user';
+            iconName = Platform.OS === 'ios' ? `account${focused ? '' : '-outline'}` : 'account';
           
         }
         return (
-          <SimpleLineIcons
+          <MaterialCommunityIcons
             name={iconName}
-            size={22}
+            size={31}
             style={{ marginBottom: -3 }}
             color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
           />
