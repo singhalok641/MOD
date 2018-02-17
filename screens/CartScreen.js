@@ -3,25 +3,17 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  View,
-  TextInput,
-  Dimensions,
-} from 'react-native';
-import { 
-  Container, 
-  Header, 
-  Item, 
-  Input, 
-  Text, 
-  List, 
-  ListItem, 
-  Content, 
-  Left, 
-  Right,
-  Card,
-  CardItem } from 'native-base';
-import { Button, Icon } from 'react-native-elements';
-import Modal from 'react-native-modal';
+  View
+} from 'react-native'
+import {
+  Container,
+  Header,
+  Text,
+  List,
+  ListItem
+} from 'native-base'
+import { Button, Icon } from 'react-native-elements'
+import Modal from 'react-native-modal'
 
 const image = require('../assets/images/amway.jpg')
 
@@ -42,7 +34,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     justifyContent: 'center',
     borderRadius: 1
-
   },
   button: {
     height: 21,
@@ -193,31 +184,31 @@ export default class CartScreen extends React.Component {
 
   _renderOffers = () => (
     <View style={ styles.modalOffers }>
-      <Header style={{  backgroundColor:'#fff' }}>
+      <Header style={{ backgroundColor: '#fff' }}>
         <View style={ styles.headerViewStyle }>
-        <View style={{  flexDirection: 'row', alignItems: 'center'  }}>
-          <Icon
-            iconStyle={{ alignSelf:'center', marginLeft:10 }}
-            size={23}
-            name='arrow-back'
-            type='materialicons'
-            color='#555555'
-            onPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          />
-          <Text style = {{paddingTop: 0 ,fontSize:17, fontWeight : 'bold',color: '#555555',paddingLeft:7 }}>OFFERS</Text>
-        </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon
+              iconStyle={{ alignSelf: 'center', marginLeft: 10 }}
+              size={23}
+              name='arrow-back'
+              type='materialicons'
+              color='#555555'
+              onPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+            />
+            <Text style = {{ paddingTop: 0, fontSize: 17, fontWeight: 'bold', color: '#555555', paddingLeft: 7 }}>OFFERS</Text>
+          </View>
         </View>
       </Header>
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-          <Text note style={{fontSize : 13}}>AVAILABLE COUPONS</Text>
-          <Text style={{fontSize : 15,color:'#03a9f4',alignSelf : 'center',paddingTop:10}}>No coupons available</Text>
+          <Text note style={{ fontSize: 13 }}>AVAILABLE COUPONS</Text>
+          <Text style={{ fontSize: 15, color: '#03a9f4', alignSelf: 'center', paddingTop: 10 }}>No coupons available</Text>
         </ScrollView>
       </View>
     </View>
-    )
+  )
 
   render() {
     const cartItems = [{
@@ -270,11 +261,11 @@ export default class CartScreen extends React.Component {
       <Container>
 
         <Modal
-          isVisible={ this.state.visibleModal === 1 } 
-          style={ styles.bottomModalOffers } 
-          backdropOpacity={0.5} 
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
+          isVisible={ this.state.visibleModal === 1 }
+          style={ styles.bottomModalOffers }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           animationOut={ 'slideOutRight' }>
           {this._renderOffers()}
         </Modal>
@@ -387,98 +378,3 @@ export default class CartScreen extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingLeft: 6,
-    paddingRight: 6,
-    paddingTop:10,
-  },
-  headerViewStyle:{
-    flex:1, 
-    flexDirection: 'row',
-  },
-  
-  HeaderShapeView:{
-    paddingLeft: 10,
-    justifyContent : 'center',
-    borderRadius: 1,
-
-  },
-  button:{
-    height:21,
-    width:21,
-    borderWidth:1,
-    borderRadius : 21,
-    borderColor : '#555555',
-    alignItems : 'center',
-    justifyContent : 'center',
-    alignContent : 'center'
-  },
-  price_text:{
-    fontSize:13,
-    color:'#555555',
-    paddingTop:4,
-    paddingBottom:4
-  },
-  total:{
-    fontSize:16,
-    color:'#4d4d4d',
-    fontWeight : 'bold',
-    paddingTop:8,
-    marginBottom:13,
-
-  },
-  coupon:{
-    fontSize:13,
-    fontWeight : 'bold',
-    color:'#03a9f4',
-    paddingTop:4,
-    fontWeight : 'bold',
-    paddingBottom:4
-  },
-  buttons:{
-    height:21,
-    width:21,
-    borderWidth:1,
-    borderRadius : 21,
-    borderColor : '#03a9f4',
-    alignItems : 'center',
-    justifyContent : 'center',
-    alignContent : 'center'
-  },
-  pricing:{
-    paddingLeft:13,
-    paddingRight:13,
-    paddingTop: 13
-  },
-  modal: {
-    justifyContent: 'flex-start',
-  },
-  view: {
-    flexDirection:'row',
-    justifyContent : 'space-between'
-	},
-  image:{
-	  width: 75, 
-	  height: 75 
-	},
-  pro_name:{
-    fontSize :13,
-    paddingLeft:5
-  },
-  descrip:{
-    fontSize :12,
-    paddingTop:3,
-    alignSelf : 'stretch',
-    paddingLeft:5
-  },
-  info:{
-    flex:1,
-    flexDirection:'column',
-    alignItems:'flex-start',
-    justifyContent:'flex-start',
-  }
-});
