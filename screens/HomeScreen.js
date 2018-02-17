@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Image,
   Platform,
@@ -6,33 +6,23 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  TouchableHighlight, } from 'react-native';
-import { 
-  Container, 
-  Header, 
-  Item, 
-  Input, 
-  Text, 
-  List, 
-  ListItem, 
-  Body, 
-  Content, 
-  Left, 
-  Right,
-  Picker,
-  Form,
-  Item as FormItem,
-  Card,
-  CardItem } from 'native-base';
-import Carousel from 'react-native-banner-carousel';
-import { Button, Icon } from 'react-native-elements';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import Modal from 'react-native-modalbox';
-import { Constants, Location, Permissions } from 'expo';
-import { NavigationActions } from 'react-navigation';
+  TouchableHighlight } from 'react-native'
+import {
+  Container,
+  Header,
+  Item,
+  Input,
+  Text,
+  Card } from 'native-base'
+import Carousel from 'react-native-banner-carousel'
+import { Button, Icon } from 'react-native-elements'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import Modal from 'react-native-modalbox'
+import { Constants, Location, Permissions } from 'expo'
+import { NavigationActions } from 'react-navigation'
 
-const BannerWidth = Dimensions.get('window').width;
-const BannerHeight = 180;
+const BannerWidth = Dimensions.get('window').width
+const BannerHeight = 180
 
 
 const images = [

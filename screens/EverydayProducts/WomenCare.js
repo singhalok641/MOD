@@ -8,10 +8,9 @@ import {
   View,
   TextInput,
   Dimensions,
-} from 'react-native';
+  TouchableHighlight, } from 'react-native';
 import { 
-  Container, 
-  Header, 
+  Container,  
   Item, 
   Input, 
   Text, 
@@ -28,16 +27,18 @@ const image = require('../../assets/images/whis.jpg');
 
 export default class OrdersScreen extends React.Component {
   static navigationOptions = {
-    title:'Women\'s Care',
-  };
+    title:'Women Care',
+  }
 
   constructor(props) {
     super(props);
   } 
 
   render() {
+    const cart = [];
+    const { navigate } = this.props.navigation;
     return (
-      <Container >
+      <Container>
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
@@ -54,9 +55,11 @@ export default class OrdersScreen extends React.Component {
                         <Text note style={styles.descrip}>packet of 5 pads</Text>
                         <View style={{justifyContent : 'center',alignItems : 'center',flexDirection : 'row',paddingLeft:5,paddingTop:5}}>
                           <Text style={{ flex:1,fontSize : 14,color:'#4d4d4d',alignSelf : 'flex-end',paddingBottom:2}}>₹ 300</Text>
-                          <View style={styles.button}>
-                            <Text style={{fontSize :14,color: '#ffffff',fontWeight : 'bold'}}>ADD TO CART</Text>
-                          </View>
+                          <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
+                            <View style={styles.button}>
+                              <Text style={{fontSize :14,color: '#ffffff',fontWeight : 'bold'}}>ADD TO CART</Text>
+                            </View>
+                          </TouchableHighlight>
                         </View>
                       </View>
                     </View>
@@ -77,12 +80,6 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
     paddingRight: 6,
     paddingTop:5,
-  },
-  headerViewStyle:{
-    flex:1, 
-    flexDirection: 'row',
-    alignItems : 'center',
-    justifyContent : 'space-between'
   },
   view: {
     flexDirection:'row',
