@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignSelf: 'center',
     justifyContent: 'flex-start'
-
   },
   image: {
     height: 90,
@@ -59,8 +58,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
-    // paddingRight: 10,
-    // paddingLeft:10,
   },
   containerCarousel: {
     flex: 1,
@@ -487,5 +484,3 @@ export default class HomeScreen extends React.Component {
     )
   }
 }
-
-

@@ -21,7 +21,6 @@ import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 import { ProgressDialog } from 'react-native-simple-dialogs'
 import Display from 'react-native-display'
-// import Toast from 'react-native-smart-toast';
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)'
   }
 })
-
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
