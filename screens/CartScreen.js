@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
-
   HeaderShapeView: {
     paddingLeft: 10,
     justifyContent: 'center',
@@ -57,7 +56,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 8,
     marginBottom: 13
-
   },
   coupon: {
     fontSize: 13,
