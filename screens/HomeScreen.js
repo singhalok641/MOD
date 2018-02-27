@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: 140,
     backgroundColor: '#fff',
     alignSelf: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   image: {
     height: 90,
