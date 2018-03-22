@@ -1,63 +1,63 @@
-import { Notifications } from 'expo';
-import React from 'react';
-import { StackNavigator } from 'react-navigation';
-import MainTabNavigator from './MainTabNavigator';
-import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
-import PrescribedScreen from '../screens/ProductsScreen/PrescribedScreen';
-import EverydayScreen from '../screens/ProductsScreen/EverydayScreen';
-import PersonalScreen from '../screens/ProductsScreen/PersonalScreen';
-import DiabetesScreen from '../screens/ProductsScreen/DiabetesScreen';
-import NaturalScreen from '../screens/ProductsScreen/NaturalScreen';
-import BabyScreen from '../screens/ProductsScreen/BabyScreen';
-import WomenCareScreen from '../screens/EverydayProducts/WomenCare';
+import { Notifications } from 'expo'
+import React from 'react'
+import { StackNavigator } from 'react-navigation'
+import MainTabNavigator from './MainTabNavigator'
+import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync'
+import PrescribedScreen from '../screens/ProductsScreen/PrescribedScreen'
+import EverydayScreen from '../screens/ProductsScreen/EverydayScreen'
+import PersonalScreen from '../screens/ProductsScreen/PersonalScreen'
+import DiabetesScreen from '../screens/ProductsScreen/DiabetesScreen'
+import NaturalScreen from '../screens/ProductsScreen/NaturalScreen'
+import BabyScreen from '../screens/ProductsScreen/BabyScreen'
+import WomenCareScreen from '../screens/EverydayProducts/WomenCare'
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
-      screen: MainTabNavigator,
-    },  
-    PrescribedScreen:{
-      screen: PrescribedScreen,
+      screen: MainTabNavigator
     },
-    EverydayScreen:{
-      screen: EverydayScreen,
+    PrescribedScreen: {
+      screen: PrescribedScreen
     },
-    PersonalScreen:{
-      screen: PersonalScreen,
+    EverydayScreen: {
+      screen: EverydayScreen
     },
-    DiabetesScreen:{
-      screen: DiabetesScreen,
+    PersonalScreen: {
+      screen: PersonalScreen
     },
-    NaturalScreen:{
-      screen: NaturalScreen,
+    DiabetesScreen: {
+      screen: DiabetesScreen
     },
-    BabyScreen:{
-      screen: BabyScreen,
+    NaturalScreen: {
+      screen: NaturalScreen
     },
-    WomenCareScreen:{
-      screen: WomenCareScreen,
+    BabyScreen: {
+      screen: BabyScreen
     },
+    WomenCareScreen: {
+      screen: WomenCareScreen
+    }
   },
   {
     navigationOptions: () => ({
       headerTitleStyle: {
-        fontWeight: 'bold' ,
-      },
-    }),
+        fontWeight: 'bold'
+      }
+    })
   }
-);
+)
 
 export default class RootNavigator extends React.Component {
   componentDidMount() {
-    this._notificationSubscription = this._registerForPushNotifications();
+    this._notificationSubscription = this._registerForPushNotifications()
   }
 
   componentWillUnmount() {
-    this._notificationSubscription && this._notificationSubscription.remove();
+    this._notificationSubscription && this._notificationSubscription.remove()
   }
 
   render() {
-    return <RootStackNavigator />;
+    return <RootStackNavigator />
   }
 
   _registerForPushNotifications() {
@@ -65,13 +65,13 @@ export default class RootNavigator extends React.Component {
     // You can comment the following line out if you want to stop receiving
     // a notification every time you open the app. Check out the source
     // for this function in api/registerForPushNotificationsAsync.js
-    registerForPushNotificationsAsync();
+    registerForPushNotificationsAsync()
 
     // Watch for incoming notifications
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(this._handleNotification)
   }
 
   _handleNotification = ({ origin, data }) => {
-    console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`);
+    console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`)
   };
 }
