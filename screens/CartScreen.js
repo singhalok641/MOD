@@ -296,15 +296,32 @@ export default class CartScreen extends React.Component {
                           <Text style={styles.pro_name}>{cart.name}</Text>
                         </View>
                         <Text note style={styles.descrip}>{cart.description}</Text>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
-                          <Text style={{ flex: 1, fontSize: 14, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>₹ {cart.price}</Text>
+                        <View style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                          paddingLeft: 5,
+                          paddingTop: 5
+                        }}>
+                          <Text style={{
+                            flex: 1,
+                            fontSize: 14,
+                            color: '#4d4d4d',
+                            alignSelf: 'flex-end',
+                            paddingBottom: 2 }}>₹ {cart.price}</Text>
                           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <View style={styles.button}>
                               <Text style={{ fontSize: 17, fontWeight: 'bold' }}> - </Text>
                             </View>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#4d4d4d' }}>  1  </Text>
+                            <Text style={{
+                              fontSize: 15,
+                              fontWeight: 'bold',
+                              color: '#4d4d4d' }}>  1  </Text>
                             <View style={styles.buttons}>
-                              <Text style={{ fontSize: 17, color: '#03a9f4', fontWeight: 'bold' }}> + </Text>
+                              <Text style={{
+                                fontSize: 17,
+                                color: '#03a9f4',
+                                fontWeight: 'bold' }}> + </Text>
                             </View>
                           </View>
                         </View>
@@ -315,17 +332,27 @@ export default class CartScreen extends React.Component {
             </View>
 
             <View style={{ paddingTop: 10 }}>
-            	<Text style={{ fontSize: 13, color: '#03a9f4', paddingLeft: 10 }}>Items not requiring prescriptions (1)</Text>
-            	<List />
+            	<Text style={{
+                fontSize: 13,
+                color: '#03a9f4',
+                paddingLeft: 10 }}>
+                Items not requiring prescriptions (1)
+              </Text>
             </View>
 
             <View style={styles.pricing}>
               <View style={{ marginLeft: 10, marginRight: 10, justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center' }}>
                   <Text style={styles.price_text}>MRP Total</Text>
                   <Text style={styles.price_text}>₹ 600</Text>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center' }}>
                   <Text style={styles.price_text}>Discount</Text>
                   <Text style={styles.price_text}>NA</Text>
                 </View>
@@ -338,11 +365,21 @@ export default class CartScreen extends React.Component {
                 }}
               />
               <View style={{ marginLeft: 10, marginRight: 10 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
                   <Text style={styles.price_text}>Coupon Discount</Text>
-                  <Text onPress={() => this.setState({ visibleModal: 1 })} style={styles.coupon}>APPLY</Text>
+                  <Text
+                    onPress={() => this.setState({ visibleModal: 1 })}
+                    style={styles.coupon}>APPLY</Text>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center' }}>
                   <Text style={styles.price_text}>Delivery Charges</Text>
                   <Text style={styles.price_text}>₹ 10</Text>
                 </View>
@@ -355,7 +392,11 @@ export default class CartScreen extends React.Component {
                 }}
               />
               <View style={{ marginLeft: 10, marginRight: 10 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
                   <Text style={styles.price_text} />
                   <Text style={styles.total}>To Pay: ₹ 610</Text>
                 </View>

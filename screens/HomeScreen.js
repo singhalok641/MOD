@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingLeft: 7
   },
   products: {
-    flex:1,
+    flex: 1,
     height: 120,
     width: 140,
     backgroundColor: '#fff',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     height: 90,
     width: 139,
     alignSelf: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   filterViewStyle: {
     flex: 1,
@@ -103,24 +103,18 @@ const images = [
   require('../assets/images/carousel/2.png'),
   require('../assets/images/carousel/5.png')
 ]
+
 const natural = require('../assets/images/products/natural.png')
-const prescribed = require('../assets/images/products/prescribed.png')
 const baby = require('../assets/images/products/baby.png')
-const everyday = require('../assets/images/products/everyday.png')
 const personal = require('../assets/images/products/personal.png')
 const diabetes = require('../assets/images/products/diabetes.png')
+const health = require('../assets/images/products/health_care.png')
+const devices = require('../assets/images/products/devices.png')
+const food = require('../assets/images/products/food.png')
+const sexual = require('../assets/images/products/sexual.png')
 
-const natural = require('../assets/images/products/natural.png');
-const baby = require('../assets/images/products/baby.png');
-const personal = require('../assets/images/products/personal.png');
-const diabetes = require('../assets/images/products/diabetes.png');
-const health = require('../assets/images/products/health_care.png');
-const devices = require('../assets/images/products/devices.png');
-const food = require('../assets/images/products/food.png');
-const sexual = require('../assets/images/products/sexual.png');
-
-//const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-//const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+// const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+// const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -218,19 +212,13 @@ export default class HomeScreen extends React.Component {
               onPress={() => this.setState({ isOpen: true })}
               underlayColor='#cccccc' >
               <View style={ styles.addressViewStyle }>
-                <View style={{ flexDirection:'row',alignItems:'flex-start',justifyContent:'flex-start',paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17 ,fontWeight: 'bold' , color: '#555555'}}>HOME</Text>
-                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5}} color={"#03a9f4"}/>}             
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 5 }}>
+                  <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#555555' }}>HOME</Text>
+                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5 }} color={'#03a9f4'}/>}
                 </View>
                 <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>
               </View>
             </TouchableHighlight>
-            {/* <TouchableHighlight style={ styles.filterViewStyle } onPress={() => this.refs.gps.open()} underlayColor='#cccccc' >
-              <View style={ styles.filterViewStyle }>
-                <Text style = {{fontWeight:'bold',fontSize: 13,color: '#555555'}}>FILTER</Text>
-                {<Icon name={'sort'} type='MaterialIcons' size={17} style={{ paddingRight: 5}} color={"#03a9f4"}/> }
-              </View>
-            </TouchableHighlight>*/}
           </View>
         </Header>
 
@@ -250,13 +238,13 @@ export default class HomeScreen extends React.Component {
               <Text style = {{ marginTop: 20, fontSize: 12, color: '#03a9f4', fontWeight: 'bold', marginLeft: 10 }}>SET DELIVERY LOCATION</Text>
               <GooglePlacesAutocomplete
                 placeholder='Search for area, street name... '
-                minLength={3} // minimum length of text to search
+                minLength={3}
                 autoFocus={false}
-                returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-                listViewDisplayed='auto' // true/false/undefined
+                returnKeyType={'search'}
+                listViewDisplayed='auto'
                 fetchDetails={true}
                 // renderDescription={row => row.description} // custom description render
-                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                onPress={(data, details = null) => {
                   this.setState({
                     address: data.description,
                     area: data.terms[0].value
@@ -274,7 +262,7 @@ export default class HomeScreen extends React.Component {
                 query={{
                   // available options: https://developers.google.com/places/web-service/autocomplete
                   key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
-                  language: 'en' // language of the results
+                  language: 'en'
                   // types:  // default: 'geocode'
                 }}
                 styles={{
@@ -401,107 +389,107 @@ export default class HomeScreen extends React.Component {
           <ScrollView
             style={styles.container}
             contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-              <Card style={styles.containerCarousel}>
-                <Carousel
-                  autoplay
-                  autoplayTimeout={5500}
-                  loop
-                  index={0}
-                  pageSize={BannerWidth}>
-                  {images.map((image, index) => this.renderPage(image, index))}
-                </Carousel>
-              </Card>
-              <Card>
-                <Button
-                  onPress={() => this.refs.search.open()}
-                  buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
-                  backgroundColor={'#fff'}
-                  color={'#a8a8a8'}
-                  icon={{ name: 'search', color:'#555555' }}
-                  title='Search any product' />
-              </Card>
-              <Card>
-                <Button
-                  onPress={() => this.refs.upload.open()}
-                  buttonStyle={{ alignItems:'flex-start', justifyContent:'flex-start'}}
-                  backgroundColor={'#fff'}
-                  color={'#a8a8a8'}
-                  icon={{name: 'file-upload', color:'#555555'}}
-                  title='Upload Prescription' />
-              </Card>
-              <View style={{marginBottom:35, flexWrap : 'wrap'}}>
-                <Text style={{paddingTop: 17 ,fontSize:17, color: '#555555', fontWeight: 'bold'}}>M O D - Products</Text>
+            <Card style={styles.containerCarousel}>
+              <Carousel
+                autoplay
+                autoplayTimeout={5500}
+                loop
+                index={0}
+                pageSize={BannerWidth}>
+                {images.map((image, index) => this.renderPage(image, index))}
+              </Carousel>
+            </Card>
+            <Card>
+              <Button
+                onPress={() => this.refs.search.open()}
+                buttonStyle={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
+                backgroundColor={'#fff'}
+                color={'#a8a8a8'}
+                icon={{ name: 'search', color: '#555555' }}
+                title='Search any product' />
+            </Card>
+            <Card>
+              <Button
+                onPress={() => this.refs.upload.open()}
+                buttonStyle={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
+                backgroundColor={'#fff'}
+                color={'#a8a8a8'}
+                icon={{ name: 'file-upload', color: '#555555' }}
+                title='Upload Prescription' />
+            </Card>
+            <View style={{ marginBottom: 35, flexWrap: 'wrap' }}>
+              <Text style={{ paddingTop: 17, fontSize: 17, color: '#555555', fontWeight: 'bold' }}>M O D - Products</Text>
 
-                <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={personal}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Personal Care</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
-                  
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={health}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Health Care</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
+              <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={personal}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Personal Care</Text>
+                    </Card>
+                  </TouchableHighlight>
                 </View>
-                
-                <View style={{paddingTop:8,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={devices}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Healthcare Devices</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
-                  
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Diabetic Care</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
+
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={health}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Health Care</Text>
+                    </Card>
+                  </TouchableHighlight>
                 </View>
-                
-                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={natural}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Natural Care</Text>
-                      </Card>
-                    </TouchableHighlight>  
-                  </View>
-                  
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={food}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Food & Nutrition</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
+              </View>
+
+              <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={devices}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Healthcare Devices</Text>
+                    </Card>
+                  </TouchableHighlight>
                 </View>
-                
-                <View style={{paddingTop:12,flexDirection : 'row',alignItems : 'flex-end', justifyContent : 'space-between'}}> 
-                  <View style={{marginTop:7}}>
-                    <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
-                      <Card style={styles.products}>
-                        <Image resizeMode = 'contain' style={styles.image} source={sexual}/>
-                        <Text style={{paddingLeft:8, paddingTop:4 ,fontSize:14, color: '#555555', fontWeight: 'bold'}}>Sexual Wellness</Text>
-                      </Card>
-                    </TouchableHighlight>
-                  </View>
-                <View style={{marginTop:7}}>
+
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Diabetic Care</Text>
+                    </Card>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+              <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={natural}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Natural Care</Text>
+                    </Card>
+                  </TouchableHighlight>
+                </View>
+
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={food}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Food & Nutrition</Text>
+                    </Card>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+              <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <View style={{ marginTop: 7 }}>
+                  <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
+                    <Card style={styles.products}>
+                      <Image resizeMode = 'contain' style={styles.image} source={sexual}/>
+                      <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Sexual Wellness</Text>
+                    </Card>
+                  </TouchableHighlight>
+                </View>
+                <View style={{ marginTop: 7 }}>
                   <TouchableHighlight onPress={() => navigate('BabyScreen')} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={baby}/>
