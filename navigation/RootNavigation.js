@@ -3,39 +3,15 @@ import React from 'react'
 import { StackNavigator } from 'react-navigation'
 import MainTabNavigator from './MainTabNavigator'
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync'
-import PrescribedScreen from '../screens/ProductsScreen/PrescribedScreen'
-import EverydayScreen from '../screens/ProductsScreen/EverydayScreen'
-import PersonalScreen from '../screens/ProductsScreen/PersonalScreen'
-import DiabetesScreen from '../screens/ProductsScreen/DiabetesScreen'
-import NaturalScreen from '../screens/ProductsScreen/NaturalScreen'
-import BabyScreen from '../screens/ProductsScreen/BabyScreen'
-import WomenCareScreen from '../screens/EverydayProducts/WomenCare'
+import ProductsScreen from '../screens/ProductsScreen'
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator
     },
-    PrescribedScreen: {
-      screen: PrescribedScreen
-    },
-    EverydayScreen: {
-      screen: EverydayScreen
-    },
-    PersonalScreen: {
-      screen: PersonalScreen
-    },
-    DiabetesScreen: {
-      screen: DiabetesScreen
-    },
-    NaturalScreen: {
-      screen: NaturalScreen
-    },
-    BabyScreen: {
-      screen: BabyScreen
-    },
-    WomenCareScreen: {
-      screen: WomenCareScreen
+    ProductsScreen: {
+      screen: ProductsScreen
     }
   },
   {

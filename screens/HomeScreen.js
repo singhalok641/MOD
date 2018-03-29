@@ -113,9 +113,6 @@ const devices = require('../assets/images/products/devices.png')
 const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
-// const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-// const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
-
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -147,6 +144,7 @@ export default class HomeScreen extends React.Component {
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
+    let text = ''
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied'
@@ -156,6 +154,7 @@ export default class HomeScreen extends React.Component {
     let location = await Location.getCurrentPositionAsync({})
     this.setState({ location })
     console.log(this.state.location)
+    console.log(this.state.errorMessage)
 
     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + `${this.state.location.coords.latitude}` + ',' + `${this.state.location.coords.longitude}` + '&key=' + 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk')
       .then((response) => response.json())
@@ -167,8 +166,8 @@ export default class HomeScreen extends React.Component {
           area: responseJson.results[0].address_components[0].short_name
         })
 
-        // text=responseJson.results[0].formatted_address;
-        // console.log(text);
+        text = responseJson.results[0].formatted_address
+        console.log(text)
       })
   };
 
@@ -422,7 +421,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'personal care'}`, title: `${'Personal Care'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={personal}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Personal Care</Text>
@@ -431,7 +430,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'health care'}`, title: `${'Health Care'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={health}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Health Care</Text>
@@ -442,7 +441,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('PrescribedScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'healthcare devices'}`, title: `${'HealthCare Devices'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={devices}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Healthcare Devices</Text>
@@ -451,7 +450,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'diabetic care'}`, title: `${'Diabetic Care'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Diabetic Care</Text>
@@ -462,7 +461,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('PersonalScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'natural care'}`, title: `${'Natural Care'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={natural}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Natural Care</Text>
@@ -471,7 +470,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('DiabetesScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'food & nutrition'}`, title: `${'Food & Nutrition'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={food}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Food & Nutrition</Text>
@@ -482,7 +481,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('NaturalScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'sexual wellness'}`, title: `${'Sexual Wellness'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={sexual}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Sexual Wellness</Text>
@@ -490,7 +489,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableHighlight>
                 </View>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('BabyScreen')} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'baby & mother'}`, title: `${'Baby & Mother'}` } )} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={baby}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Baby & Mother</Text>
