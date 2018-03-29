@@ -25,15 +25,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   image: {
-    width: 75,
-    height: 75
+    width: 95,
+    height: 95
   },
   pro_name: {
-    fontSize: 13,
+    fontSize: 16,
     paddingLeft: 5
   },
   descrip: {
-    fontSize: 12,
+    fontSize: 14,
     paddingTop: 3,
     alignSelf: 'stretch',
     paddingLeft: 5
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class OrdersScreen extends React.Component {
+export default class ProductsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.title}`
   })
@@ -129,6 +129,21 @@ export default class OrdersScreen extends React.Component {
                             </View>
                           </TouchableHighlight>
                         </View>
+                <ListItem>
+                  <View style={styles.view}>
+                    <Image resizeMode = 'contain' style={styles.image} source={{uri:product.imagePath}} />
+                    <View style={ styles.info }>
+                      <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
+                        <Text style={styles.pro_name}>{product.name}</Text>
+                      </View>
+                      <Text note style={styles.descrip}>{product.brand}</Text>
+                      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
+                        <Text style={{ flex: 1, fontSize: 16, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>{product.price}</Text>
+                        <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
+                          <View style={styles.button}>
+                            <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: 'bold' }}>ADD TO CART</Text>
+                          </View>
+                        </TouchableHighlight>
                       </View>
                     </View>
                   </ListItem>)
