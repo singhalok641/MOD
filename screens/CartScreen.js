@@ -112,7 +112,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#555555',
     paddingLeft: 7
-  }
+  },
+  bottomModalOffers: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalOffers: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
 })
 
 export default class CartScreen extends React.Component {
