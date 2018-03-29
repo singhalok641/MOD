@@ -12,7 +12,6 @@ import {
   List,
   ListItem } from 'native-base'
 
-const image = require('../assets/images/whis.jpg')
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
 
 export default class OrdersScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `${navigation.state.params.title}`,
+    title: `${navigation.state.params.title}`
   })
 
   constructor(props) {
@@ -71,8 +70,8 @@ export default class OrdersScreen extends React.Component {
 
   componentDidMount = async () => {
     fetch(`http://192.168.43.217:8082/stores/users/getProducts/${this.props.navigation.state.params.category}`,
-    {
-       method: 'GET',
+      {
+        method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -84,24 +83,24 @@ export default class OrdersScreen extends React.Component {
         this.setState({
           isLoading: false,
           response: responseJson,
-          products: responseJson.products 
-        }, function() {
+          products: responseJson.products
+        }, function () {
           console.log(this.state.products)
-        });
+        })
       })
       .catch((error) => {
-        console.error(error);
-      });
+        console.error(error)
+      })
   }
 
   render() {
     const { navigate } = this.props.navigation
     if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
+        <View style={{ flex: 1, paddingTop: 20 }}>
           <ActivityIndicator />
         </View>
-      );
+      )
     }
 
     return (
@@ -111,30 +110,29 @@ export default class OrdersScreen extends React.Component {
             style={styles.container}
             contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <View>
-              <List 
+              <List
                 dataArray={this.state.products}
                 renderRow={(product) =>
-                <ListItem>
-                  <View style={styles.view}>
-                    <Image resizeMode = 'contain' style={styles.image} source={{uri:product.imagePath}} />
-                    <View style={ styles.info }>
-                      <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
-                        <Text style={styles.pro_name}>{product.name}</Text>
-                      </View>
-                      <Text note style={styles.descrip}>{product.brand}</Text>
-                      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
-                        <Text style={{ flex: 1, fontSize: 14, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>{product.price}</Text>
-                        <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
-                          <View style={styles.button}>
-                            <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: 'bold' }}>ADD TO CART</Text>
-                          </View>
-                        </TouchableHighlight>
+                  (<ListItem>
+                    <View style={styles.view}>
+                      <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.imagePath }} />
+                      <View style={ styles.info }>
+                        <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
+                          <Text style={styles.pro_name}>{product.name}</Text>
+                        </View>
+                        <Text note style={styles.descrip}>{product.brand}</Text>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
+                          <Text style={{ flex: 1, fontSize: 14, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>{product.price}</Text>
+                          <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
+                            <View style={styles.button}>
+                              <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: 'bold' }}>ADD TO CART</Text>
+                            </View>
+                          </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </ListItem>
-              }>
-              </List>
+                  </ListItem>)
+                } />
             </View>
           </ScrollView>
         </View>
