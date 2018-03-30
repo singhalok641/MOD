@@ -3,7 +3,8 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native'
 import {
   Container,
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
   },
   bottomModalOffers: {
     justifyContent: 'flex-end',
-    margin: 0,
+    margin: 0
   },
   modalOffers: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
+    borderColor: 'rgba(0, 0, 0, 0.1)'
+  }
 })
 
 export default class CartScreen extends React.Component {
@@ -133,14 +134,18 @@ export default class CartScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isLoading: true,
       selected1: 'key0',
       devices: {},
-      result: ''
+      result: '',
+      response: {},
+      products: {},
+      totalPrice: null
     }
   }
 
   componentDidMount = async () => {
-    fetch(`http://192.168.42.85:8082/stores/list-token-device`, {
+    /*fetch(`http://192.168.42.85:8082/stores/list-token-device`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -154,6 +159,30 @@ export default class CartScreen extends React.Component {
           devices: responseJson
         }, function () {
           console.log(this.state.devices[1].tokenDevice)
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })*/
+
+    fetch(`http://192.168.43.217:8082/stores/users/getCart`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.43.217:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          response: responseJson,
+          products: responseJson.products,
+          totalPrice: responseJson.totalPrice
+        }, function () {
+          console.log(responseJson)
         })
       })
       .catch((error) => {
@@ -218,7 +247,15 @@ export default class CartScreen extends React.Component {
     </View>
   )
 
-  render() {
+  render() {   
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
+        </View>
+      )
+    }
+
     const cartItems = [{
       name: 'Whisper Ultra',
       manufacturer: 'Pacific World Cosmetics',
@@ -296,16 +333,16 @@ export default class CartScreen extends React.Component {
             <View>
             	<Text style={{ fontSize: 13, color: '#03a9f4', paddingLeft: 10 }}>Items requiring prescriptions (1)</Text>
             	<List
-                dataArray={cartItems}
-                renderRow={(cart) =>
+                dataArray={this.state.products}
+                renderRow={(product) =>
             		(<ListItem>
                     <View style={styles.view}>
-                      <Image resizeMode = 'contain' style={styles.image} source={image} />
+                      <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.item.imagePath }} />
                       <View style={ styles.info }>
                         <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
-                          <Text style={styles.pro_name}>{cart.name}</Text>
+                          <Text style={styles.pro_name}>{product.item.name}</Text>
                         </View>
-                        <Text note style={styles.descrip}>{cart.description}</Text>
+                        <Text note style={styles.descrip}>{product.item.brand}</Text>
                         <View style={{
                           justifyContent: 'center',
                           alignItems: 'center',
@@ -318,7 +355,7 @@ export default class CartScreen extends React.Component {
                             fontSize: 14,
                             color: '#4d4d4d',
                             alignSelf: 'flex-end',
-                            paddingBottom: 2 }}>₹ {cart.price}</Text>
+                            paddingBottom: 2 }}>₹ {product.price}</Text>
                           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <View style={styles.button}>
                               <Text style={{ fontSize: 17, fontWeight: 'bold' }}> - </Text>
@@ -357,7 +394,7 @@ export default class CartScreen extends React.Component {
                   justifyContent: 'space-between',
                   alignItems: 'center' }}>
                   <Text style={styles.price_text}>MRP Total</Text>
-                  <Text style={styles.price_text}>₹ 600</Text>
+                  <Text style={styles.price_text}>₹ {this.state.totalPrice}</Text>
                 </View>
                 <View style={{
                   flexDirection: 'row',
@@ -391,7 +428,7 @@ export default class CartScreen extends React.Component {
                     justifyContent: 'space-between',
                     alignItems: 'center' }}>
                   <Text style={styles.price_text}>Delivery Charges</Text>
-                  <Text style={styles.price_text}>₹ 10</Text>
+                  <Text style={styles.price_text}>₹ 0</Text>
                 </View>
               </View>
               <View
@@ -408,7 +445,7 @@ export default class CartScreen extends React.Component {
                   alignItems: 'center'
                 }}>
                   <Text style={styles.price_text} />
-                  <Text style={styles.total}>To Pay: ₹ 610</Text>
+                  <Text style={styles.total}>To Pay: ₹ {this.state.totalPrice}</Text>
                 </View>
               </View>
             </View>
