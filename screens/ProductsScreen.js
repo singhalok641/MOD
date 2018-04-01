@@ -93,8 +93,31 @@ export default class ProductsScreen extends React.Component {
       })
   }
 
+  addToCart(productId) {
+    fetch(`http://192.168.43.217:8082/stores/users/addToCart/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.43.217:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('product added to cart')
+          }
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   render() {
-    const { navigate } = this.props.navigation
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -122,8 +145,8 @@ export default class ProductsScreen extends React.Component {
                         </View>
                         <Text note style={styles.descrip}>{product.brand}</Text>
                         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
-                          <Text style={{ flex: 1, fontSize: 14, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>{product.price}</Text>
-                          <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
+                          <Text style={{ flex: 1, fontSize: 14, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>₹ {product.price}</Text>
+                          <TouchableHighlight onPress={() => this.addToCart(product._id)} underlayColor='#dbdbdb'>
                             <View style={styles.button}>
                               <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: 'bold' }}>ADD TO CART</Text>
                             </View>
