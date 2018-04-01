@@ -4,7 +4,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native'
 import {
   Container,
@@ -123,6 +124,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     borderColor: 'rgba(0, 0, 0, 0.1)'
+  },
+  emptyCart: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch'
+  },
+  empty: {
+    flex: 1,
+    width: null,
+    height: null
   }
 })
 
@@ -140,7 +151,8 @@ export default class CartScreen extends React.Component {
       result: '',
       response: {},
       products: {},
-      totalPrice: null
+      totalPrice: null,
+      totalQty: null
     }
   }
 
@@ -180,9 +192,60 @@ export default class CartScreen extends React.Component {
           isLoading: false,
           response: responseJson,
           products: responseJson.products,
-          totalPrice: responseJson.totalPrice
+          totalPrice: responseJson.totalPrice,
+          totalQty: responseJson.totalQty
         }, function () {
           console.log(responseJson)
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  decreaseByOne(productId) {
+    fetch(`http://192.168.43.217:8082/stores/users/reduceByOne/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.43.217:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('decreased quantity by one')
+            this.componentDidMount()
+          }
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  increaseByOne(productId) {
+    fetch(`http://192.168.43.217:8082/stores/users/increaseByOne/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.43.217:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('increased quantity by one')
+            this.componentDidMount()
+          }
         })
       })
       .catch((error) => {
@@ -247,7 +310,8 @@ export default class CartScreen extends React.Component {
     </View>
   )
 
-  render() {   
+  render() {
+    this.componentDidMount()
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -256,55 +320,22 @@ export default class CartScreen extends React.Component {
       )
     }
 
-    const cartItems = [{
-      name: 'Whisper Ultra',
-      manufacturer: 'Pacific World Cosmetics',
-      description: '60 ml bottle',
-      price: 450,
-      category: 'Everyday Medical Products',
-      sub_category: 'Women\'s Care',
-      prescription: true
-    },
-    {
-      name: 'Amway Nutrilite Daily Multivitamin and Multimineral',
-      manufacturer: 'Amway India Enterprises Pvt. Ltd.',
-      description: '120 tablets pack',
-      price: 450,
-      category: 'Everyday Medical Products',
-      sub_category: 'Women\'s Care',
-      prescription: true
-    },
-    {
-      name: 'Whisper Ultra',
-      manufacturer: 'Pacific World Cosmetics',
-      description: '60 ml bottle',
-      price: 450,
-      category: 'Everyday Medical Products',
-      sub_category: 'Women\'s Care',
-      prescription: true
-    },
-    {
-      name: 'Whisper Ultra',
-      manufacturer: 'Pacific World Cosmetics',
-      description: '60 ml bottle',
-      price: 450,
-      category: 'Everyday Medical Products',
-      sub_category: 'Women\'s Care',
-      prescription: false
-    },
-    {
-      name: 'Whisper Ultra',
-      manufacturer: 'Pacific World Cosmetics',
-      description: '60 ml bottle',
-      price: 450,
-      category: 'Everyday Medical Products',
-      sub_category: 'Women\'s Care',
-      prescription: false
-    }]
-
+    if (this.state.products === null || this.state.totalQty === 0) {
+      return (
+        <Container>
+          <View style={styles.emptyCart}>
+            <Text>Oops! You have no items in your cart</Text>
+            <Image
+              resizeMode='contain'
+              source={require('../assets/images/emptycart.png')}
+              style={styles.empty}
+            />
+          </View>
+        </Container>
+      )
+    }
     return (
       <Container>
-
         <Modal
           isVisible={ this.state.visibleModal === 1 }
           style={ styles.bottomModalOffers }
@@ -320,7 +351,7 @@ export default class CartScreen extends React.Component {
             <View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center' }}>
               <View style = {styles.HeaderShapeView}>
                 <Text style = {{ paddingTop: 0, fontSize: 20, color: '#555555', fontWeight: 'bold' }}>Cart</Text>
-                <Text style={{ color: '#03a9f4', fontSize: 12, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 0 }} >2 items, To Pay: ₹610</Text>
+                <Text style={{ color: '#03a9f4', fontSize: 12, fontWeight: 'normal', paddingLeft: 0, paddingBottom: 0 }} >{this.state.totalQty} items, To Pay: ₹ {this.state.totalPrice}</Text>
               </View>
             </View>
           </View>
@@ -357,19 +388,27 @@ export default class CartScreen extends React.Component {
                             alignSelf: 'flex-end',
                             paddingBottom: 2 }}>₹ {product.price}</Text>
                           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={styles.button}>
-                              <Text style={{ fontSize: 17, fontWeight: 'bold' }}> - </Text>
-                            </View>
+                            <TouchableHighlight
+                              onPress={() => this.decreaseByOne(product.item._id)}
+                              underlayColor='#dbdbdb'>
+                              <View style={styles.button}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}> - </Text>
+                              </View>
+                            </TouchableHighlight>
                             <Text style={{
                               fontSize: 15,
                               fontWeight: 'bold',
-                              color: '#4d4d4d' }}>  1  </Text>
-                            <View style={styles.buttons}>
-                              <Text style={{
-                                fontSize: 17,
-                                color: '#03a9f4',
-                                fontWeight: 'bold' }}> + </Text>
-                            </View>
+                              color: '#4d4d4d' }}>  {product.qty}  </Text>
+                            <TouchableHighlight
+                              onPress={() => this.increaseByOne(product.item._id)}
+                              underlayColor='#dbdbdb'>
+                              <View style={styles.buttons}>
+                                <Text style={{
+                                  fontSize: 17,
+                                  color: '#03a9f4',
+                                  fontWeight: 'bold' }}> + </Text>
+                              </View>
+                            </TouchableHighlight>
                           </View>
                         </View>
                       </View>
