@@ -3,16 +3,13 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  View,
-  TouchableHighlight,
-  ActivityIndicator } from 'react-native'
+  View
+} from 'react-native'
 import {
   Container,
   Text,
-  Header,
-  Card,
-  List,
-  ListItem } from 'native-base'
+  Header
+} from 'native-base'
 import { Button, Icon } from 'react-native-elements'
 
 const image = require('../assets/images/whis.jpg')
@@ -96,21 +93,19 @@ export default class SingleProductScreen extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation
     return (
       <Container>
-
       	<Header style={{ backgroundColor: '#fff' }}>
           	<View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-              <Icon
-                iconStyle={{ marginLeft: 8, marginRight: 15, marginTop: 20, marginBottom: 10 }}
-                name='arrow-back'
-                type='MaterialIcons'
-                color='#555555'
-                size={25}
-                onPress={() => this.refs.upload.close()} />
-              <Text style = {{ paddingTop: 8, fontSize: 20, color: '#555555', fontWeight: 'bold' }}>Product Description</Text>
-            </View>
+            <Icon
+              iconStyle={{ marginLeft: 8, marginRight: 15, marginTop: 20, marginBottom: 10 }}
+              name='arrow-back'
+              type='MaterialIcons'
+              color='#555555'
+              size={25}
+              onPress={() => this.refs.upload.close()} />
+            <Text style = {{ paddingTop: 8, fontSize: 20, color: '#555555', fontWeight: 'bold' }}>Product Description</Text>
+          </View>
         </Header>
 
         <View style={styles.container}>
@@ -140,7 +135,7 @@ export default class SingleProductScreen extends React.Component {
   				}}
 			  />
 			  <View style={{ paddingTop: 13 }}>
-			  	<View style={{ flexDirection: 'row', alignItems: 'center', }}>
+			  	<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 			  		<Icon
 			  		 iconStyle={{ marginRight: 3 }}
                 	 name='flash-on'
@@ -160,26 +155,26 @@ export default class SingleProductScreen extends React.Component {
           </ScrollView>
         </View>
         <View style={{ alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Button
-                large
-                containerViewStyle={{ width: '50%' }}
-                buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
-                backgroundColor={'#03a9f4'}
-                title={`ADD TO CART`}
-                fontWeight={'bold'}
-                fontSize = {17}
-              />
-              <Button
-                large
-                containerViewStyle={{ width: '50%' }}
-                buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
-                backgroundColor={'#ffffff'}
-                textStyle={{ color: '#03a9f4' }}
-                title={`BUY NOW`}
-                fontWeight={'bold'}
-                fontSize = {17}
-              />
-          </View>
+          <Button
+            large
+            containerViewStyle={{ width: '50%' }}
+            buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
+            backgroundColor={'#03a9f4'}
+            title={`ADD TO CART`}
+            fontWeight={'bold'}
+            fontSize = {17}
+          />
+          <Button
+            large
+            containerViewStyle={{ width: '50%' }}
+            buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
+            backgroundColor={'#ffffff'}
+            textStyle={{ color: '#03a9f4' }}
+            title={`BUY NOW`}
+            fontWeight={'bold'}
+            fontSize = {17}
+          />
+        </View>
       </Container>
     )
   }

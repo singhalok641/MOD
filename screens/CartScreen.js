@@ -17,8 +17,6 @@ import {
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 
-const image = require('../assets/images/amway.jpg')
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -311,7 +309,7 @@ export default class CartScreen extends React.Component {
   )
 
   render() {
-    this.componentDidMount()
+    //this.componentDidMount()
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>

@@ -5,6 +5,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Clipboard,
+  Share,
   Dimensions,
   TouchableHighlight } from 'react-native'
 import {
@@ -18,7 +20,7 @@ import Carousel from 'react-native-banner-carousel'
 import { Button, Icon } from 'react-native-elements'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Modal from 'react-native-modalbox'
-import { Constants, Location, Permissions } from 'expo'
+import { Constants, Location, Permissions, ImagePicker } from 'expo'
 
 const styles = StyleSheet.create({
   container: {
@@ -113,6 +115,40 @@ const devices = require('../assets/images/products/devices.png')
 const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
+async function uploadImageAsync(uri) {
+  let apiUrl = 'http://192.168.43.217:8082/stores/users/prescriptionUpload'
+
+  // Note:
+  // Uncomment this if you want to experiment with local server
+  //
+  // if (Constants.isDevice) {
+  //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
+  // } else {
+  //   apiUrl = `http://localhost:3000/upload`
+  // }
+
+  let uriParts = uri.split('.')
+  let fileType = uriParts[uriParts.length - 1]
+
+  let formData = new FormData()
+  formData.append('photo', {
+    uri,
+    name: `photo.${fileType}`,
+    type: `image/${fileType}`
+  })
+
+  let options = {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+
+  return fetch(apiUrl, options)
+}
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -128,7 +164,9 @@ export default class HomeScreen extends React.Component {
       location: null,
       errorMessage: null,
       latitude: null,
-      longitude: null
+      longitude: null,
+      image: null,
+      uploading: false
     }
   }
 
@@ -200,8 +238,63 @@ export default class HomeScreen extends React.Component {
     )
   }
 
+  _share = () => {
+    Share.share({
+      message: this.state.image,
+      title: 'Check out this photo',
+      url: this.state.image
+    })
+  };
+
+  _copyToClipboard = () => {
+    Clipboard.setString(this.state.image)
+    //alert('Copied image URL to clipboard')
+  };
+
+  _takePhoto = async () => {
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      //allowsEditing: true,
+      //aspect: [4, 3]
+    })
+
+    this._handleImagePicked(pickerResult)
+  };
+
+  _pickImage = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      //allowsEditing: true,
+      //aspect: [4, 3]
+    })
+
+    this._handleImagePicked(pickerResult)
+  };
+
+  _handleImagePicked = async pickerResult => {
+    let uploadResponse
+    let uploadResult
+
+    try {
+      this.setState({ uploading: true })
+
+      if (!pickerResult.cancelled) {
+        uploadResponse = await uploadImageAsync(pickerResult.uri)
+        uploadResult = await uploadResponse.json()
+        this.setState({ image: uploadResult.location })
+      }
+    } catch (e) {
+      console.log({ uploadResponse })
+      console.log({ uploadResult })
+      console.log({ e })
+      //alert('Upload failed, sorry :(')
+    } finally {
+      this.setState({ uploading: false })
+    }
+  };
+
   render() {
     const { navigate } = this.props.navigation
+    let { image } = this.state
+
     return (
       <Container>
         <Header style={{ backgroundColor: '#fff' }}>
@@ -350,13 +443,15 @@ export default class HomeScreen extends React.Component {
           <View >
             <Text style = {{ paddingTop: 8, paddingLeft: 25, fontSize: 14, color: '#03a9f4' }}>Choose an option to upload</Text>
             <View style = {styles.SquaresShapeView}>
-              <Container style={{ paddingLeft: 0, flexDirection: 'column' }}>
+              <Container
+                style={{ paddingLeft: 0, flexDirection: 'column' }}>
                 <Icon
                   iconStyle={{ alignSelf: 'center', marginBottom: 0 }}
                   name='camera'
                   type='entypo'
                   color='#808080'
-                  size={39}/>
+                  size={39}
+                  onPress={this._takePhoto} />
                 <Text style={{ textAlign: 'center', fontSize: 14, color: '#808080' }}>Camera</Text>
               </Container>
 
@@ -366,7 +461,8 @@ export default class HomeScreen extends React.Component {
                   name='photo-size-select-actual'
                   type='MaterialIcons'
                   color='#808080'
-                  size={39} />
+                  size={39}
+                  onPress={this._pickImage} />
                 <Text style={{ textAlign: 'center', fontSize: 14, color: '#808080' }}>Gallery</Text>
               </Container>
 
@@ -421,7 +517,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'personal care'}`, title: `${'Personal Care'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'personal care'}`, title: `${'Personal Care'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={personal}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Personal Care</Text>
@@ -430,7 +526,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'health care'}`, title: `${'Health Care'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'health care'}`, title: `${'Health Care'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={health}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Health Care</Text>
@@ -441,7 +537,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 8, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'healthcare devices'}`, title: `${'HealthCare Devices'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'healthcare devices'}`, title: `${'HealthCare Devices'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={devices}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Healthcare Devices</Text>
@@ -450,7 +546,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'diabetic care'}`, title: `${'Diabetic Care'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'diabetic care'}`, title: `${'Diabetic Care'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={diabetes}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Diabetic Care</Text>
@@ -461,7 +557,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'natural care'}`, title: `${'Natural Care'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'natural care'}`, title: `${'Natural Care'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={natural}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Natural Care</Text>
@@ -470,7 +566,7 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'food & nutrition'}`, title: `${'Food & Nutrition'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'food & nutrition'}`, title: `${'Food & Nutrition'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={food}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Food & Nutrition</Text>
@@ -481,7 +577,7 @@ export default class HomeScreen extends React.Component {
 
               <View style={{ paddingTop: 12, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'sexual wellness'}`, title: `${'Sexual Wellness'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'sexual wellness'}`, title: `${'Sexual Wellness'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={sexual}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Sexual Wellness</Text>
@@ -489,7 +585,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableHighlight>
                 </View>
                 <View style={{ marginTop: 7 }}>
-                  <TouchableHighlight onPress={() => navigate('ProductsScreen', {category: `${'baby & mother'}`, title: `${'Baby & Mother'}` } )} underlayColor='#dbdbdb' >
+                  <TouchableHighlight onPress={() => navigate('ProductsScreen', { category: `${'baby & mother'}`, title: `${'Baby & Mother'}` })} underlayColor='#dbdbdb' >
                     <Card style={styles.products}>
                       <Image resizeMode = 'contain' style={styles.image} source={baby}/>
                       <Text style={{ paddingLeft: 8, paddingTop: 4, fontSize: 14, color: '#555555', fontWeight: 'bold' }}>Baby & Mother</Text>
