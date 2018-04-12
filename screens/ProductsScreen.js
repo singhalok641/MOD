@@ -11,6 +11,7 @@ import {
   Text,
   List,
   ListItem } from 'native-base'
+import InfiniteScrollView from 'react-native-infinite-scroll-view'
 
 const styles = StyleSheet.create({
   container: {
@@ -54,6 +55,14 @@ const styles = StyleSheet.create({
   }
 })
 
+loadMoreContentAsync = async () => {
+  // Fetch more data here.
+  // After fetching data, you should update your ListView data source
+  // manually.
+  // This function does not have a return value.
+}
+
+
 export default class ProductsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.title}`
@@ -69,7 +78,7 @@ export default class ProductsScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    fetch(`http://192.168.43.217:8082/stores/users/getProducts/${this.props.navigation.state.params.category}`,
+    fetch(`http://192.168.43.217:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
       {
         method: 'GET',
         headers: {
@@ -152,21 +161,6 @@ export default class ProductsScreen extends React.Component {
                             </View>
                           </TouchableHighlight>
                         </View>
-                <ListItem>
-                  <View style={styles.view}>
-                    <Image resizeMode = 'contain' style={styles.image} source={{uri:product.imagePath}} />
-                    <View style={ styles.info }>
-                      <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
-                        <Text style={styles.pro_name}>{product.name}</Text>
-                      </View>
-                      <Text note style={styles.descrip}>{product.brand}</Text>
-                      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingTop: 5 }}>
-                        <Text style={{ flex: 1, fontSize: 16, color: '#4d4d4d', alignSelf: 'flex-end', paddingBottom: 2 }}>{product.price}</Text>
-                        <TouchableHighlight onPress={() => navigate('EverydayScreen')} underlayColor='#dbdbdb'>
-                          <View style={styles.button}>
-                            <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: 'bold' }}>ADD TO CART</Text>
-                          </View>
-                        </TouchableHighlight>
                       </View>
                     </View>
                   </ListItem>)

@@ -17,8 +17,6 @@ import {
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 
-const image = require('../assets/images/amway.jpg')
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -37,8 +35,8 @@ const styles = StyleSheet.create({
     borderRadius: 1
   },
   button: {
-    height: 21,
-    width: 21,
+    height: 23,
+    width: 23,
     borderWidth: 1,
     borderRadius: 21,
     borderColor: '#555555',
@@ -47,7 +45,7 @@ const styles = StyleSheet.create({
     alignContent: 'center'
   },
   price_text: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#555555',
     paddingTop: 4,
     paddingBottom: 4
@@ -67,8 +65,8 @@ const styles = StyleSheet.create({
     paddingBottom: 4
   },
   buttons: {
-    height: 21,
-    width: 21,
+    height: 23,
+    width: 23,
     borderWidth: 1,
     borderRadius: 21,
     borderColor: '#03a9f4',
@@ -79,7 +77,8 @@ const styles = StyleSheet.create({
   pricing: {
     paddingLeft: 13,
     paddingRight: 13,
-    paddingTop: 13
+    paddingTop: 13,
+    paddingBottom: 10
   },
   modal: {
     justifyContent: 'flex-start'
@@ -89,15 +88,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   image: {
-    width: 75,
-    height: 75
+    width: 95,
+    height: 95
   },
   pro_name: {
-    fontSize: 13,
+    fontSize: 16,
     paddingLeft: 5
   },
   descrip: {
-    fontSize: 12,
+    fontSize: 14,
     paddingTop: 3,
     alignSelf: 'stretch',
     paddingLeft: 5
@@ -119,11 +118,26 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 0
   },
+  bottomModalAddress: {
+    justifyContent: 'flex-end',
+    margin: 0
+  },
   modalOffers: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
     borderColor: 'rgba(0, 0, 0, 0.1)'
+  },
+  modalAddress: {
+    flex: 0.5,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)'
+  },
+  account: {
+    color: '#555555',
+    fontSize: 17,
+    fontWeight: 'bold'
   },
   emptyCart: {
     flex: 1,
@@ -310,8 +324,65 @@ export default class CartScreen extends React.Component {
     </View>
   )
 
+  _renderAddress = () => (
+    <View style={ styles.modalAddress }>
+      <View style={{ paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 10, backgroundColor: '#e5f6fd' }}>
+        <Text style={ styles.account }>Choose a delivery address</Text>
+      </View>
+      <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+        <View style={{ flex: 1, flexDirection: 'column', paddingTop: 10, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+          <View
+            style={ styles.modalAddress }
+            behavior='padding'>
+            <List>
+              <ListItem>
+                <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
+                  <Icon
+                    name='location-on'
+                    type='material'
+                    color='#0A9EFC'
+                    size={26}
+                  />
+                  <View style={{ paddingLeft: 10 }}>
+                    <Text style={{ alignSelf: 'stretch', fontSize: 18, color: '#0A9EFC' }}>Other</Text>
+                    <Text style={{ fontSize: 16, color: '#697689' }}>221-B, Baker Street, Indirapuram, GZB</Text>
+                  </View>
+                </View>
+              </ListItem>
+              <ListItem>
+                <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
+                  <Icon
+                    name='home'
+                    type='foundation'
+                    color='#0A9EFC'
+                    size={26}
+                  />
+                  <View style={{ paddingLeft: 10 }}>
+                    <Text style={{ alignSelf: 'stretch', fontSize: 18, color: '#0A9EFC' }}>Home</Text>
+                    <Text style={{ fontSize: 16, color: '#697689' }}>697-A, Nyay Khand 1st, Indirapuram, GZB</Text>
+                  </View>
+                </View>
+              </ListItem>
+            </List>
+          </View>
+        </View>
+      </ScrollView>
+      <View style={{ alignItems: 'center', flexDirection: 'row', paddingBottom: 10, paddingLeft: 15 }}>
+        <Icon
+          name='plus'
+          type='entypo'
+          color='#0A9EFC'
+          size={28}
+        />
+        <View>
+          <Text style={{ fontSize: 18, color: '#0A9EFC', fontWeight: 'bold' }}>ADD NEW ADDRESS</Text>
+        </View>
+      </View>
+    </View>
+  )
+
   render() {
-    this.componentDidMount()
+    //this.componentDidMount()
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -344,6 +415,16 @@ export default class CartScreen extends React.Component {
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           animationOut={ 'slideOutRight' }>
           {this._renderOffers()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 2 }
+          style={ styles.bottomModalAddress }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }>
+          {this._renderAddress()}
         </Modal>
 
       	<Header style={{ backgroundColor: '#fff' }}>
@@ -383,7 +464,7 @@ export default class CartScreen extends React.Component {
                         }}>
                           <Text style={{
                             flex: 1,
-                            fontSize: 14,
+                            fontSize: 16,
                             color: '#4d4d4d',
                             alignSelf: 'flex-end',
                             paddingBottom: 2 }}>₹ {product.price}</Text>
@@ -396,7 +477,7 @@ export default class CartScreen extends React.Component {
                               </View>
                             </TouchableHighlight>
                             <Text style={{
-                              fontSize: 15,
+                              fontSize: 16,
                               fontWeight: 'bold',
                               color: '#4d4d4d' }}>  {product.qty}  </Text>
                             <TouchableHighlight
@@ -498,6 +579,7 @@ export default class CartScreen extends React.Component {
           title={`CONFIRM YOUR ORDER`}
           fontWeight={'bold'}
           fontSize = {17}
+          onPress={() => this.setState({ visibleModal: 2 })}
         />
       </Container>
     )

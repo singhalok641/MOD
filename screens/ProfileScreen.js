@@ -5,7 +5,9 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native'
 import {
   Container,
@@ -16,7 +18,8 @@ import {
   List,
   ListItem,
   Form,
-  Label } from 'native-base'
+  Label
+} from 'native-base'
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 import { ProgressDialog } from 'react-native-simple-dialogs'
@@ -148,6 +151,8 @@ export default class ProfileScreen extends React.Component {
       email: '',
       name: '',
       password: '',
+      _id: null,
+      user: {},
       passLength: '',
       textLength: '',
       otpLength: '',
@@ -155,19 +160,64 @@ export default class ProfileScreen extends React.Component {
       auth: {},
       message: '',
       loginResponse: '',
-      isExists: false
+      isExists: false,
+      userLoggedIn: false,
+      isLoading: true
+    }
+  }
+
+  componentDidMount = async () => {
+    let token = await AsyncStorage.getItem('token')
+    console.log(token)
+    if (token !== null) {
+      fetch(`http://192.168.43.217:8082/stores/users/profile`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+          'Host': 'http://192.168.43.217:8082'
+        }
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({
+            user: responseJson.user
+          }, function () {
+            console.log(this.state.user)
+            if (responseJson.success === true) {
+              console.log('success')
+              this.setState({
+                userLoggedIn: true,
+                isLoading: false
+              })
+            }
+            else {
+              console.log('failure')
+            }
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+    else {
+      this.setState({
+        isLoading: false
+      })
     }
   }
 
   verifyToken() {
-    fetch(`http://192.168.42.85:8082/stores/users/${this.state.auth.user._id}/verify`, {
+    this.setState({ showProgress: true })
+    fetch(`http://192.168.43.217:8082/stores/users/${this.state.auth.user._id}/verify`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        code: this.state.otpcode
+        code: this.state.otpCode
       })
     })
       .then((response) => response.json())
@@ -180,9 +230,10 @@ export default class ProfileScreen extends React.Component {
       });*/
         console.log(responseJson)
         if (responseJson.success === true) {
-          alert('You are signed up! :)')
+          this.setState({ showProgress: false })
           this.setState({
-            visibleModal: null
+            visibleModal: null,
+            userLoggedIn: true
           })
         } else {
           alert(responseJson.message)
@@ -191,9 +242,8 @@ export default class ProfileScreen extends React.Component {
   }
 
   signUp() {
-    // this.openProgress();
     this.setState({ showProgress: true })
-    fetch('http://192.168.42.85:8082/stores/users', {
+    fetch('http://192.168.43.217:8082/stores/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -214,9 +264,10 @@ export default class ProfileScreen extends React.Component {
           this.setState({ showProgress: false })
           console.log(this.state.auth)
           if (this.state.auth.success === true) {
-            // {this.sendVerificationToken()}
+            AsyncStorage.setItem('token', this.state.auth.token)
             this.setState({
-              visibleModal: 3
+              visibleModal: 3,
+              user: this.state.auth.user
               // email:'',
               // name:'',
               // password:'',
@@ -234,7 +285,7 @@ export default class ProfileScreen extends React.Component {
   login() {
     // console.log(this.state.isExists);
     if (!this.state.isExists) {
-      fetch(`http://192.168.42.85:8082/stores/users/${this.state.number}/userExists`, {
+      fetch(`http://192.168.43.217:8082/stores/users/${this.state.number}/userExists`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -261,7 +312,7 @@ export default class ProfileScreen extends React.Component {
           })
         })
     } else {
-      fetch(`http://192.168.42.85:8082/stores/users/login`, {
+      fetch(`http://192.168.43.217:8082/stores/users/login`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -278,13 +329,15 @@ export default class ProfileScreen extends React.Component {
             loginResponse: responseJson
           }, function () {
             if (this.state.loginResponse.success === true) {
-              alert('You are logged in')
               console.log('password verified')
+              AsyncStorage.setItem('token', this.state.loginResponse.token)
+              console.log(this.state.loginResponse)
               this.setState({
                 visibleModal: null
               })
+              this.loginUser()
             } else {
-              alert('Sorry! Wrong password')
+              // alert('Sorry! Wrong password')
               console.log('wrong password')
             /* this.setState({
               visibleModal: 4,
@@ -295,6 +348,12 @@ export default class ProfileScreen extends React.Component {
         })
     }
   }
+
+  loginUser = () => (
+    this.setState({
+      userLoggedIn: true
+    })
+  )
 
   _renderEditAccount = () => (
     <View style={ styles.modalContentEdit }>
@@ -511,6 +570,12 @@ export default class ProfileScreen extends React.Component {
             onChangeText={(otp) => this.setState({ otpLength: otp.length, otpCode: otp })}
           />
         </Item>
+        <ProgressDialog
+          visible={this.state.showProgress}
+          message='Loading...'
+          activityIndicatorSize='large'
+          activityIndicatorColor='#03a9f4'
+        />
         <Button
           raised
           disabled={ this.state.otpLength === 6 ? (false) : (true) }
@@ -673,28 +738,205 @@ export default class ProfileScreen extends React.Component {
   };*/
 
   render() {
-    return (
-      <Container style={ styles.container1 } >
-
-
-        <View style={ styles.coverImageContainer }>
-          <Image resizeMode='contain' source={require('../assets/images/preview.png')} style={ styles.cover } />
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
         </View>
-        <View style={{ flex: 1, backgroundColor: '#fff', marginLeft: 15, marginRight: 15, marginTop: 20 }}>
-          <View style={{ flex: 1, flexDirection: 'column' }}>
-            <Text style={ styles.account }>ACCOUNT</Text>
-            <Text note>Login/Create account quickly to manage orders</Text>
-            <Button
-              raised
-              containerViewStyle={{ marginTop: 20, marginLeft: 0, marginRight: 0 }}
-              buttonStyle={{ backgroundColor: '#03a9f4' }}
-              textStyle={{ textAlign: 'center' }}
-              fontWeight={'bold'}
-              title={`LOGIN`}
-              onPress={() => this.setState({ visibleModal: 5 })}
-            />
-            <List style={{ marginTop: 20 }}>
+      )
+    }
+    if (this.state.userLoggedIn === false) {
+      return (
+        <Container style={ styles.container1 } >
+          <View style={ styles.coverImageContainer }>
+            <Image resizeMode='contain' source={require('../assets/images/preview.png')} style={ styles.cover } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#fff', marginLeft: 15, marginRight: 15, marginTop: 20 }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text style={ styles.account }>ACCOUNT</Text>
+              <Text note>Login/Create account quickly to manage orders</Text>
+              <Button
+                raised
+                containerViewStyle={{ marginTop: 20, marginLeft: 0, marginRight: 0 }}
+                buttonStyle={{ backgroundColor: '#03a9f4' }}
+                textStyle={{ textAlign: 'center' }}
+                fontWeight={'bold'}
+                title={`LOGIN`}
+                onPress={() => this.setState({ visibleModal: 5 })}
+              />
+              <List style={{ marginTop: 20 }}>
+                <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 2 })}>
+                  <View>
+                    <Text style={styles.op_name}>Offers</Text>
+                  </View>
+                  <Icon
+                    name='local-offer'
+                    type='material'
+                    color='#fcb900'
+                    size={28}
+                  />
+                </ListItem>
+                <ListItem style={styles.option}>
+                  <View>
+                    <Text style={styles.op_name}>Send Feedback</Text>
+                  </View>
+                  <Icon
+                    name='gmail'
+                    type='material-community'
+                    color='#dd4b39'
+                    size={28}
+                  />
+                </ListItem>
+              </List>
+            </View>
+          </View>
+
+          <Modal
+            isVisible={ this.state.visibleModal === 5 }
+            style={ styles.bottomModalLogin }
+            backdropOpacity={0.5}
+            onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+            onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+            animationOut={ 'slideOutRight' }
+          >
+            {this._renderLoginModalContent()}
+          </Modal>
+
+          <Modal
+            isVisible={this.state.visibleModal === 4}
+            style={ styles.bottomModalSignUp }
+            backdropOpacity={0}
+            onBackButtonPress={() => this.setState({ visibleModal: null, email: '', name: '', password: '', number: '' })}
+            onBackdropPress={() => this.setState({ visibleModal: null, email: '', name: '', password: '', number: '' })}
+            animationOut={ 'slideOutRight' }
+          >
+            {this._renderSignUpModalContent()}
+          </Modal>
+
+          <Modal
+            isVisible={this.state.visibleModal === 3}
+            style={ styles.bottomModalSignUp }
+            backdropOpacity={0}
+            onBackButtonPress={() => this.setState({ visibleModal: null })}
+            onBackdropPress={() => this.setState({ visibleModal: null })}
+            animationOut={ 'slideOutRight' }
+          >
+            {this._renderOTPModalContent()}
+          </Modal>
+
+          <Modal
+            isVisible={ this.state.visibleModal === 2 }
+            style={ styles.bottomModal }
+            backdropOpacity={0.5}
+            onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+            onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+            animationOut={ 'slideOutRight' }
+          >
+            {this._renderOffers()}
+          </Modal>
+        </Container>
+      )
+    }
+    return (
+      <Container>
+        <Modal
+          isVisible={ this.state.visibleModal === 1 }
+          style={ styles.bottomModal }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }
+        >
+          {this._renderEditAccount()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 2 }
+          style={ styles.bottomModal }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }
+        >
+          {this._renderPrescription()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 3 }
+          style={ styles.bottomModal }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }
+        >
+          {this._renderAddress()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 4 }
+          style={ styles.bottomModal }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }
+        >
+          {this._renderNotifications()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 5 }
+          style={ styles.bottomModal }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }
+        >
+          {this._renderOffers()}
+        </Modal>
+
+        <View style={styles.container2}>
+          <ScrollView>
+            <View style={styles.view}>
+              <View>
+                <Text style={styles.name}>{this.state.user.fullName}</Text>
+                <Text note onPress={() => this.setState({ visibleModal: 1 })} style={{ fontSize: 15 }}>View and edit profile</Text>
+              </View>
+            </View>
+            <List style={{ paddingTop: 20 }}>
               <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 2 })}>
+                <View>
+                  <Text style={styles.op_name}>My Prescriptions</Text>
+                </View>
+                <Icon
+                  name='prescription'
+                  type='material-community'
+                  color='#0693e3'
+                  size={28}
+                />
+              </ListItem>
+              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 3 })}>
+                <View>
+                  <Text style={styles.op_name}>My Addresses</Text>
+                </View>
+                <Icon
+                  name='location'
+                  type='entypo'
+                  color='#fccb00'
+                  size={28}
+                />
+              </ListItem>
+              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 4 })}>
+                <View>
+                  <Text style={styles.op_name}>Notifications</Text>
+                </View>
+                <Icon
+                  name='notifications'
+                  type='MaterialIcons'
+                  color='#e27300'
+                  size={28}
+                />
+              </ListItem>
+              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 5 })}>
                 <View>
                   <Text style={styles.op_name}>Offers</Text>
                 </View>
@@ -707,7 +949,7 @@ export default class ProfileScreen extends React.Component {
               </ListItem>
               <ListItem style={styles.option}>
                 <View>
-                  <Text style={styles.op_name}>Send Feedback</Text>
+                  <Text style={styles.op_name}>Send feedback</Text>
                 </View>
                 <Icon
                   name='gmail'
@@ -716,188 +958,21 @@ export default class ProfileScreen extends React.Component {
                   size={28}
                 />
               </ListItem>
-            </List>
-          </View>
-        </View>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 5 }
-          style={ styles.bottomModalLogin }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
-        >
-          {this._renderLoginModalContent()}
-        </Modal>
-
-        <Modal
-          isVisible={this.state.visibleModal === 4}
-          style={ styles.bottomModalSignUp }
-          backdropOpacity={0}
-          onBackButtonPress={() => this.setState({ visibleModal: null, email: '', name: '', password: '', number: '' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, email: '', name: '', password: '', number: '' })}
-          animationOut={ 'slideOutRight' }
-        >
-          {this._renderSignUpModalContent()}
-        </Modal>
-
-        <Modal
-          isVisible={this.state.visibleModal === 3}
-          style={ styles.bottomModalSignUp }
-          backdropOpacity={0}
-          onBackButtonPress={() => this.setState({ visibleModal: null })}
-          onBackdropPress={() => this.setState({ visibleModal: null })}
-          animationOut={ 'slideOutRight' }
-        >
-          {this._renderOTPModalContent()}
-        </Modal>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 2 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
-        >
-          {this._renderOffers()}
-        </Modal>
-
-        {/* <Modal
-          isVisible={ this.state.visibleModal === 1 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          animationOut={ 'slideOutRight' }
-          >
-          {this._renderEditAccount()}
-        </Modal>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 2 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          animationOut={ 'slideOutRight' }
-          >
-          {this._renderPrescription()}
-        </Modal>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 3 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          animationOut={ 'slideOutRight' }
-          >
-          {this._renderAddress()}
-        </Modal>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 4 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          animationOut={ 'slideOutRight' }
-          >
-          {this._renderNotifications()}
-        </Modal>
-
-        <Modal
-          isVisible={ this.state.visibleModal === 5 }
-          style={ styles.bottomModal }
-          backdropOpacity={0.5}
-          onBackButtonPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          onBackdropPress={() => this.setState({ visibleModal: null, textLength:'', isExists: false, passLength:'' })}
-          animationOut={ 'slideOutRight' }
-          >
-          {this._renderOffers()}
-        </Modal>
-
-        <View style={styles.container2}>
-          <ScrollView>
-             <View style={styles.view}>
-              <View>
-                <Text style={styles.name}>Ankur Singh</Text>
-                <Text note onPress={() => this.setState({ visibleModal: 1 })} style={{fontSize :15}}>View and edit profile</Text>
-              </View>
-             </View>
-            <List style={{paddingTop :20}}>
-              <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 2 })}>
-                <View>
-                  <Text style={styles.op_name}>My Prescriptions</Text>
-                </View>
-                  <Icon
-                    name='prescription'
-                    type='material-community'
-                    color='#0693e3'
-                    size={28}
-                    />
-               </ListItem>
-               <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 3 })}>
-                <View>
-                  <Text style={styles.op_name}>My Addresses</Text>
-                </View>
-                  <Icon
-                    name='location'
-                    type='entypo'
-                    color='#fccb00'
-                    size={28}
-                    />
-               </ListItem>
-               <ListItem style={styles.option} onPress={() => this.setState({ visibleModal: 4 })}>
-                <View>
-                  <Text style={styles.op_name}>Notifications</Text>
-                </View>
-                  <Icon
-                    name='notifications'
-                    type='MaterialIcons'
-                    color='#e27300'
-                    size={28}
-                    />
-               </ListItem>
-               <ListItem style={styles.option}  onPress={() => this.setState({ visibleModal: 5 })}>
-                <View>
-                  <Text style={styles.op_name}>Offers</Text>
-                </View>
-                  <Icon
-                    name='local-offer'
-                    type='material'
-                    color='#fcb900'
-                    size={28}
-                    />
-               </ListItem>
-               <ListItem style={styles.option}>
-                <View>
-                  <Text style={styles.op_name}>Send feedback</Text>
-                </View>
-                  <Icon
-                    name='gmail'
-                    type='material-community'
-                    color='#dd4b39'
-                    size={28}
-                    />
-               </ListItem>
-               <ListItem style={styles.option}>
+              <ListItem style={styles.option}>
                 <View>
                   <Text style={styles.op_name}>Logout</Text>
                 </View>
-                  <Icon
-                    name='power-settings-new'
-                    type='MaterialIcons'
-                    color='#0288d1'
-                    size={28}
-                    />
-               </ListItem>
-             </List>
+                <Icon
+                  name='power-settings-new'
+                  type='MaterialIcons'
+                  color='#0288d1'
+                  size={28}
+                />
+              </ListItem>
+            </List>
           </ScrollView>
-        </View>*/}
-	  </Container>
+        </View>
+      </Container>
     )
   }
 }
