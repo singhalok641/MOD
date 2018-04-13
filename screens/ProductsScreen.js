@@ -10,8 +10,9 @@ import {
   Container,
   Text,
   List,
-  ListItem } from 'native-base'
-import InfiniteScrollView from 'react-native-infinite-scroll-view'
+  ListItem
+} from 'native-base'
+//import InfiniteScrollView from 'react-native-infinite-scroll-view'
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +74,8 @@ export default class ProductsScreen extends React.Component {
     this.state = {
       isLoading: true,
       products: {},
-      response: {}
+      response: {},
+      showToast: false
     }
   }
 

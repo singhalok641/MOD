@@ -349,6 +349,13 @@ export default class ProfileScreen extends React.Component {
     }
   }
 
+  logOut = () => (
+    //AsyncStorage.clear(())
+    this.setState({
+      userLoggedIn: false
+    })
+  )
+
   loginUser = () => (
     this.setState({
       userLoggedIn: true
@@ -958,7 +965,7 @@ export default class ProfileScreen extends React.Component {
                   size={28}
                 />
               </ListItem>
-              <ListItem style={styles.option}>
+              <ListItem style={styles.option} onPress={() => this.logOut}>
                 <View>
                   <Text style={styles.op_name}>Logout</Text>
                 </View>
