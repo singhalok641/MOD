@@ -129,9 +129,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)'
   },
   modalAddress: {
-    flex: 0.5,
+    flex: 0.4,
     flexDirection: 'column',
     backgroundColor: 'white',
+    aspectRatio: 2,
     borderColor: 'rgba(0, 0, 0, 0.1)'
   },
   account: {
@@ -330,10 +331,7 @@ export default class CartScreen extends React.Component {
         <Text style={ styles.account }>Choose a delivery address</Text>
       </View>
       <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-        <View style={{ flex: 1, flexDirection: 'column', paddingTop: 10, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-          <View
-            style={ styles.modalAddress }
-            behavior='padding'>
+        <View style={{ flex: 1, flexDirection: 'column', paddingTop: 10, paddingLeft: 5, paddingRight: 5, paddingBottom: 0 }}>
             <List>
               <ListItem>
                 <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
@@ -341,11 +339,11 @@ export default class CartScreen extends React.Component {
                     name='location-on'
                     type='material'
                     color='#0A9EFC'
-                    size={26}
+                    size={22}
                   />
-                  <View style={{ paddingLeft: 10 }}>
-                    <Text style={{ alignSelf: 'stretch', fontSize: 18, color: '#0A9EFC' }}>Other</Text>
-                    <Text style={{ fontSize: 16, color: '#697689' }}>221-B, Baker Street, Indirapuram, GZB</Text>
+                  <View style={{ paddingLeft: 15 }}>
+                    <Text style={{ alignSelf: 'stretch', fontSize: 16, color: '#0A9EFC', fontWeight: 'bold' }}>Other</Text>
+                    <Text style={{ fontSize: 14, color: '#697689' }}>221-B, Baker Street, Indirapuram, GZB</Text>
                   </View>
                 </View>
               </ListItem>
@@ -355,29 +353,30 @@ export default class CartScreen extends React.Component {
                     name='home'
                     type='foundation'
                     color='#0A9EFC'
-                    size={26}
+                    size={22}
                   />
-                  <View style={{ paddingLeft: 10 }}>
-                    <Text style={{ alignSelf: 'stretch', fontSize: 18, color: '#0A9EFC' }}>Home</Text>
-                    <Text style={{ fontSize: 16, color: '#697689' }}>697-A, Nyay Khand 1st, Indirapuram, GZB</Text>
+                  <View style={{ paddingLeft: 15 }}>
+                    <Text style={{ alignSelf: 'stretch', fontSize: 16, color: '#0A9EFC', fontWeight: 'bold' }}>Home</Text>
+                    <Text style={{ fontSize: 14, color: '#697689' }}>697-A, Nyay Khand 1st, Indirapuram, GZB</Text>
                   </View>
                 </View>
               </ListItem>
             </List>
           </View>
-        </View>
       </ScrollView>
-      <View style={{ alignItems: 'center', flexDirection: 'row', paddingBottom: 10, paddingLeft: 15 }}>
-        <Icon
-          name='plus'
-          type='entypo'
-          color='#0A9EFC'
-          size={28}
-        />
-        <View>
-          <Text style={{ fontSize: 18, color: '#0A9EFC', fontWeight: 'bold' }}>ADD NEW ADDRESS</Text>
+      <TouchableHighlight onPress={() => this.props.navigation('AddressScreen')} underlayColor='#dbdbdb' >
+        <View style={{ alignItems: 'center', flexDirection: 'row', paddingBottom: 15, paddingLeft: 15 }}>
+          <Icon
+            name='plus'
+            type='entypo'
+            color='#0A9EFC'
+            size={24}
+          />
+          <View style={{ paddingLeft: 15 }}>
+            <Text style={{ fontSize: 16, color: '#0A9EFC', fontWeight: 'bold' }}>ADD NEW ADDRESS</Text>
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
     </View>
   )
 

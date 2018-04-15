@@ -12,7 +12,6 @@ import {
 } from 'native-base'
 import { Button, Icon } from 'react-native-elements'
 
-const image = require('../assets/images/whis.jpg')
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -27,42 +26,47 @@ const styles = StyleSheet.create({
   },
   image: {
   	alignSelf: 'center',
-    width: 250,
-    height: 250
+    width: 220,
+    height: 220,
+    paddingTop: 15,
+    paddingBottom: 10
   },
   pro_name: {
-  	paddingTop: 7,
-    fontSize: 18,
-    paddingLeft: 5
+    fontSize: 16,
+    paddingLeft: 5,
+    color: '#646464',
+    fontWeight: 'bold'
   },
   price: {
-  	paddingTop: 10,
-    fontSize: 18,
-    paddingLeft: 5
+  	paddingTop: 8,
+    fontSize: 20,
+    paddingLeft: 5,
+    color: '#646464'
   },
   descrip: {
-    fontSize: 17,
+    fontSize: 13,
     paddingTop: 5,
+    alignSelf: 'stretch',
+    paddingLeft: 5,
+    fontWeight: 'bold',
+    color: '#0a9efc'
+  },
+  description: {
+    fontSize: 15,
     alignSelf: 'stretch',
     paddingLeft: 5,
     color: '#0a9efc'
   },
-  description: {
-    fontSize: 17,
-    alignSelf: 'stretch',
-    paddingLeft: 3,
-    color: '#0a9efc'
-  },
   details: {
-    fontSize: 16,
+    fontSize: 14,
     alignSelf: 'stretch',
     paddingLeft: 5,
     paddingTop: 4,
     paddingBottom: 20,
-    color: '#666666'
+    color: '#909090'
   },
   info: {
-  	paddingTop: 10,
+  	paddingTop: 12,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -86,9 +90,7 @@ export default class SingleProductScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: true,
-      products: {},
-      response: {}
+      isLoading: true
     }
   }
 
@@ -96,7 +98,7 @@ export default class SingleProductScreen extends React.Component {
     return (
       <Container>
       	<Header style={{ backgroundColor: '#fff' }}>
-          	<View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center', flex: 1 }}>
             <Icon
               iconStyle={{ marginLeft: 8, marginRight: 15, marginTop: 20, marginBottom: 10 }}
               name='arrow-back'
@@ -114,44 +116,47 @@ export default class SingleProductScreen extends React.Component {
             contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <View>
               <View style={styles.image}>
-              	<Image resizeMode = 'contain' style={styles.image} source={image} />
+              	<Image
+                  resizeMode = 'contain'
+                  style={styles.image}
+                  source={{ uri: this.props.navigation.state.params.image }} />
               </View>
-              <View
-  				style={{
-    			borderBottomColor: '#abb8c3',
-    			borderBottomWidth: 0.5
-  				}}
-			  />
+              <View style={{
+                borderBottomColor: '#abb8c3',
+                borderBottomWidth: 0.5,
+                paddingTop: 20
+  				    }}
+			       />
               <View style={styles.info}>
-              	<Text style={styles.pro_name}>Whisper Ultra Nights XL Wings</Text>
-              	<Text style={styles.descrip}>by Jhonson & Jhonson</Text>
-              	<Text style={styles.price}>₹ 354</Text>
+                <Text style={styles.pro_name}>{this.props.navigation.state.params.name}</Text>
+              	<Text style={styles.descrip}>{this.props.navigation.state.params.brand}</Text>
+                <Text style={styles.price}>₹ {this.props.navigation.state.params.price}</Text>
               </View>
               <View
-  				style={{
-  				paddingTop: 13,
-    			borderBottomColor: '#abb8c3',
-    			borderBottomWidth: 0.5
-  				}}
-			  />
-			  <View style={{ paddingTop: 13 }}>
-			  	<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-			  		<Icon
-			  		 iconStyle={{ marginRight: 3 }}
-                	 name='flash-on'
-                	 type='MaterialIcons'
-                	 color='#0a9efc'
-                	 size={21}
-			  		/>
-			  		<Text style={styles.description}>Description</Text>
-			  	</View>
-			  	<View>
-			  		<Text style={ styles.details }>
-			  			Stay protected throughout the night with Whisper Ultra Nights sanitary pads with wings. These pads are nearly 40% longer* for leak free nights**. Whisper Ultra Nights come with a delightful scent for extra protection against odour, while the soft Dri-Weave cover ensures you feel dry all night long.
-			  		</Text>
-			  	</View>
-			  </View>
-            </View>
+        				style={{
+        				paddingTop: 12,
+          			borderBottomColor: '#abb8c3',
+          			borderBottomWidth: 0.5
+        				}}
+      			  />
+        			  <View style={{ paddingTop: 12 }}>
+        			  	<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        			  		<Icon
+                      iconStyle={{ marginRight: 3, paddingLeft: 5 }}
+                      name='ios-paper-outline'
+                      type='ionicon'
+                      color='#4e4e4e'
+                      size={18}
+        			  		/>
+        			  		<Text style={styles.description}>Description</Text>
+        			  	</View>
+        			  	<View>
+        			  		<Text style={ styles.details }>
+        			  			Stay protected throughout the night with Whisper Ultra Nights sanitary pads with wings. These pads are nearly 40% longer* for leak free nights**. Whisper Ultra Nights come with a delightful scent for extra protection against odour, while the soft Dri-Weave cover ensures you feel dry all night long.
+        			  		</Text>
+        			  	</View>
+        			  </View>
+              </View>
           </ScrollView>
         </View>
         <View style={{ alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'space-around' }}>

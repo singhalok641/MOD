@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: 95
   },
   pro_name: {
-    fontSize: 16,
+    fontSize: 14,
     paddingLeft: 5
   },
   descrip: {
@@ -129,6 +129,7 @@ export default class ProductsScreen extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -147,7 +148,7 @@ export default class ProductsScreen extends React.Component {
               <List
                 dataArray={this.state.products}
                 renderRow={(product) =>
-                  (<ListItem>
+                  (<ListItem onPress={() => navigate('SingleProductScreen', { name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.imagePath}` })}>
                     <View style={styles.view}>
                       <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.imagePath }} />
                       <View style={ styles.info }>

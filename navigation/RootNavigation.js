@@ -4,6 +4,8 @@ import { StackNavigator } from 'react-navigation'
 import MainTabNavigator from './MainTabNavigator'
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync'
 import ProductsScreen from '../screens/ProductsScreen'
+import SingleProductScreen from '../screens/SingleProductScreen'
+import AddressScreen from '../screens/AddressScreen'
 
 const RootStackNavigator = StackNavigator(
   {
@@ -12,6 +14,12 @@ const RootStackNavigator = StackNavigator(
     },
     ProductsScreen: {
       screen: ProductsScreen
+    },
+    SingleProductScreen: {
+      screen: SingleProductScreen
+    },
+    AddressScreen: {
+      screen: AddressScreen
     }
   },
   {

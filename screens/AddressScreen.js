@@ -60,7 +60,7 @@ export default class SingleProductScreen extends React.Component {
 
 
   render() {
-    const { navigate } = this.props.navigation
+    //const { navigate } = this.props.navigation
     return (
       <Container>
         <View style={styles.mapscontainer}>
