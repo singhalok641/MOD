@@ -5,17 +5,23 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableHighlight,
+  KeyboardAvoidingView
 } from 'react-native'
 import {
   Container,
   Header,
   Text,
   List,
-  ListItem
+  ListItem,
+  Form,
+  Label,
+  Item,
+  Input
 } from 'native-base'
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
+import MapView from 'react-native-maps'
 
 const styles = StyleSheet.create({
   container: {
@@ -149,6 +155,41 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null
+  },
+  addressContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0
+  },
+  mapscontainer: {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 220,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  maps: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0
+  },
+  addressHead: {
+    color: '#555555',
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingLeft: 6
+  },
+  modalContentAddress: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)'
   }
 })
 
@@ -364,7 +405,7 @@ export default class CartScreen extends React.Component {
             </List>
           </View>
       </ScrollView>
-      <TouchableHighlight onPress={() => this.props.navigation('AddressScreen')} underlayColor='#dbdbdb' >
+      <TouchableHighlight onPress={() => this.setState({ visibleModal: 3 })} underlayColor='#dbdbdb' >
         <View style={{ alignItems: 'center', flexDirection: 'row', paddingBottom: 15, paddingLeft: 15 }}>
           <Icon
             name='plus'
@@ -377,6 +418,112 @@ export default class CartScreen extends React.Component {
           </View>
         </View>
       </TouchableHighlight>
+    </View>
+  )
+
+  _renderAddAddress = () => (
+    <View style={ styles.modalContentAddress}>
+      <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+        <View style={styles.mapscontainer}>
+          <MapView style={styles.maps}
+            region={{
+              latitude: 30.352032,
+              longitude: 76.360535,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1
+            }}>
+            <MapView.Marker
+              coordinate={{
+                latitude: 30.352032,
+                longitude: 76.360535
+              }}
+              title={'Move pin to adjust'}
+            />
+          </MapView>
+        </View>
+        <View style={ styles.addressContainer }>
+          <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 10, backgroundColor: '#e5f6fd' }}>
+            <Icon
+              style={{ marginLeft: 17, paddingRight: 6 }}
+              name='arrow-back'
+              type='MaterialIcons'
+              color='#555555'
+              size={20}
+            />
+            <Text style={ styles.addressHead }>Set Delivery Location</Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+            <KeyboardAvoidingView
+              style={ styles.modalContentAddress }
+              behavior='padding'>
+              <Form>
+                <Item stackedLabel style={{ paddingTop: 12 }}>
+                  <Label style={{ fontSize: 12, color: '#909090' }}>LOCATION</Label>
+                  <Input
+                    keyboardType= 'default'
+                    returnKeyType='next'
+                  />
+                </Item>
+                <Item stackedLabel style={{ paddingTop: 12 }}>
+                  <Label style={{ fontSize: 12, color: '#909090' }}>HOUSE/FLAT NO.</Label>
+                  <Input
+                    keyboardType = 'default'
+                    returnKeyType='next'
+                  />
+                </Item>
+                <Item stackedLabel style={{ paddingTop: 12 }}>
+                  <Label style={{ fontSize: 12, color: '#909090' }}>LANDMARK</Label>
+                  <Input
+                    keyboardType = 'default'
+                    returnKeyType='next'
+                  />
+                </Item>
+              </Form>
+            </KeyboardAvoidingView>
+            <View style={{ paddingLeft: 15, paddingTop: 12 }}>
+              <Label style={{ paddingBottom: 10, paddingTop: 5, fontSize: 12, color: '#555555' }}>SAVE AS</Label>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
+                  <Icon
+                    name='home'
+                    type='foundation'
+                    color='#808080'
+                    size={19}
+                  />
+                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Home</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
+                  <Icon
+                    name='work'
+                    type='material'
+                    color='#808080'
+                    size={19}
+                  />
+                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Work</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
+                  <Icon
+                    name='location-on'
+                    type='material'
+                    color='#808080'
+                    size={19}
+                  />
+                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Other</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      <Button
+        large
+        containerViewStyle={{ width: '100%', marginLeft: 0 }}
+        buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
+        backgroundColor={'#03a9f4'}
+        title={`ADD ADDRESS`}
+        fontWeight={'bold'}
+        fontSize = {17}
+      />
     </View>
   )
 
@@ -424,6 +571,16 @@ export default class CartScreen extends React.Component {
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           animationOut={ 'slideOutRight' }>
           {this._renderAddress()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 3 }
+          style={ styles.bottomModalAddress }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutRight' }>
+          {this._renderAddAddress()}
         </Modal>
 
       	<Header style={{ backgroundColor: '#fff' }}>
@@ -478,7 +635,7 @@ export default class CartScreen extends React.Component {
                             <Text style={{
                               fontSize: 16,
                               fontWeight: 'bold',
-                              color: '#4d4d4d' }}>  {product.qty}  </Text>
+                              color: '#4d4d4d' }}> {product.qty} </Text>
                             <TouchableHighlight
                               onPress={() => this.increaseByOne(product.item._id)}
                               underlayColor='#dbdbdb'>
