@@ -116,16 +116,16 @@ const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'http://192.168.43.217:8082/stores/users/prescriptionUpload'
+  let apiUrl = 'https://file-upload-example-backend-dkhqoilqqn.now.sh/upload'
 
-  // Note:
-  // Uncomment this if you want to experiment with local server
-  //
-  // if (Constants.isDevice) {
-  //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-  // } else {
-  //   apiUrl = `http://localhost:3000/upload`
-  // }
+  /*Note:
+  Uncomment this if you want to experiment with local server*/
+  
+  if (Constants.isDevice) {
+    apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`
+  } else {
+    apiUrl = `http://192.168.56.1:8082/stores/users/prescriptionUpload`
+  }
 
   let uriParts = uri.split('.')
   let fileType = uriParts[uriParts.length - 1]
@@ -272,7 +272,7 @@ export default class HomeScreen extends React.Component {
   _handleImagePicked = async pickerResult => {
     let uploadResponse
     let uploadResult
-
+    console.log(pickerResult)
     try {
       this.setState({ uploading: true })
 
