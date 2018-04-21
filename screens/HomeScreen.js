@@ -8,7 +8,8 @@ import {
   Clipboard,
   Share,
   Dimensions,
-  TouchableHighlight } from 'react-native'
+  TouchableHighlight,
+  ActivityIndicator } from 'react-native'
 import {
   Container,
   Header,
@@ -21,6 +22,7 @@ import { Button, Icon } from 'react-native-elements'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Modal from 'react-native-modalbox'
 import { Constants, Location, Permissions, ImagePicker } from 'expo'
+import GridView from 'react-native-super-grid'
 
 const styles = StyleSheet.create({
   container: {
@@ -95,6 +97,28 @@ const styles = StyleSheet.create({
     paddingTop: 17,
     justifyContent: 'space-between',
     alignItems: 'flex-start'
+  },
+  gridView: {
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
+    flex: 1
+  },
+  itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+    height: 150
+  },
+  itemName: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600'
+  },
+  itemCode: {
+    fontWeight: '600',
+    fontSize: 12,
+    color: '#fff'
   }
 })
 
@@ -116,16 +140,7 @@ const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'https://file-upload-example-backend-dkhqoilqqn.now.sh/upload'
-
-  /*Note:
-  Uncomment this if you want to experiment with local server*/
-  
-  if (Constants.isDevice) {
-    apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`
-  } else {
-    apiUrl = `http://192.168.56.1:8082/stores/users/prescriptionUpload`
-  }
+  let apiUrl = 'http://192.168.43.217:8082/stores/users/prescriptionUpload'
 
   let uriParts = uri.split('.')
   let fileType = uriParts[uriParts.length - 1]
@@ -238,6 +253,61 @@ export default class HomeScreen extends React.Component {
     )
   }
 
+  /* _maybeRenderUploadingOverlay = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }
+          ]}>
+          <ActivityIndicator color='#fff' animating size='large' />
+        </View>
+      )
+    }
+  };*/
+
+  _maybeRenderImage = () => {
+    let { image } = this.state
+    if (!image) {
+      return
+    }
+
+    return (
+      <View
+        style={{
+          marginTop: 30,
+          width: 250,
+          borderRadius: 3,
+          elevation: 2,
+          shadowColor: 'rgba(0,0,0,1)',
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 4, height: 4 },
+          shadowRadius: 5
+        }}>
+        <View
+          style={{
+            borderTopRightRadius: 3,
+            borderTopLeftRadius: 3,
+            overflow: 'hidden'
+          }}>
+          <Image source={{ uri: 'file:///home/alok/Documents/MOD-DEV/backend-modstores/public/images/prescriptionUploads/photo-1524295705367' }} style={{ width: 250, height: 250 }} />
+        </View>
+
+        <Text
+          onPress={this._copyToClipboard}
+          onLongPress={this._share}
+          style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+          {image}
+        </Text>
+      </View>
+    )
+  }
+
   _share = () => {
     Share.share({
       message: this.state.image,
@@ -280,12 +350,13 @@ export default class HomeScreen extends React.Component {
         uploadResponse = await uploadImageAsync(pickerResult.uri)
         uploadResult = await uploadResponse.json()
         this.setState({ image: uploadResult.location })
+        console.log({ uploadResponse })
+        console.log({ uploadResult })
       }
     } catch (e) {
       console.log({ uploadResponse })
       console.log({ uploadResult })
       console.log({ e })
-      //alert('Upload failed, sorry :(')
     } finally {
       this.setState({ uploading: false })
     }
@@ -294,6 +365,13 @@ export default class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation
     let { image } = this.state
+    const items = [
+      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
+      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
+      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
+      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
+      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' }
+    ]
 
     return (
       <Container>
@@ -477,7 +555,71 @@ export default class HomeScreen extends React.Component {
               </Container>
             </View>
             <Text style = {{ paddingTop: 0, paddingLeft: 25, fontSize: 14, color: '#03a9f4' }}>Attached Prescriptions</Text>
+            {/*<View
+              style={{
+                alignItems: 'flex-start',
+                marginTop: 20,
+                marginLeft: 25,
+                width: 90,
+                borderRadius: 3,
+                elevation: 2,
+                shadowColor: 'rgba(0,0,0,1)',
+                shadowOpacity: 0.2,
+                shadowOffset: { width: 4, height: 4 },
+                shadowRadius: 5
+              }}>
+              <View
+                style={{
+                  borderTopRightRadius: 3,
+                  borderTopLeftRadius: 3,
+                  overflow: 'hidden'
+                }}>
+                <Image source={{ uri: 'http://www.prescriptionmaker.com/demo.jpg' }} style={{ width: 75, height: 90 }} />
+              </View>
+
+              <Text
+                onPress={this._copyToClipboard}
+                onLongPress={this._share}
+                style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+                {image}
+              </Text>
+            </View>*/}
           </View>
+          <GridView
+              itemDimension={80}
+              items={items}
+              style={styles.gridView}
+              renderItem={item => (
+                <View
+                  style={{
+                    alignItems: 'flex-start',
+                    marginTop: 10,
+                    width: 90,
+                    borderRadius: 3,
+                    elevation: 2,
+                    shadowColor: 'rgba(0,0,0,1)',
+                    shadowOpacity: 0.2,
+                    shadowOffset: { width: 4, height: 4 },
+                    shadowRadius: 5
+                  }}>
+                  <View
+                    style={{
+                      borderTopRightRadius: 3,
+                      borderTopLeftRadius: 3,
+                      overflow: 'hidden'
+                    }}>
+                    <Image source={{ uri: 'http://www.prescriptionmaker.com/demo.jpg' }} style={{ width: 75, height: 90 }} />
+                  </View>
+
+                  <Text
+                    onPress={this._copyToClipboard}
+                    onLongPress={this._share}
+                    style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+                    {image}
+                  </Text>
+                </View>
+              )}
+            />
         </Modal>
 
         <View style={styles.container}>

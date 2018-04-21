@@ -1,19 +1,6 @@
-import React from 'react'
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  KeyboardAvoidingView
-} from 'react-native'
-import {
-  Container,
-  Item,
-  Input,
-  Text,
-  Form,
-  Label } from 'native-base'
-import { Button, Icon } from 'react-native-elements'
-import MapView from 'react-native-maps'
+import React, { Component } from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+import GridView from 'react-native-super-grid'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +37,26 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     borderColor: 'rgba(0, 0, 0, 0.1)'
+  },
+  gridView: {
+    paddingTop: 25,
+    flex: 1
+  },
+  itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+    height: 150
+  },
+  itemName: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600'
+  },
+  itemCode: {
+    fontWeight: '600',
+    fontSize: 12,
+    color: '#fff'
   }
 })
 
@@ -60,114 +67,31 @@ export default class SingleProductScreen extends React.Component {
 
 
   render() {
-    //const { navigate } = this.props.navigation
+    const items = [
+      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
+      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
+      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
+      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
+      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
+      { name: 'SUN FLOWER', code: '#f1c40f' }, { name: 'CARROT', code: '#e67e22' },
+      { name: 'ALIZARIN', code: '#e74c3c' }, { name: 'CLOUDS', code: '#ecf0f1' },
+      { name: 'CONCRETE', code: '#95a5a6' }, { name: 'ORANGE', code: '#f39c12' },
+      { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
+      { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' }
+    ]
+
     return (
-      <Container>
-        <View style={styles.mapscontainer}>
-          <MapView style={styles.maps}
-            region={{
-              latitude: 30.352032,
-              longitude: 76.360535,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1
-            }}>
-            <MapView.Marker
-              coordinate={{
-                latitude: 30.352032,
-                longitude: 76.360535
-              }}
-              title={'Move pin to adjust'}
-            />
-          </MapView>
-        </View>
-        <View style={ styles.container }>
-          <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 10, backgroundColor: '#e5f6fd' }}>
-            <Icon
-              style={{ marginLeft: 17, paddingRight: 6 }}
-              name='arrow-back'
-              type='MaterialIcons'
-              color='#555555'
-              size={20}
-            />
-            <Text style={ styles.account }>Set Delivery Location</Text>
+      <GridView
+        itemDimension={130}
+        items={items}
+        style={styles.gridView}
+        renderItem={item => (
+          <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemCode}>{item.code}</Text>
           </View>
-          <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 5, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-            <KeyboardAvoidingView
-              style={ styles.modalContentAddress }
-              behavior='padding'>
-              <Form>
-                <Item stackedLabel>
-                  <Label style={{ fontSize: 12, color: '#555555' }}>LOCATION</Label>
-                  <Input
-                    keyboardType= 'default'
-                    returnKeyType='next'
-                    autoFocus={true}
-                  />
-                </Item>
-                <Item stackedLabel>
-                  <Label style={{ fontSize: 12, color: '#555555' }}>HOUSE/FLAT NO.</Label>
-                  <Input
-                    keyboardType = 'default'
-                    returnKeyType='next'
-                    autoFocus={true}
-                  />
-                </Item>
-                <Item stackedLabel>
-                  <Label style={{ fontSize: 12, color: '#555555' }}>LANDMARK</Label>
-                  <Input
-                    keyboardType = 'default'
-                    returnKeyType='next'
-                    autoFocus={true}
-                  />
-                </Item>
-              </Form>
-            </KeyboardAvoidingView>
-            <View style={{ paddingLeft: 15, paddingTop: 5 }}>
-              <Label style={{ paddingBottom: 10, paddingTop: 5, fontSize: 12, color: '#555555' }}>SAVE AS</Label>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
-                  <Icon
-                    name='home'
-                    type='foundation'
-                    color='#808080'
-                    size={19}
-                  />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#808080' }}>Home</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
-                  <Icon
-                    name='work'
-                    type='material'
-                    color='#808080'
-                    size={19}
-                  />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#808080' }}>Work</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
-                  <Icon
-                    name='location-on'
-                    type='material'
-                    color='#808080'
-                    size={19}
-                  />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#808080' }}>Other</Text>
-                </View>
-              </View>
-            </View>
-            </View>
-          </ScrollView>
-          <Button
-            large
-            containerViewStyle={{ width: '100%', marginLeft: 0 }}
-            buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
-            backgroundColor={'#03a9f4'}
-            title={`ADD ADDRESS`}
-            fontWeight={'bold'}
-            fontSize = {17}
-          />
-        </View>
-      </Container>
+        )}
+      />
     )
   }
 }
