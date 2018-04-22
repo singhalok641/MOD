@@ -24,6 +24,10 @@ import Modal from 'react-native-modalbox'
 import { Constants, Location, Permissions, ImagePicker } from 'expo'
 import GridView from 'react-native-super-grid'
 
+var items = [
+      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
+      { name: 'PETER RIVER', code: '#3498db' } ]
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -140,7 +144,7 @@ const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'http://192.168.43.217:8082/stores/users/prescriptionUpload'
+  let apiUrl = 'http://192.168.56.1:8082/stores/users/prescriptionUpload'
 
   let uriParts = uri.split('.')
   let fileType = uriParts[uriParts.length - 1]
@@ -271,41 +275,14 @@ export default class HomeScreen extends React.Component {
     }
   };*/
 
-  _maybeRenderImage = () => {
+  prescriptionUploaded = () => {
     let { image } = this.state
+    console.log(items)
     if (!image) {
       return
     }
-
-    return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 250,
-          borderRadius: 3,
-          elevation: 2,
-          shadowColor: 'rgba(0,0,0,1)',
-          shadowOpacity: 0.2,
-          shadowOffset: { width: 4, height: 4 },
-          shadowRadius: 5
-        }}>
-        <View
-          style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            overflow: 'hidden'
-          }}>
-          <Image source={{ uri: 'file:///home/alok/Documents/MOD-DEV/backend-modstores/public/images/prescriptionUploads/photo-1524295705367' }} style={{ width: 250, height: 250 }} />
-        </View>
-
-        <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          {image}
-        </Text>
-      </View>
-    )
+    items.push({ image: image })
+    console.log(items)
   }
 
   _share = () => {
@@ -318,13 +295,13 @@ export default class HomeScreen extends React.Component {
 
   _copyToClipboard = () => {
     Clipboard.setString(this.state.image)
-    //alert('Copied image URL to clipboard')
+    // alert('Copied image URL to clipboard')
   };
 
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
-      //allowsEditing: true,
-      //aspect: [4, 3]
+      // allowsEditing: true,
+      // aspect: [4, 3]
     })
 
     this._handleImagePicked(pickerResult)
@@ -332,8 +309,8 @@ export default class HomeScreen extends React.Component {
 
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      //allowsEditing: true,
-      //aspect: [4, 3]
+      // allowsEditing: true,
+      // aspect: [4, 3]
     })
 
     this._handleImagePicked(pickerResult)
@@ -349,9 +326,11 @@ export default class HomeScreen extends React.Component {
       if (!pickerResult.cancelled) {
         uploadResponse = await uploadImageAsync(pickerResult.uri)
         uploadResult = await uploadResponse.json()
-        this.setState({ image: uploadResult.location })
+        this.setState({ image: uploadResult.path })
+        // console.log(this.state.image)
         console.log({ uploadResponse })
         console.log({ uploadResult })
+        this.prescriptionUploaded()
       }
     } catch (e) {
       console.log({ uploadResponse })
@@ -365,13 +344,6 @@ export default class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation
     let { image } = this.state
-    const items = [
-      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
-      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
-      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
-      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
-      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' }
-    ]
 
     return (
       <Container>
@@ -555,35 +527,6 @@ export default class HomeScreen extends React.Component {
               </Container>
             </View>
             <Text style = {{ paddingTop: 0, paddingLeft: 25, fontSize: 14, color: '#03a9f4' }}>Attached Prescriptions</Text>
-            {/*<View
-              style={{
-                alignItems: 'flex-start',
-                marginTop: 20,
-                marginLeft: 25,
-                width: 90,
-                borderRadius: 3,
-                elevation: 2,
-                shadowColor: 'rgba(0,0,0,1)',
-                shadowOpacity: 0.2,
-                shadowOffset: { width: 4, height: 4 },
-                shadowRadius: 5
-              }}>
-              <View
-                style={{
-                  borderTopRightRadius: 3,
-                  borderTopLeftRadius: 3,
-                  overflow: 'hidden'
-                }}>
-                <Image source={{ uri: 'http://www.prescriptionmaker.com/demo.jpg' }} style={{ width: 75, height: 90 }} />
-              </View>
-
-              <Text
-                onPress={this._copyToClipboard}
-                onLongPress={this._share}
-                style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-                {image}
-              </Text>
-            </View>*/}
           </View>
           <GridView
               itemDimension={80}
@@ -608,15 +551,26 @@ export default class HomeScreen extends React.Component {
                       borderTopLeftRadius: 3,
                       overflow: 'hidden'
                     }}>
-                    <Image source={{ uri: 'http://www.prescriptionmaker.com/demo.jpg' }} style={{ width: 75, height: 90 }} />
+                    <View style={{
+                      alignItems: 'flex-end',
+                      justifyContent: 'flex-end',
+                      elevation: 5
+                    }}>
+                      <Icon
+                        iconStyle={{
+                          borderRadius: 3,
+                          shadowColor: 'rgba(0,0,0,1)',
+                          shadowOpacity: 0.2,
+                          shadowOffset: { width: 4, height: 4 },
+                          shadowRadius: 5 }}
+                        name='cancel'
+                        type='MaterialIcons'
+                        color='#909090'
+                        size={18}
+                      />
+                    </View>
+                    <Image source={{ uri: 'https://www.chemistsworld.com/images/prescription.jpg' }} style={{ width: 90, height: 105 }} />
                   </View>
-
-                  <Text
-                    onPress={this._copyToClipboard}
-                    onLongPress={this._share}
-                    style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-                    {image}
-                  </Text>
                 </View>
               )}
             />

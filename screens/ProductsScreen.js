@@ -12,7 +12,7 @@ import {
   List,
   ListItem
 } from 'native-base'
-//import InfiniteScrollView from 'react-native-infinite-scroll-view'
+// import InfiniteScrollView from 'react-native-infinite-scroll-view'
 
 const styles = StyleSheet.create({
   container: {
