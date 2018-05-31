@@ -19,11 +19,10 @@ const RootStackNavigator = StackNavigator(
     }
   },
   {
-    navigationOptions: () => ({
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
-    })
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false
+    }
   }
 )
 

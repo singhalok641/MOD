@@ -189,7 +189,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    borderColor: 'rgba(0, 0, 0, 0.1)'
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    paddingLeft: 0,
+    paddingRight: 0
   }
 })
 
@@ -423,24 +425,22 @@ export default class CartScreen extends React.Component {
 
   _renderAddAddress = () => (
     <View style={ styles.modalContentAddress}>
-      <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-        <View style={styles.mapscontainer}>
-          <MapView style={styles.maps}
-            region={{
-              latitude: 30.352032,
-              longitude: 76.360535,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1
-            }}>
-            <MapView.Marker
-              coordinate={{
-                latitude: 30.352032,
-                longitude: 76.360535
-              }}
-              title={'Move pin to adjust'}
-            />
-          </MapView>
+      <View style={styles.mapscontainer}>
+        <MapView
+          style={styles.maps}
+          initialRegion={this.state.region}
+          zoomEnabled={true}
+          onRegionChangeComplete={this.onRegionChangeComplete.bind(this)}
+          pitchEnabled={true}
+          showsBuildings={true}
+          showsCompass={true}
+          showsUserLocation={true}
+        />
+        <View pointerEvents='none' style={{ alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent' }}>
+          <Image pointerEvents='none' style={{ height: 45, width: 45, marginBottom: 40 }} source={marker}/>
         </View>
+      </View>
+      <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 5 }}>
         <View style={ styles.addressContainer }>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 10, backgroundColor: '#e5f6fd' }}>
             <Icon
@@ -452,26 +452,25 @@ export default class CartScreen extends React.Component {
             />
             <Text style={ styles.addressHead }>Set Delivery Location</Text>
           </View>
-          <View style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+          <View style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 4, paddingRight: 4, paddingBottom: 0 }}>
             <KeyboardAvoidingView
               style={ styles.modalContentAddress }
               behavior='padding'>
               <Form>
-                <Item stackedLabel style={{ paddingTop: 12 }}>
+                <Item stackedLabel style={{ paddingTop: 10 }}>
                   <Label style={{ fontSize: 12, color: '#909090' }}>LOCATION</Label>
-                  <Input
-                    keyboardType= 'default'
-                    returnKeyType='next'
-                  />
+                  <Text numberOfLines={1} style={{ paddingTop: 6 }}>
+                    {this.state.address}
+                  </Text>
                 </Item>
-                <Item stackedLabel style={{ paddingTop: 12 }}>
+                <Item stackedLabel style={{ paddingTop: 10 }}>
                   <Label style={{ fontSize: 12, color: '#909090' }}>HOUSE/FLAT NO.</Label>
                   <Input
                     keyboardType = 'default'
                     returnKeyType='next'
                   />
                 </Item>
-                <Item stackedLabel style={{ paddingTop: 12 }}>
+                <Item stackedLabel style={{ paddingTop: 10 }}>
                   <Label style={{ fontSize: 12, color: '#909090' }}>LANDMARK</Label>
                   <Input
                     keyboardType = 'default'
@@ -480,8 +479,8 @@ export default class CartScreen extends React.Component {
                 </Item>
               </Form>
             </KeyboardAvoidingView>
-            <View style={{ paddingLeft: 15, paddingTop: 12 }}>
-              <Label style={{ paddingBottom: 10, paddingTop: 5, fontSize: 12, color: '#555555' }}>SAVE AS</Label>
+            <View style={{ paddingLeft: 15, paddingTop: 10 }}>
+              <Label style={{ paddingBottom: 10, paddingTop: 5, fontSize: 12, color: '#909090' }}>SAVE AS</Label>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
                   <Icon
@@ -490,7 +489,7 @@ export default class CartScreen extends React.Component {
                     color='#808080'
                     size={19}
                   />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Home</Text>
+                  <Text style={{ paddingLeft: 5, fontSize: 16, color: '#909090' }}>Home</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
                   <Icon
@@ -499,7 +498,7 @@ export default class CartScreen extends React.Component {
                     color='#808080'
                     size={19}
                   />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Work</Text>
+                  <Text style={{ paddingLeft: 5, fontSize: 16, color: '#909090' }}>Work</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
                   <Icon
@@ -508,7 +507,7 @@ export default class CartScreen extends React.Component {
                     color='#808080'
                     size={19}
                   />
-                  <Text style={{ paddingLeft: 5, fontSize: 18, color: '#909090' }}>Other</Text>
+                  <Text style={{ paddingLeft: 5, fontSize: 16, color: '#909090' }}>Other</Text>
                 </View>
               </View>
             </View>
