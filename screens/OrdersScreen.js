@@ -80,6 +80,13 @@ const styles = StyleSheet.create({
 export default class SingleProductScreen extends React.Component {
   static navigationOptions = {
     header: null
+  };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      selected1: 'key0'
+    }
   }
 
   render() {
