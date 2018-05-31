@@ -10,7 +10,8 @@ import {
   Container,
   Text,
   List,
-  ListItem
+  ListItem,
+  Header
 } from 'native-base'
 //import InfiniteScrollView from 'react-native-infinite-scroll-view'
 
@@ -53,6 +54,15 @@ const styles = StyleSheet.create({
     width: 110,
     backgroundColor: '#03a9f4',
     borderRadius: 10
+  },
+  headerViewStyle: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  HeaderShapeView: {
+    paddingLeft: 10,
+    justifyContent: 'center',
+    borderRadius: 1
   }
 })
 
@@ -66,7 +76,7 @@ loadMoreContentAsync = async () => {
 
 export default class ProductsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `${navigation.state.params.title}`
+    header: null
   })
 
   constructor(props) {
@@ -80,13 +90,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    fetch(`http://192.168.43.217:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
+    fetch(`http://159.89.168.254:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.43.217:8082'
+          'Host': '159.89.168.254:8082'
         }
       })
       .then((response) => response.json())
@@ -105,13 +115,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   addToCart(productId) {
-    fetch(`http://192.168.43.217:8082/stores/users/addToCart/${productId}`,
+    fetch(`http://159.89.168.254:8082/stores/users/addToCart/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.43.217:8082'
+          'Host': '159.89.168.254:8082'
         }
       })
       .then((response) => response.json())
@@ -140,6 +150,15 @@ export default class ProductsScreen extends React.Component {
 
     return (
       <Container>
+        <Header style={{ backgroundColor: '#fff' }}>
+          <View style={ styles.headerViewStyle }>
+            <View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center' }}>
+              <View style = {styles.HeaderShapeView}>
+                <Text style = {{ paddingTop: 0, fontSize: 20, color: '#555555', fontWeight: 'bold' }}>{this.props.navigation.state.params.title}</Text>
+              </View>
+            </View>
+          </View>
+        </Header>
         <View style={styles.container}>
           <ScrollView
             style={styles.container}
@@ -148,7 +167,7 @@ export default class ProductsScreen extends React.Component {
               <List
                 dataArray={this.state.products}
                 renderRow={(product) =>
-                  (<ListItem onPress={() => navigate('SingleProductScreen', { name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.imagePath}` })}>
+                  (<ListItem onPress={() => navigate('SingleProductScreen', { id: `${product._id}`, name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.imagePath}` })}>
                     <View style={styles.view}>
                       <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.imagePath }} />
                       <View style={ styles.info }>

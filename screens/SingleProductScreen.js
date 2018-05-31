@@ -94,18 +94,42 @@ export default class SingleProductScreen extends React.Component {
     }
   }
 
+  addToCart(productId) {
+    fetch(`http://159.89.168.254:8082/stores/users/addToCart/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '159.89.168.254:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('product added to cart')
+          }
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   render() {
     return (
       <Container>
       	<Header style={{ backgroundColor: '#fff' }}>
           <View style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-            <Icon
+            {/*<Icon
               iconStyle={{ marginLeft: 8, marginRight: 15, marginTop: 20, marginBottom: 10 }}
               name='arrow-back'
               type='MaterialIcons'
               color='#555555'
               size={25}
-              onPress={() => this.refs.upload.close()} />
+              onPress={() => this.refs.upload.close()} />*/}
             <Text style = {{ paddingTop: 8, fontSize: 20, color: '#555555', fontWeight: 'bold' }}>Product Description</Text>
           </View>
         </Header>
@@ -168,6 +192,7 @@ export default class SingleProductScreen extends React.Component {
             title={`ADD TO CART`}
             fontWeight={'bold'}
             fontSize = {17}
+            onPress={() => this.addToCart(this.props.navigation.state.params.id)}
           />
           <Button
             large

@@ -213,7 +213,7 @@ export default class CartScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    /*fetch(`http://192.168.42.85:8082/stores/list-token-device`, {
+    /* fetch(`http://192.168.42.85:8082/stores/list-token-device`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -233,13 +233,13 @@ export default class CartScreen extends React.Component {
         console.error(error)
       })*/
 
-    fetch(`http://192.168.43.217:8082/stores/users/getCart`,
+    fetch(`http://159.89.168.254:8082/stores/users/getCart`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.43.217:8082'
+          'Host': '192.168.56.1:8082'
         }
       })
       .then((response) => response.json())
@@ -260,13 +260,13 @@ export default class CartScreen extends React.Component {
   }
 
   decreaseByOne(productId) {
-    fetch(`http://192.168.43.217:8082/stores/users/reduceByOne/${productId}`,
+    fetch(`http://159.89.168.254:8082/stores/users/reduceByOne/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.43.217:8082'
+          'Host': '192.168.56.1:8082'
         }
       })
       .then((response) => response.json())
@@ -285,13 +285,13 @@ export default class CartScreen extends React.Component {
   }
 
   increaseByOne(productId) {
-    fetch(`http://192.168.43.217:8082/stores/users/increaseByOne/${productId}`,
+    fetch(`http://159.89.168.254:8082/stores/users/increaseByOne/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.43.217:8082'
+          'Host': '192.168.56.1:8082'
         }
       })
       .then((response) => response.json())
@@ -310,7 +310,7 @@ export default class CartScreen extends React.Component {
   }
 
   sendNotification = async () => {
-    fetch('http://192.168.42.85:8082/stores/push-notification', {
+    fetch('http://159.89.168.254:8082/stores/push-notification', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -541,7 +541,6 @@ export default class CartScreen extends React.Component {
       return (
         <Container>
           <View style={styles.emptyCart}>
-            <Text>Oops! You have no items in your cart</Text>
             <Image
               resizeMode='contain'
               source={require('../assets/images/emptycart.png')}

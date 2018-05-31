@@ -21,12 +21,10 @@ import Carousel from 'react-native-banner-carousel'
 import { Button, Icon } from 'react-native-elements'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Modal from 'react-native-modalbox'
-import { Constants, Location, Permissions, ImagePicker } from 'expo'
+import { Constants, Location, Permissions, ImagePicker, FileSystem } from 'expo'
 import GridView from 'react-native-super-grid'
 
-var items = [
-      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
-      { name: 'PETER RIVER', code: '#3498db' } ]
+let items = [ ]
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +142,7 @@ const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'http://192.168.56.1:8082/stores/users/prescriptionUpload'
+  let apiUrl = 'http://159.89.168.254:8082/stores/users/prescriptionUpload'
 
   let uriParts = uri.split('.')
   let fileType = uriParts[uriParts.length - 1]
@@ -317,7 +315,7 @@ export default class HomeScreen extends React.Component {
   };
 
   _handleImagePicked = async pickerResult => {
-    let uploadResponse
+    /* let uploadResponse
     let uploadResult
     console.log(pickerResult)
     try {
@@ -338,12 +336,32 @@ export default class HomeScreen extends React.Component {
       console.log({ e })
     } finally {
       this.setState({ uploading: false })
+    }*/
+    if (!pickerResult.cancelled) {
+      /* this.setState({ image: pickerResult.uri })
+      let { image } = this.state
+      console.log(items)
+      if (!image) {
+        return
+      }
+      items.push({ image: image })
+      console.log(items)*/
+      /* Expo.FileSystem.makeDirectoryAsync(pickerResult.uri)
+      Expo.FileSystem.moveAsync({
+        from: pickerResult.uri,
+        to: Expo.FileSystem.documentDirectory + 'images/imagename.png'
+      })*/
+      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'images/')
+      await FileSystem.moveAsync({
+        from: pickerResult.uri,
+        to: FileSystem.documentDirectory + `images/imagename.png`
+      })
     }
   };
 
   render() {
     const { navigate } = this.props.navigation
-    let { image } = this.state
+    // let { image } = this.state
 
     return (
       <Container>
