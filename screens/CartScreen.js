@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: 220,
+    height: 240,
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
@@ -481,18 +481,18 @@ export default class CartScreen extends React.Component {
           showsUserLocation={true}
         />
         <View pointerEvents='none' style={{ alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent' }}>
-          <Image pointerEvents='none' style={{ height: 45, width: 45, marginBottom: 40 }} source={marker}/>
+          <Image pointerEvents='none' style={{ height: 50, width: 50, marginBottom: 114 }} source={marker}/>
         </View>
       </View>
       <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 5 }}>
         <View style={ styles.addressContainer }>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 10, backgroundColor: '#e5f6fd' }}>
             <Icon
-              style={{ marginLeft: 17, paddingRight: 6 }}
+              style={{ marginLeft: 17, paddingRight: 10 }}
               name='arrow-back'
               type='MaterialIcons'
               color='#555555'
-              size={20}
+              size={26}
             />
             <Text style={ styles.addressHead }>Set Delivery Location</Text>
           </View>
