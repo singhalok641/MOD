@@ -20,7 +20,7 @@ import {
 import Carousel from 'react-native-banner-carousel'
 import { Button, Icon } from 'react-native-elements'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import Modal from 'react-native-modalbox'
+import Modal from 'react-native-modal'
 import { Constants, Location, Permissions, ImagePicker, FileSystem } from 'expo'
 import GridView from 'react-native-super-grid'
 
@@ -121,6 +121,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 12,
     color: '#fff'
+  },
+  bottomModalAddress: {
+    justifyContent: 'flex-end',
+    margin: 0
+  },
+  modalContentAddress: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    paddingLeft: 0,
+    paddingRight: 0
   }
 })
 
@@ -224,7 +236,7 @@ export default class HomeScreen extends React.Component {
         text = responseJson.results[0].formatted_address
         console.log(text)
       })
-  };
+  }
 
   onValueChange(value: string) {
     this.setState({
@@ -271,7 +283,7 @@ export default class HomeScreen extends React.Component {
         </View>
       )
     }
-  };*/
+  }*/
 
   prescriptionUploaded = () => {
     let { image } = this.state
@@ -289,12 +301,12 @@ export default class HomeScreen extends React.Component {
       title: 'Check out this photo',
       url: this.state.image
     })
-  };
+  }
 
   _copyToClipboard = () => {
     Clipboard.setString(this.state.image)
     // alert('Copied image URL to clipboard')
-  };
+  }
 
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
@@ -303,7 +315,7 @@ export default class HomeScreen extends React.Component {
     })
 
     this._handleImagePicked(pickerResult)
-  };
+  }
 
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
@@ -312,7 +324,7 @@ export default class HomeScreen extends React.Component {
     })
 
     this._handleImagePicked(pickerResult)
-  };
+  }
 
   _handleImagePicked = async pickerResult => {
     /* let uploadResponse
@@ -357,80 +369,58 @@ export default class HomeScreen extends React.Component {
         to: FileSystem.documentDirectory + `images/imagename.png`
       })
     }
-  };
+  }
 
-  render() {
-    const { navigate } = this.props.navigation
-    // let { image } = this.state
+  _renderLocation = () => (
+    <View style={ styles.modalContentAddress}>
+      <View style = {{ flex: 1, flexDirection: 'row', marginTop: 0, marginLeft: 0, marginRight: 0 }}>
+        <View style = {{ flex: 1 }}>
+          <Icon
+            iconStyle={{ alignSelf: 'center', marginLeft: 17, marginTop: 30 }}
+            name='arrow-back'
+            type='MaterialIcons'
+            color='#555555'
+            size={25}
+            onPress={() => this.setState({ isOpen: false })}
+          />
+        </View>
+        <View style={{ flex: 6, marginTop: 0, marginLeft: 5, marginRight: 0, flexDirection: 'column', justifyContent: 'space-around' }} >
+          <Text style = {{ marginTop: 20, fontSize: 12, color: '#03a9f4', fontWeight: 'bold', marginLeft: 10 }}>SET DELIVERY LOCATION</Text>
+            <GooglePlacesAutocomplete
+              placeholder='Search for area, street name... '
+              minLength={3}
+              autoFocus={false}
+              returnKeyType={'search'}
+              listViewDisplayed='auto'
+              fetchDetails={true}
+              // renderDescription={row => row.description} // custom description render
+              onPress={(data, details = null) => {
+                this.setState({
+                  address: data.description,
+                  area: data.terms[0].value
+                  // isOpen: false,
+                })
+              console.log('onPress')
+                setTimeout(() => {
+                  this.refs.gps.close()
+                }, 1000)
+                // console.log(data);
+                // console.log(details);
+              }}
 
-    return (
-      <Container>
-        <Header style={{ backgroundColor: '#fff' }}>
-          <View style={ styles.headerViewStyle }>
-            <TouchableHighlight
-              style={ styles.addressViewStyle }
-              onPress={() => this.setState({ isOpen: true })}
-              underlayColor='#cccccc' >
-              <View style={ styles.addressViewStyle }>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 5 }}>
-                  <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#555555' }}>HOME</Text>
-                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5 }} color={'#03a9f4'}/>}
-                </View>
-                <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-        </Header>
-
-        <Modal isOpen={this.state.isOpen} onClosed={() => this.setState({ isOpen: false })} style={ styles.modal6 } position={'top'} ref={'gps'} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false} >
-          <View style = {{ flex: 1, flexDirection: 'row', marginTop: 0, marginLeft: 0, marginRight: 0 }}>
-            <View style = {{ flex: 1 }}>
-              <Icon
-                iconStyle={{ alignSelf: 'center', marginLeft: 17, marginTop: 30 }}
-                name='arrow-back'
-                type='MaterialIcons'
-                color='#555555'
-                size={25}
-                onPress={() => this.setState({ isOpen: false })}
-              />
-            </View>
-            <View style={{ flex: 6, marginTop: 0, marginLeft: 5, marginRight: 0, flexDirection: 'column', justifyContent: 'space-around' }} >
-              <Text style = {{ marginTop: 20, fontSize: 12, color: '#03a9f4', fontWeight: 'bold', marginLeft: 10 }}>SET DELIVERY LOCATION</Text>
-              <GooglePlacesAutocomplete
-                placeholder='Search for area, street name... '
-                minLength={3}
-                autoFocus={false}
-                returnKeyType={'search'}
-                listViewDisplayed='auto'
-                fetchDetails={true}
-                // renderDescription={row => row.description} // custom description render
-                onPress={(data, details = null) => {
-                  this.setState({
-                    address: data.description,
-                    area: data.terms[0].value
-                    // isOpen: false,
-                  })
-                  console.log('onPress')
-                  setTimeout(() => {
-                    this.refs.gps.close()
-                  }, 1000)
-                  // console.log(data);
-                  // console.log(details);
-                }}
-
-                getDefaultValue={() => ''}
-                query={{
-                  // available options: https://developers.google.com/places/web-service/autocomplete
-                  key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
-                  language: 'en'
-                  // types:  // default: 'geocode'
-                }}
-                styles={{
-                  textInputContainer: {
-                    width: '100%',
-                    borderTopWidth: 0,
-                    borderBottomWidth: 0,
-                    backgroundColor: '#fff'
+              getDefaultValue={() => ''}
+              query={{
+                // available options: https://developers.google.com/places/web-service/autocomplete
+                key: 'AIzaSyAqPFyiVLz4NVwc9XhYCmevgkorkg3CRmk',
+                language: 'en'
+                // types:  // default: 'geocode'
+              }}
+              styles={{
+                textInputContainer: {
+                  width: '100%',
+                  borderTopWidth: 0,
+                  borderBottomWidth: 0,
+                  backgroundColor: '#fff'
                   },
                   textInput: {
                     marginLeft: 0,
@@ -476,27 +466,31 @@ export default class HomeScreen extends React.Component {
               />
             </View>
           </View>
-        </Modal>
+    </View>
+    )
 
-        <Modal style={ styles.modal4 } position={'top'} ref={'search'} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <View style = {{ height: 120 }}>
-            <Card style={{ marginTop: 0, marginLeft: 0, marginRight: 0 }}>
-              <Icon
-                iconStyle={{ alignSelf: 'flex-start', marginLeft: 17, marginTop: 20, marginBottom: 10 }}
-                name='arrow-back'
-                type='MaterialIcons'
-                color='#555555'
-                size={25}
-                onPress={() => this.refs.search.close()} />
-              <Item style={{ borderColor: 'transparent', marginLeft: 15, marginRight: 15 }}>
-                <Input placeholder='Type any product' placeholderTextColor={'#a8a8a8'} style={{ fontSize: 25, fontWeight: 'bold' }} autoFocus={true}/>
-              </Item>
-            </Card>
-          </View>
-        </Modal>
+  _renderSearch = () => (
+    <View style={ styles.modalContentAddress}>
+      <View style = {{ height: 120 }}>
+        <Card style={{ marginTop: 0, marginLeft: 0, marginRight: 0 }}>
+        <Icon
+          iconStyle={{ alignSelf: 'flex-start', marginLeft: 17, marginTop: 20, marginBottom: 10 }}
+          name='arrow-back'
+          type='MaterialIcons'
+          color='#555555'
+          size={25}
+           />
+        <Item style={{ borderColor: 'transparent', marginLeft: 15, marginRight: 15 }}>
+          <Input placeholder='Type any product' placeholderTextColor={'#a8a8a8'} style={{ fontSize: 25, fontWeight: 'bold' }} autoFocus={true}/>
+        </Item>
+        </Card>
+      </View>
+    </View>
+    )
 
-        <Modal style={ styles.modal5 } position={'top'} ref={'upload'} backButtonClose={true} coverScreen={true} animationDuration={300} backdropPressToClose={false} swipeToClose={false}>
-          <View style = {{ height: 70 }}>
+  _renderUploadPrescription = () => (
+    <View style={ styles.modalContentAddress}>
+      <View style = {{ height: 70 }}>
             <Card style={{ marginTop: 0, marginLeft: 0, marginRight: 0, flexDirection: 'row', alignItems: 'center' }}>
               <Icon
                 iconStyle={{ marginLeft: 17, marginRight: 15, marginTop: 20, marginBottom: 10 }}
@@ -592,6 +586,60 @@ export default class HomeScreen extends React.Component {
                 </View>
               )}
             />
+    </View>
+    )
+
+  render() {
+    const { navigate } = this.props.navigation
+    // let { image } = this.state
+
+    return (
+      <Container>
+        <Header style={{ backgroundColor: '#fff' }}>
+          <View style={ styles.headerViewStyle }>
+            <TouchableHighlight
+              style={ styles.addressViewStyle }
+              onPress={() => this.setState({ visibleModal: 2 })}
+              underlayColor='#cccccc' >
+              <View style={ styles.addressViewStyle }>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 5 }}>
+                  <Text style={{ fontSize: 17, fontWeight: 'bold', color: '#555555' }}>HOME</Text>
+                  {<Icon name={'keyboard-arrow-down'} type='MaterialIcons' size={25} style={{ paddingLeft: 5 }} color={'#03a9f4'}/>}
+                </View>
+                <Text note style={{ fontSize: 13 }} numberOfLines={1} >{this.state.address}</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </Header>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 2 }
+          style={ styles.bottomModalAddress }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutDown' }>
+          {this._renderLocation()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 4 }
+          style={ styles.bottomModalAddress }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutDown' }>
+          {this._renderSearch()}
+        </Modal>
+
+        <Modal
+          isVisible={ this.state.visibleModal === 3 }
+          style={ styles.bottomModalAddress }
+          backdropOpacity={0.5}
+          onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
+          animationOut={ 'slideOutDown' }>
+          {this._renderUploadPrescription()}
         </Modal>
 
         <View style={styles.container}>
@@ -610,16 +658,16 @@ export default class HomeScreen extends React.Component {
             </Card>
             <Card>
               <Button
-                onPress={() => this.refs.search.open()}
                 buttonStyle={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
                 backgroundColor={'#fff'}
                 color={'#a8a8a8'}
                 icon={{ name: 'search', color: '#555555' }}
-                title='Search any product' />
+                title='Search any product'
+                onPress={() => this.setState({ visibleModal: 4 })} />
             </Card>
             <Card>
               <Button
-                onPress={() => this.refs.upload.open()}
+                onPress={() => this.setState({ visibleModal: 3 })}
                 buttonStyle={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
                 backgroundColor={'#fff'}
                 color={'#a8a8a8'}
