@@ -852,7 +852,7 @@ export default class ProfileScreen extends React.Component {
           backdropOpacity={0.5}
           onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
+          animationOut={ 'slideOutDown' }
         >
           {this._renderEditAccount()}
         </Modal>
@@ -863,7 +863,7 @@ export default class ProfileScreen extends React.Component {
           backdropOpacity={0.5}
           onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
+          animationOut={ 'slideOutDown' }
         >
           {this._renderPrescription()}
         </Modal>
@@ -874,7 +874,7 @@ export default class ProfileScreen extends React.Component {
           backdropOpacity={0.5}
           onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
+          animationOut={ 'slideOutDown' }
         >
           {this._renderAddress()}
         </Modal>
@@ -885,7 +885,7 @@ export default class ProfileScreen extends React.Component {
           backdropOpacity={0.5}
           onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
+          animationOut={ 'slideOutDown' }
         >
           {this._renderNotifications()}
         </Modal>
@@ -896,7 +896,7 @@ export default class ProfileScreen extends React.Component {
           backdropOpacity={0.5}
           onBackButtonPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
           onBackdropPress={() => this.setState({ visibleModal: null, textLength: '', isExists: false, passLength: '' })}
-          animationOut={ 'slideOutRight' }
+          animationOut={ 'slideOutDown' }
         >
           {this._renderOffers()}
         </Modal>
