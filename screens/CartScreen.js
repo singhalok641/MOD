@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
 })
 
 const marker = require('../assets/images/locate.png')
+var savedAddresses = {"Home": "697 A, Nyay Khand 1, Indirapuram, Gzb.", "Other": "221-B, Baker Street, Indirapuram, Gzb."}
 
 export default class CartScreen extends React.Component {
   static navigationOptions = {
@@ -222,12 +223,13 @@ export default class CartScreen extends React.Component {
       location: null,
       address: null,
       area: null,
-      initialRegionChange: false
+      initialRegionChange: false,
+      deliveryAddress: null
     }
   }
 
   componentDidMount = async () => {
-    /* fetch(`http://192.168.42.85:8082/stores/list-token-device`, {
+    fetch(`http://159.89.168.254:8082/stores/list-token-device`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -245,7 +247,7 @@ export default class CartScreen extends React.Component {
       })
       .catch((error) => {
         console.error(error)
-      })*/
+      })
 
     fetch(`http://159.89.168.254:8082/stores/users/getCart`,
       {
@@ -253,7 +255,7 @@ export default class CartScreen extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.56.1:8082'
+          'Host': '159.89.168.254:8082'
         }
       })
       .then((response) => response.json())
@@ -364,8 +366,8 @@ export default class CartScreen extends React.Component {
       },
       body: JSON.stringify({
         tokenDevice: this.state.devices[1].tokenDevice,
-        message: 'Order Request #1',
-        data: 'order details'
+        message: 'Order Request',
+        data: this.state.products
       })
     })
       .then((response) => response.json())
@@ -419,8 +421,9 @@ export default class CartScreen extends React.Component {
       </View>
       <ScrollView style={{ flex: 1, flexDirection: 'column', paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
         <View style={{ flex: 1, flexDirection: 'column', paddingTop: 10, paddingLeft: 5, paddingRight: 5, paddingBottom: 0 }}>
-            <List>
-              <ListItem>
+          <List>
+            <ListItem>
+              <TouchableHighlight onPress={() => this.sendNotification()} underlayColor='#dbdbdb'>
                 <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
                   <Icon
                     name='location-on'
@@ -430,12 +433,14 @@ export default class CartScreen extends React.Component {
                   />
                   <View style={{ paddingLeft: 15 }}>
                     <Text style={{ alignSelf: 'stretch', fontSize: 16, color: '#0A9EFC', fontWeight: 'bold' }}>Other</Text>
-                    <Text style={{ fontSize: 14, color: '#697689' }}>221-B, Baker Street, Indirapuram, GZB</Text>
+                    <Text style={{ fontSize: 14, color: '#697689' }}>{savedAddresses.Other}</Text>
                   </View>
                 </View>
-              </ListItem>
-              <ListItem>
-                <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
+              </TouchableHighlight>
+            </ListItem>
+            <ListItem>
+              <TouchableHighlight onPress={() => this.setState({ deliveryAddress: savedAddresses.Home})} underlayColor='#dbdbdb'>
+                <View style={{ alignItems: 'stretch', flexDirection: 'row', paddingLeft: 6 }}>
                   <Icon
                     name='home'
                     type='foundation'
@@ -444,12 +449,13 @@ export default class CartScreen extends React.Component {
                   />
                   <View style={{ paddingLeft: 15 }}>
                     <Text style={{ alignSelf: 'stretch', fontSize: 16, color: '#0A9EFC', fontWeight: 'bold' }}>Home</Text>
-                    <Text style={{ fontSize: 14, color: '#697689' }}>697-A, Nyay Khand 1st, Indirapuram, GZB</Text>
+                    <Text style={{ fontSize: 14, color: '#697689' }}>{savedAddresses.Home}</Text>
                   </View>
                 </View>
-              </ListItem>
-            </List>
-          </View>
+              </TouchableHighlight>                
+            </ListItem>
+          </List>
+        </View>
       </ScrollView>
       <TouchableHighlight onPress={() => this.setState({ visibleModal: 3 })} underlayColor='#dbdbdb' >
         <View style={{ alignItems: 'center', flexDirection: 'row', paddingBottom: 15, paddingLeft: 15 }}>
@@ -774,7 +780,7 @@ export default class CartScreen extends React.Component {
           containerViewStyle={{ width: '100%', marginLeft: 0 }}
           buttonStyle={{ alignItems: 'center', justifyContent: 'center' }}
           backgroundColor={'#03a9f4'}
-          title={`CONFIRM YOUR ORDER`}
+          title={`SELECT DELIVERY ADDRESS`}
           fontWeight={'bold'}
           fontSize = {17}
           onPress={() => this.setState({ visibleModal: 2 })}
