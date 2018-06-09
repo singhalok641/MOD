@@ -22,6 +22,7 @@ import {
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 import MapView from 'react-native-maps'
+import { withNavigationFocus } from 'react-navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -196,12 +197,26 @@ const styles = StyleSheet.create({
 })
 
 const marker = require('../assets/images/locate.png')
-var savedAddresses = {"Home": "697 A, Nyay Khand 1, Indirapuram, Gzb.", "Other": "221-B, Baker Street, Indirapuram, Gzb."}
+let savedAddresses = {
+  Home: '697 A, Nyay Khand 1, Indirapuram, Gzb.',
+  Other: '221-B, Baker Street, Indirapuram, Gzb.'
+}
 
-export default class CartScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
+class CartScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+
+    const { params } = navigation.state
+
+    return {
+      tabBarOnPress({ jumpToIndex, scene }) {
+
+        // now we have access to Component methods
+        params.onTabFocus()
+
+        jumpToIndex(scene.index)
+      }
+    }
+  };
 
   constructor(props) {
     super(props)
@@ -224,12 +239,17 @@ export default class CartScreen extends React.Component {
       address: null,
       area: null,
       initialRegionChange: false,
-      deliveryAddress: null
+      deliveryAddress: null,
+      focused: false
     }
   }
 
   componentDidMount = async () => {
-    fetch(`http://159.89.168.254:8082/stores/list-token-device`, {
+    this.props.navigation.setParams({
+      onTabFocus: this.handleTabFocus
+    });
+
+    fetch(`http://192.168.0.105:8082/stores/list-token-device`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -249,19 +269,48 @@ export default class CartScreen extends React.Component {
         console.error(error)
       })
 
-    fetch(`http://159.89.168.254:8082/stores/users/getCart`,
+    fetch(`http://192.168.0.105:8082/stores/users/getCart`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '159.89.168.254:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
           isLoading: false,
+          focused: false,
+          response: responseJson,
+          products: responseJson.products,
+          totalPrice: responseJson.totalPrice,
+          totalQty: responseJson.totalQty
+        }, function () {
+          console.log(responseJson)
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  handleTabFocus = () => {
+    fetch(`http://192.168.0.105:8082/stores/users/getCart`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.0.105:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          focused: false,
           response: responseJson,
           products: responseJson.products,
           totalPrice: responseJson.totalPrice,
@@ -276,7 +325,7 @@ export default class CartScreen extends React.Component {
   }
 
   decreaseByOne(productId) {
-    fetch(`http://159.89.168.254:8082/stores/users/reduceByOne/${productId}`,
+    fetch(`http://192.168.0.105:8082/stores/users/reduceByOne/${productId}`,
       {
         method: 'GET',
         headers: {
@@ -333,7 +382,7 @@ export default class CartScreen extends React.Component {
   }
 
   increaseByOne(productId) {
-    fetch(`http://159.89.168.254:8082/stores/users/increaseByOne/${productId}`,
+    fetch(`http://192.168.0.105:8082/stores/users/increaseByOne/${productId}`,
       {
         method: 'GET',
         headers: {
@@ -358,7 +407,7 @@ export default class CartScreen extends React.Component {
   }
 
   sendNotification = async () => {
-    fetch('http://159.89.168.254:8082/stores/push-notification', {
+    fetch('http://192.168.0.105:8082/stores/push-notification', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -577,7 +626,17 @@ export default class CartScreen extends React.Component {
   )
 
   render() {
-    //this.componentDidMount()
+    /*if (this.props.isFocused) {
+      this.setState({ focused: true })
+    }
+    else {
+      this.setState({ focused: false })
+    }
+
+    if (this.state.focused) {
+      this.componentDidMount()
+    }*/
+
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -789,3 +848,5 @@ export default class CartScreen extends React.Component {
     )
   }
 }
+
+export default withNavigationFocus(CartScreen)

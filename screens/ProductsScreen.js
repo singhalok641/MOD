@@ -90,13 +90,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    fetch(`http://159.89.168.254:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
+    fetch(`http://192.168.0.105:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '159.89.168.254:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
@@ -115,13 +115,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   addToCart(productId) {
-    fetch(`http://159.89.168.254:8082/stores/users/addToCart/${productId}`,
+    fetch(`http://192.168.0.105:8082/stores/users/addToCart/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '159.89.168.254:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())

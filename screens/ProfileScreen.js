@@ -170,13 +170,13 @@ export default class ProfileScreen extends React.Component {
     let token = await AsyncStorage.getItem('token')
     console.log(token)
     if (token !== null) {
-      fetch(`http://159.89.168.254:8082/stores/users/profile`, {
+      fetch(`http://192.168.0.105:8082/stores/users/profile`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
-          'Host': 'http://159.89.168.254:8082'
+          'Host': 'http://192.168.0.105:8082'
         }
       })
         .then((response) => response.json())
@@ -210,7 +210,7 @@ export default class ProfileScreen extends React.Component {
 
   verifyToken() {
     this.setState({ showProgress: true })
-    fetch(`http://159.89.168.254:8082/stores/users/${this.state.auth.user._id}/verify`, {
+    fetch(`http://192.168.0.105:8082/stores/users/${this.state.auth.user._id}/verify`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -243,7 +243,7 @@ export default class ProfileScreen extends React.Component {
 
   signUp() {
     this.setState({ showProgress: true })
-    fetch('http://159.89.168.254:8082/stores/users', {
+    fetch('http://192.168.0.105:8082/stores/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -285,7 +285,7 @@ export default class ProfileScreen extends React.Component {
   login() {
     // console.log(this.state.isExists);
     if (!this.state.isExists) {
-      fetch(`http://159.89.168.254:8082/stores/users/${this.state.number}/userExists`, {
+      fetch(`http://192.168.0.105:8082/stores/users/${this.state.number}/userExists`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -312,7 +312,7 @@ export default class ProfileScreen extends React.Component {
           })
         })
     } else {
-      fetch(`http://159.89.168.254:8082/stores/users/login`, {
+      fetch(`http://192.168.0.105:8082/stores/users/login`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
