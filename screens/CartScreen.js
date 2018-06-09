@@ -23,6 +23,7 @@ import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 import MapView from 'react-native-maps'
 import { withNavigationFocus } from 'react-navigation'
+import { ProgressDialog } from 'react-native-simple-dialogs'
 
 const styles = StyleSheet.create({
   container: {
@@ -325,6 +326,9 @@ class CartScreen extends React.Component {
   }
 
   decreaseByOne(productId) {
+    this.setState({
+      showProgress: true
+    })
     fetch(`http://192.168.0.105:8082/stores/users/reduceByOne/${productId}`,
       {
         method: 'GET',
@@ -336,10 +340,42 @@ class CartScreen extends React.Component {
       })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({ }, function () {
+        this.setState({
+          showProgress: false
+        }, function () {
           console.log(responseJson)
           if (responseJson.success === true) {
             console.log('decreased quantity by one')
+            this.componentDidMount()
+          }
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  increaseByOne(productId) {
+    this.setState({
+      showProgress: true
+    })
+    fetch(`http://192.168.0.105:8082/stores/users/increaseByOne/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.56.1:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          showProgress: false
+        }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('increased quantity by one')
             this.componentDidMount()
           }
         })
@@ -379,31 +415,6 @@ class CartScreen extends React.Component {
         initialRegionChange: false
       })
     }
-  }
-
-  increaseByOne(productId) {
-    fetch(`http://192.168.0.105:8082/stores/users/increaseByOne/${productId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Host': '192.168.56.1:8082'
-        }
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({ }, function () {
-          console.log(responseJson)
-          if (responseJson.success === true) {
-            console.log('increased quantity by one')
-            this.componentDidMount()
-          }
-        })
-      })
-      .catch((error) => {
-        console.error(error)
-      })
   }
 
   sendNotification = async () => {
@@ -833,6 +844,12 @@ class CartScreen extends React.Component {
               </View>
             </View>
           </ScrollView>
+          <ProgressDialog
+            visible={this.state.showProgress}
+            message='Loading...'
+            activityIndicatorSize='large'
+            activityIndicatorColor='#0A9EFC'
+          />
         </View>
         <Button
           large
