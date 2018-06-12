@@ -22,7 +22,6 @@ import {
 import { Button, Icon } from 'react-native-elements'
 import Modal from 'react-native-modal'
 import MapView from 'react-native-maps'
-import { withNavigationFocus } from 'react-navigation'
 import { ProgressDialog } from 'react-native-simple-dialogs'
 
 const styles = StyleSheet.create({
@@ -198,22 +197,18 @@ const styles = StyleSheet.create({
 })
 
 const marker = require('../assets/images/locate.png')
+
 let savedAddresses = {
   Home: '697 A, Nyay Khand 1, Indirapuram, Gzb.',
   Other: '221-B, Baker Street, Indirapuram, Gzb.'
 }
 
-class CartScreen extends React.Component {
+export default class CartScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-
     const { params } = navigation.state
-
     return {
       tabBarOnPress({ jumpToIndex, scene }) {
-
-        // now we have access to Component methods
         params.onTabFocus()
-
         jumpToIndex(scene.index)
       }
     }
@@ -248,7 +243,7 @@ class CartScreen extends React.Component {
   componentDidMount = async () => {
     this.props.navigation.setParams({
       onTabFocus: this.handleTabFocus
-    });
+    })
 
     fetch(`http://192.168.0.105:8082/stores/list-token-device`, {
       method: 'GET',
@@ -263,7 +258,7 @@ class CartScreen extends React.Component {
         this.setState({
           devices: responseJson
         }, function () {
-          console.log(this.state.devices[1].tokenDevice)
+          console.log(this.state.devices[0].tokenDevice)
         })
       })
       .catch((error) => {
@@ -289,7 +284,7 @@ class CartScreen extends React.Component {
           totalPrice: responseJson.totalPrice,
           totalQty: responseJson.totalQty
         }, function () {
-          console.log(responseJson)
+          //console.log(responseJson.products)
         })
       })
       .catch((error) => {
@@ -317,7 +312,7 @@ class CartScreen extends React.Component {
           totalPrice: responseJson.totalPrice,
           totalQty: responseJson.totalQty
         }, function () {
-          console.log(responseJson)
+          console.log(this.state.products)
         })
       })
       .catch((error) => {
@@ -425,7 +420,7 @@ class CartScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        tokenDevice: this.state.devices[1].tokenDevice,
+        tokenDevice: this.state.devices[0].tokenDevice,
         message: 'Order Request',
         data: this.state.products
       })
@@ -440,7 +435,32 @@ class CartScreen extends React.Component {
             console.log('notified')
           } else {
             console.log('Error')
-            // alert('Wrong storeID/password');
+          }
+        })
+      })
+
+    fetch('http://192.168.0.105:8082/stores/users/addOrder', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_id: 1,
+        cart: this.state.response,
+        store_id: '0002'
+      })
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          result: responseJson
+        }, function () {
+          console.log(this.state.result)
+          if (this.state.result.success === true) {
+            console.log(this.state.result.msg)
+          } else {
+            console.log(this.state.result.msg)
           }
         })
       })
@@ -637,17 +657,6 @@ class CartScreen extends React.Component {
   )
 
   render() {
-    /*if (this.props.isFocused) {
-      this.setState({ focused: true })
-    }
-    else {
-      this.setState({ focused: false })
-    }
-
-    if (this.state.focused) {
-      this.componentDidMount()
-    }*/
-
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -773,11 +782,12 @@ class CartScreen extends React.Component {
             </View>
 
             <View style={{ paddingTop: 10 }}>
-            	<Text style={{
-                fontSize: 13,
-                color: '#03a9f4',
-                paddingLeft: 10 }}>
-                Items not requiring prescriptions (1)
+            	<Text
+                style={{
+                  fontSize: 13,
+                  color: '#03a9f4',
+                  paddingLeft: 10 }}>
+                  Items not requiring prescriptions (1)
               </Text>
             </View>
 
@@ -865,5 +875,3 @@ class CartScreen extends React.Component {
     )
   }
 }
-
-export default withNavigationFocus(CartScreen)
