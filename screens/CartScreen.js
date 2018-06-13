@@ -412,7 +412,8 @@ export default class CartScreen extends React.Component {
     }
   }
 
-  sendNotification = async () => {
+  sendNotification = async (delivery_address) => {
+    console.log(delivery_address)
     fetch('http://192.168.0.105:8082/stores/push-notification', {
       method: 'POST',
       headers: {
@@ -446,9 +447,9 @@ export default class CartScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        order_id: 1,
         cart: this.state.response,
-        store_id: '0002'
+        store_id: '0002',
+        delivery_address: delivery_address
       })
     })
       .then((response) => response.json())
@@ -503,7 +504,7 @@ export default class CartScreen extends React.Component {
         <View style={{ flex: 1, flexDirection: 'column', paddingTop: 10, paddingLeft: 5, paddingRight: 5, paddingBottom: 0 }}>
           <List>
             <ListItem>
-              <TouchableHighlight onPress={() => this.sendNotification()} underlayColor='#dbdbdb'>
+              <TouchableHighlight onPress={() => this.sendNotification(savedAddresses.Other)} underlayColor='#dbdbdb'>
                 <View style={{ alignItems: 'stretch', flexDirection: 'row' }}>
                   <Icon
                     name='location-on'
@@ -519,7 +520,7 @@ export default class CartScreen extends React.Component {
               </TouchableHighlight>
             </ListItem>
             <ListItem>
-              <TouchableHighlight onPress={() => this.setState({ deliveryAddress: savedAddresses.Home})} underlayColor='#dbdbdb'>
+              <TouchableHighlight onPress={() => this.sendNotification(savedAddresses.Home)} underlayColor='#dbdbdb'>
                 <View style={{ alignItems: 'stretch', flexDirection: 'row', paddingLeft: 6 }}>
                   <Icon
                     name='home'
