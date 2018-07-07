@@ -330,7 +330,7 @@ export default class CartScreen extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.56.1:8082'
+          'Host': '192.168.0.103:8082'
         }
       })
       .then((response) => response.json())
@@ -413,7 +413,11 @@ export default class CartScreen extends React.Component {
   }
 
   sendNotification = async (delivery_address) => {
-    console.log(delivery_address)
+    this.setState({
+      showProgress: true,
+      visibleModal: null
+    })
+
     fetch('http://192.168.0.103:8082/stores/push-notification', {
       method: 'POST',
       headers: {
@@ -464,6 +468,31 @@ export default class CartScreen extends React.Component {
             console.log(this.state.result.msg)
           }
         })
+      })
+
+    fetch(`http://192.168.0.103:8082/stores/users/emptyCart`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Host': '192.168.0.103:8082'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          showProgress: false
+        }, function () {
+          console.log(responseJson)
+          if (responseJson.success === true) {
+            console.log('cart emptied')
+            this.componentDidMount()
+          }
+        })
+      })
+      .catch((error) => {
+        console.error(error)
       })
   }
 

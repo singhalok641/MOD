@@ -167,7 +167,7 @@ export default class ProductsScreen extends React.Component {
               <List
                 dataArray={this.state.products}
                 renderRow={(product) =>
-                  (<ListItem onPress={() => navigate('SingleProductScreen', { id: `${product._id}`, name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.image_src}` })}>
+                  (<ListItem onPress={() => navigate('SingleProductScreen', { id: `${product._id}`, name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.image_src}`, description: `${product.description}` })}>
                     <View style={styles.view}>
                       <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.image_src }} />
                       <View style={ styles.info }>

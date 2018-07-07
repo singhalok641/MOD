@@ -176,7 +176,7 @@ export default class SingleProductScreen extends React.Component {
         			  	</View>
         			  	<View>
         			  		<Text style={ styles.details }>
-        			  			Stay protected throughout the night with Whisper Ultra Nights sanitary pads with wings. These pads are nearly 40% longer* for leak free nights**. Whisper Ultra Nights come with a delightful scent for extra protection against odour, while the soft Dri-Weave cover ensures you feel dry all night long.
+        			  			{this.props.navigation.state.params.description}
         			  		</Text>
         			  	</View>
         			  </View>
