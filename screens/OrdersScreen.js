@@ -92,7 +92,7 @@ export default class SingleProductScreen extends React.Component {
   render() {
     return (
           <WebView
-            source={{ uri: 'http://192.168.0.105:8081' }}
+            source={{ uri: 'http://google.com' }}
             style={{ marginTop: 0 }}
           />
     )

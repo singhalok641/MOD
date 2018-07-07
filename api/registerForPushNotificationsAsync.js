@@ -1,7 +1,7 @@
 import { Constants, Permissions, Notifications } from 'expo';
 
 // Example server, implemented in Rails: https://git.io/vKHKv
-const PUSH_ENDPOINT = 'https://192.168.0.105:8082/users/push-token';
+const PUSH_ENDPOINT = 'https://192.168.0.103:8082/users/push-token';
 
 export default (async function registerForPushNotificationsAsync() {
   // Remote notifications do not work in simulators, only on device

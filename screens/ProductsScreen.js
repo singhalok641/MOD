@@ -90,13 +90,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    fetch(`http://192.168.0.105:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
+    fetch(`http://192.168.0.103:8082/stores/users/getProducts/${this.props.navigation.state.params.category}?pageNo=1&size=5`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.105:8082'
+          'Host': '192.168.0.103:8082'
         }
       })
       .then((response) => response.json())
@@ -115,13 +115,13 @@ export default class ProductsScreen extends React.Component {
   }
 
   addToCart(productId) {
-    fetch(`http://192.168.0.105:8082/stores/users/addToCart/${productId}`,
+    fetch(`http://192.168.0.103:8082/stores/users/addToCart/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.105:8082'
+          'Host': '192.168.0.103:8082'
         }
       })
       .then((response) => response.json())
@@ -167,9 +167,9 @@ export default class ProductsScreen extends React.Component {
               <List
                 dataArray={this.state.products}
                 renderRow={(product) =>
-                  (<ListItem onPress={() => navigate('SingleProductScreen', { id: `${product._id}`, name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.imagePath}` })}>
+                  (<ListItem onPress={() => navigate('SingleProductScreen', { id: `${product._id}`, name: `${product.name}`, brand: `${product.brand}`, price: `${product.price}`, image: `${product.image_src}` })}>
                     <View style={styles.view}>
-                      <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.imagePath }} />
+                      <Image resizeMode = 'contain' style={styles.image} source={{ uri: product.image_src }} />
                       <View style={ styles.info }>
                         <View style={{ justifyContent: 'flex-start', paddingTop: 3 }}>
                           <Text style={styles.pro_name}>{product.name}</Text>
