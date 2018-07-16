@@ -154,7 +154,7 @@ const food = require('../assets/images/products/food.png')
 const sexual = require('../assets/images/products/sexual.png')
 
 async function uploadImageAsync(uri) {
-  let apiUrl = 'http://192.168.0.103:8082/stores/users/prescriptionUpload'
+  let apiUrl = 'http://192.168.0.105:8082/stores/users/prescriptionUpload'
 
   let uriParts = uri.split('.')
   let fileType = uriParts[uriParts.length - 1]

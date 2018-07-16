@@ -245,7 +245,7 @@ export default class CartScreen extends React.Component {
       onTabFocus: this.handleTabFocus
     })
 
-    fetch(`http://192.168.0.103:8082/stores/list-token-device`, {
+    fetch(`http://192.168.0.105:8082/stores/list-token-device`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -265,13 +265,13 @@ export default class CartScreen extends React.Component {
         console.error(error)
       })
 
-    fetch(`http://192.168.0.103:8082/stores/users/getCart`,
+    fetch(`http://192.168.0.105:8082/stores/users/getCart`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.103:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
@@ -293,13 +293,13 @@ export default class CartScreen extends React.Component {
   }
 
   handleTabFocus = () => {
-    fetch(`http://192.168.0.103:8082/stores/users/getCart`,
+    fetch(`http://192.168.0.105:8082/stores/users/getCart`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.103:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
@@ -324,13 +324,13 @@ export default class CartScreen extends React.Component {
     this.setState({
       showProgress: true
     })
-    fetch(`http://192.168.0.103:8082/stores/users/reduceByOne/${productId}`,
+    fetch(`http://192.168.0.105:8082/stores/users/reduceByOne/${productId}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.103:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
@@ -354,7 +354,7 @@ export default class CartScreen extends React.Component {
     this.setState({
       showProgress: true
     })
-    fetch(`http://192.168.0.103:8082/stores/users/increaseByOne/${productId}`,
+    fetch(`http://192.168.0.105:8082/stores/users/increaseByOne/${productId}`,
       {
         method: 'GET',
         headers: {
@@ -418,7 +418,7 @@ export default class CartScreen extends React.Component {
       visibleModal: null
     })
 
-    fetch('http://192.168.0.103:8082/stores/push-notification', {
+    fetch('http://192.168.0.105:8082/stores/push-notification', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -444,7 +444,7 @@ export default class CartScreen extends React.Component {
         })
       })
 
-    fetch('http://192.168.0.103:8082/stores/users/addOrder', {
+    fetch('http://192.168.0.105:8082/stores/users/addOrder', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -470,13 +470,13 @@ export default class CartScreen extends React.Component {
         })
       })
 
-    fetch(`http://192.168.0.103:8082/stores/users/emptyCart`,
+    fetch(`http://192.168.0.105:8082/stores/users/emptyCart`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Host': '192.168.0.103:8082'
+          'Host': '192.168.0.105:8082'
         }
       })
       .then((response) => response.json())
